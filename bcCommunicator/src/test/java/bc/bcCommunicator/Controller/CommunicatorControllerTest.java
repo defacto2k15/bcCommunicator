@@ -4,6 +4,8 @@ import org.jmock.Expectations;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -21,7 +23,9 @@ import bc.bcCommunicator.Model.Messages.IMessage;
 import bc.bcCommunicator.Model.Messages.Handling.IRecievedMessagesHandler;
 import bc.bcCommunicator.Views.IServerConnectionStatusView;
 import bc.bcCommunicator.Views.IUsernameInputView;
+import bc.bcCommunicator.Views.IUsersTableView;
 import bc.bcCommunicator.Views.ServerConnectionStatus;
+import bc.bcCommunicator.Views.UserConnectionState;
 import bc.bcCommunicator.Views.UsernameInputStatus;
 import bc.internetMessageProxy.ConnectionId;
 
@@ -34,9 +38,10 @@ public class CommunicatorControllerTest {
 	private final ICommunicatorModelCommandsProvider commandsProvider =
 				context.mock(ICommunicatorModelCommandsProvider.class);
 	private final ICommunicatorModelCommand command = context.mock(ICommunicatorModelCommand.class);
+	private final IUsersTableView usersTableView = context.mock(IUsersTableView.class);
 
 	private final ICommunicatorController controller 
-					= new CommunicatorController(connectionView, communicatorModel, commandsProvider, usernameView);
+					= new CommunicatorController(connectionView, communicatorModel, commandsProvider, usernameView, usersTableView);
 	
 	@Test
 	public void onStartConnectionButtonClickedWillPassCommandToModel() throws Exception{
@@ -94,6 +99,24 @@ public class CommunicatorControllerTest {
 			oneOf(communicatorModel).addCommand(command);
 		}});
 		controller.usernameInputSubmitButtonWasClicked();
+		context.assertIsSatisfied();
+	}
+	
+	@Test
+	public void whenUsersAreBulkSetViewIsClearedAndUsernamesAreSetAgain(){
+		List<Username> usernames = new ArrayList<Username>();
+		usernames.add(new Username("USER1"));
+		usernames.add(new Username("USER2"));
+		usernames.add(new Username("USER3"));
+		
+		context.checking(new Expectations(){{
+			oneOf(usersTableView).clearTable();
+			for( Username oneName : usernames ){
+				oneOf(usersTableView).addLineToTable(oneName, UserConnectionState.NotConnected);
+			}
+		}});
+		
+		controller.setBulkUsers(usernames);
 		context.assertIsSatisfied();
 	}
 	

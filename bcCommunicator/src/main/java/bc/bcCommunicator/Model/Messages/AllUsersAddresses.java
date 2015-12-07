@@ -39,7 +39,7 @@ public class AllUsersAddresses {
 		
 		for( Username username : allUsersAddresses.keySet() ){
 			Element newElement = doc.createElement(MessageConstants.USERNAME_ADDRESS_NODE);
-			newElement.setAttribute(MessageConstants.USERNAME_NODE, username.toString());
+			newElement.setAttribute(MessageConstants.USERNAME_NODE, username.getName());
 			newElement.setAttribute(MessageConstants.ADDRESS_NODE, allUsersAddresses.get(username).toString());
 			rootElement.appendChild(newElement);
 		}

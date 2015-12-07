@@ -8,4 +8,6 @@ public class WindowNames {
 	public static final String USERNAME_INPUT_ACCEPTANCE_BUTTON="UsernameInputAcceptanceButton";
 	public static final String USERNAME_INPUT_TEXTFIELD="UsernameInputTextField";
 	public static final String USERNAME_INPUT_STATUS_LABEL="UsernameInputDescriptionLabel";
+	public static final String USERS_TABLE = "UsersTable";
+	public static final Object USERS_TABLE_USERNAME_COLUMN = "Username";
 }

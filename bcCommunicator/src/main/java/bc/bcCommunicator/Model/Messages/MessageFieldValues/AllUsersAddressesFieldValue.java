@@ -54,7 +54,7 @@ public class AllUsersAddressesFieldValue implements IMessageFieldValue {
 			System.out.println("W003 No Username-Addresses pairs in recieved response");
 		} 
 		for( int i = 0; i < list.getLength(); i++){
-			Node node = list.item(0);
+			Node node = list.item(i);
 			
 			NamedNodeMap attributes = node.getAttributes();
 			Node usernameNode = attributes.getNamedItem(MessageConstants.USERNAME_NODE);
@@ -66,12 +66,6 @@ public class AllUsersAddressesFieldValue implements IMessageFieldValue {
 			if( addressNode == null ){
 				throw new Exception("There is no address attribute in node");
 			}
-			
-			NodeList children = node.getChildNodes();
-			if( children.getLength() != 2){
-				throw new Exception("There should be exacly two children: Username and Address ");
-			}
-			
 	
 
 			map.put(new Username(usernameNode.getNodeValue()), new URL( addressNode.getNodeValue()));

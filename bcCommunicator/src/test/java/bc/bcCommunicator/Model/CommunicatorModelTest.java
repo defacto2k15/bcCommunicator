@@ -18,8 +18,8 @@ import bc.bcCommunicator.Model.Internet.IInternetMessagerCommand;
 import bc.bcCommunicator.Model.Internet.IInternetMessagerCommandProvider;
 import bc.bcCommunicator.Model.Messages.IMessage;
 import bc.bcCommunicator.Model.Messages.IModelMessageProvider;
-import bc.bcCommunicator.Model.Messages.IRequest;
 import bc.bcCommunicator.Model.Messages.Handling.IRecievedMessagesHandler;
+import bc.bcCommunicator.Model.Messages.Request.IRequest;
 import bc.internetMessageProxy.ConnectionId;
 
 public class CommunicatorModelTest {

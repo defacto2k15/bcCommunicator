@@ -10,8 +10,8 @@ import bc.bcCommunicator.Model.Internet.IInternetMessager;
 import bc.bcCommunicator.Model.Internet.IInternetMessagerCommandProvider;
 import bc.bcCommunicator.Model.Messages.IMessage;
 import bc.bcCommunicator.Model.Messages.IModelMessageProvider;
-import bc.bcCommunicator.Model.Messages.IRequest;
 import bc.bcCommunicator.Model.Messages.Handling.IRecievedMessagesHandler;
+import bc.bcCommunicator.Model.Messages.Request.IRequest;
 import bc.internetMessageProxy.ConnectionId;
 
 public class CommunicatorModel implements ICommunicatorModel {
@@ -67,8 +67,6 @@ public class CommunicatorModel implements ICommunicatorModel {
 		controller.serverConnectionWasSuccesfull();
 		if( usernameContainer.isUsernameSet() ){	
 			messagesSender.sendIntroductoryRequest();
-			/*IRequest request = messageProvider.getIntroductoryRequest(usernameContainer.getUsername(), ourUrl);
-			messager.addCommand(commandProvider.getSendMessageCommand(serverConnectionId, request)); TODO delete*/
 		}
 	}
 
@@ -88,8 +86,6 @@ public class CommunicatorModel implements ICommunicatorModel {
 		usernameContainer.setUsername(username);
 		if( connectionsContainer.isServerConnected() ){
 			messagesSender.sendIntroductoryRequest();
-			/*IRequest request = messageProvider.getIntroductoryRequest(username, ourUrl);
-			messager.addCommand(commandProvider.getSendMessageCommand(connectionsContainer.getServerConnectionId(), request)); TODO delete this*/
 		}
 	}
 

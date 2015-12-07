@@ -2,8 +2,8 @@ package bc.bcCommunicator.Model.Messages.CreatingFromRecievedString;
 
 import bc.bcCommunicator.Model.Messages.IMessage;
 import bc.bcCommunicator.Model.Messages.MessageField;
-import bc.bcCommunicator.Model.Messages.ResponseMessageType;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.ResponseMessageTypeFieldValue;
+import bc.bcCommunicator.Model.Messages.Response.ResponseMessageType;
 
 public class RecievedMessageCreator implements IRecievedMessageCreator {
 

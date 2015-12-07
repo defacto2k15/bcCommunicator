@@ -2,8 +2,8 @@ package bc.bcCommunicator.Model.Messages.MessageFieldValues;
 
 import bc.bcCommunicator.Model.Messages.IMessageType;
 import bc.bcCommunicator.Model.Messages.MessageField;
-import bc.bcCommunicator.Model.Messages.RequestMessageType;
-import bc.bcCommunicator.Model.Messages.ResponseMessageType;
+import bc.bcCommunicator.Model.Messages.Request.RequestMessageType;
+import bc.bcCommunicator.Model.Messages.Response.ResponseMessageType;
 
 public class ResponseMessageTypeFieldValue implements  IMessageFieldValue, IMessageTypeFieldValue{
 	public ResponseMessageType type = ResponseMessageType.UsernameOk;

@@ -6,4 +6,6 @@ public interface IModelMessagesSender {
 
 	void sendAllUsersAddressesRequest() throws Exception;
 
+	void sendIntroductoryTalkToAllUsers();
+
 }

@@ -25,12 +25,14 @@ import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.MessageFields
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.MessageFieldsValuesCreator;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.MessageFromTypeCreator;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.RecievedMessageCreator;
+import bc.bcCommunicator.Model.Messages.Handling.AllUsersAddressesResponseHandler;
 import bc.bcCommunicator.Model.Messages.Handling.RecievedMessagesHandler;
 import bc.bcCommunicator.Model.Messages.Handling.UsernameOkResponseHandler;
 import bc.bcCommunicator.Views.IServerConnectionStatusView;
 import bc.bcCommunicator.Views.MainWindow;
 import bc.bcCommunicator.Views.ServerConnectionStatusView;
 import bc.bcCommunicator.Views.UsernameInputView;
+import bc.bcCommunicator.Views.UsersTableView;
 
 public class Main {
 
@@ -64,25 +66,32 @@ public class Main {
 		UsernameInputView usernameInputView = new UsernameInputView();
 		
 		UsernameContainer usernameContainer = new UsernameContainer();
+
 		
 		IConnectionsContainer connectionsContainer = new ConnectionsContainer();
 		IModelMessageProvider messagesProvider = new ModelMessageProvider();
 		IInternetMessagerCommandProvider commandProvider = new InternetMessagerCommandProvider();
 		IModelMessagesSender messagesSender = new ModelMessagesSender(usernameContainer, connectionsContainer, commandProvider, messagesProvider, messager, clientUrl);
+		AllUsersAddressesResponseHandler allUsersResponseHandler = new AllUsersAddressesResponseHandler(usernameContainer, messagesSender);
 		ICommunicatorModel model 
 			= new CommunicatorModel(messager, commandProvider, clientUrl,
 					messagesProvider, connectionsContainer, usernameContainer, 
-					new RecievedMessagesHandler(new UsernameOkResponseHandler(usernameContainer, usernameInputView, messagesSender)), messagesSender );
+					new RecievedMessagesHandler(new UsernameOkResponseHandler(usernameContainer, usernameInputView, messagesSender), 
+												allUsersResponseHandler), messagesSender );
 		
-		
+		UsersTableView usersTableView = new UsersTableView();		
 		ServerConnectionStatusView connectionStatusView = new ServerConnectionStatusView();
 		ICommunicatorController controller
-			= new CommunicatorController(connectionStatusView, model, modelCommandsProvider, usernameInputView);
+			= new CommunicatorController(connectionStatusView, model, modelCommandsProvider, usernameInputView, usersTableView);
 		controller.setViewHandlers();
 		model.setController(controller);
+		allUsersResponseHandler.setController(controller);
 		messager.setModel(model);
 		
-		MainWindow window = new MainWindow(connectionStatusView, usernameInputView);			
+		
+		MainWindow window = new MainWindow(connectionStatusView, usernameInputView, usersTableView);		
+		// USTAW HANDLERA ALL usernames and addresses tak aby wywyłał odpowiednią wiadomość do controllera (setBulk..),
+		// a potem stworz test co to testuje
 	}
 
 }

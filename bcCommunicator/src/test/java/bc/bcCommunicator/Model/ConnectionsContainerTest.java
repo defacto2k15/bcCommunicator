@@ -20,7 +20,7 @@ import bc.bcCommunicator.Model.Internet.IInternetMessager;
 import bc.bcCommunicator.Model.Internet.IInternetMessagerCommand;
 import bc.bcCommunicator.Model.Internet.IInternetMessagerCommandProvider;
 import bc.bcCommunicator.Model.Messages.IModelMessageProvider;
-import bc.bcCommunicator.Model.Messages.IRequest;
+import bc.bcCommunicator.Model.Messages.Request.IRequest;
 import bc.internetMessageProxy.ConnectionId;
 
 

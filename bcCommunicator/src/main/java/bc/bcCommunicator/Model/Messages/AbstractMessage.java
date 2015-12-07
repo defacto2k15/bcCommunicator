@@ -19,17 +19,19 @@ import org.w3c.dom.Element;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Messages.Handling.AbstractMessageHandler;
 import bc.bcCommunicator.Model.Messages.Handling.IRecievedMessagesHandler;
+import bc.bcCommunicator.Model.Messages.Request.RequestMessageType;
+import bc.bcCommunicator.Model.Messages.Response.ResponseMessageType;
 import bc.internetMessageProxy.ConnectionId;
 
 public abstract class AbstractMessage< ConcreteMessageType extends IMessageType > implements IMessage {
 
-	HashMap<MessageField, String> fieldsInMessage = new HashMap<MessageField, String>();
+	protected HashMap<MessageField, String> fieldsInMessage = new HashMap<MessageField, String>();
 	
-	void addField(Username name) throws Exception{
+	protected void addField(Username name) throws Exception{
 		fieldsInMessage.put(MessageField.USERNAME_FIELD, name.getName());
 	}
 	
-	void addField(URL clientUrl) throws Exception{
+	protected void addField(URL clientUrl) throws Exception{
 		fieldsInMessage.put(MessageField.CLIENT_URL_FIELD, clientUrl.toString());
 	}
 	
@@ -37,15 +39,15 @@ public abstract class AbstractMessage< ConcreteMessageType extends IMessageType 
 		fieldsInMessage.put(MessageField.MESSAGE_TYPE_FIELD, messageType.getTypeName());
 	}*/
 	
-	void addField(RequestMessageType messageType) throws Exception{
+	protected void addField(RequestMessageType messageType) throws Exception{
 		fieldsInMessage.put(MessageField.REQUEST_TYPE_FIELD, messageType.getTypeName());
 	}
 	
-	void addField(ResponseMessageType messageType) throws Exception{
+	protected void addField(ResponseMessageType messageType) throws Exception{
 		fieldsInMessage.put(MessageField.RESPONSE_TYPE_FIELD, messageType.getTypeName());
 	}
 	
-	void addField( AllUsersAddresses allUsersAddresses ) throws Exception{
+	protected void addField( AllUsersAddresses allUsersAddresses ) throws Exception{
 		fieldsInMessage.put(MessageField.AllUsersAddresses, allUsersAddresses.parseToXml());
 	}
 	

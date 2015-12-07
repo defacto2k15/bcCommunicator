@@ -9,14 +9,14 @@ import org.junit.Test;
 
 import bc.bcCommunicator.Model.Messages.IMessage;
 import bc.bcCommunicator.Model.Messages.MessageField;
-import bc.bcCommunicator.Model.Messages.RequestMessageType;
-import bc.bcCommunicator.Model.Messages.ResponseMessageType;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.IFieldsContainer;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.IMessageFieldsExtractor;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.IMessageFromTypeCreator;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.IMessageInitializedFromFields;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.RecievedMessageCreator;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.ResponseMessageTypeFieldValue;
+import bc.bcCommunicator.Model.Messages.Request.RequestMessageType;
+import bc.bcCommunicator.Model.Messages.Response.ResponseMessageType;
 
 import static org.junit.Assert.*;
 

@@ -6,6 +6,7 @@ import java.util.Arrays;
 import bc.bcCommunicator.Main;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Views.ServerConnectionStatus;
+import bc.bcCommunicator.Views.UserConnectionState;
 import bc.bcCommunicator.Views.UsernameInputStatus;
 
 public class CommunicatorClientRunner {
@@ -57,6 +58,15 @@ public class CommunicatorClientRunner {
 	public void assertUsernameWasAccepted() throws InterruptedException {
 		Thread.sleep(150); // TODO uwga na czas debugowania sen na 90 sek
 		driver.UsernameInputLabelHasStatus(UsernameInputStatus.UsernameOk);
+	}
+
+	public void assertHasUserInUsersTable(Username oneUsername) throws InterruptedException {
+		Thread.sleep(150);
+		driver.UsersTableHasRowWithUsername(oneUsername);
+	}
+
+	public void assertUserHasConnectionState(Username oneUsername, UserConnectionState userConnectionState) throws InterruptedException {
+		driver.usersTableHasRowWithValues(oneUsername, userConnectionState);
 	}
 
 }

@@ -6,7 +6,7 @@ import bc.bcCommunicator.Model.Internet.IInternetMessager;
 import bc.bcCommunicator.Model.Internet.IInternetMessagerCommandProvider;
 import bc.bcCommunicator.Model.Messages.AllUsersAddresses;
 import bc.bcCommunicator.Model.Messages.IModelMessageProvider;
-import bc.bcCommunicator.Model.Messages.IRequest;
+import bc.bcCommunicator.Model.Messages.Request.IRequest;
 
 public class ModelMessagesSender implements IModelMessagesSender{
 
@@ -36,9 +36,14 @@ public class ModelMessagesSender implements IModelMessagesSender{
 
 	@Override
 	public void sendAllUsersAddressesRequest() throws Exception {
-		AllUsersAddresses allUsersAddresses =  usernameContainer.getUsernamesWithAddresses();
-		IRequest request = messageProvider.getAllUsersAddressesRequest(allUsersAddresses);
+		IRequest request = messageProvider.getAllUsersAddressesRequest();
 		messager.addCommand(commandProvider.getSendMessageCommand(connectionsContainer.getServerConnectionId(), request));		
+	}
+
+	@Override
+	public void sendIntroductoryTalkToAllUsers() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
