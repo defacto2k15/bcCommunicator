@@ -15,4 +15,6 @@ public interface IConnectionsContainer {
 
 	ConnectionId getConnectionIdOfUser(Username key);
 
+	void setIdForUser(Username name, ConnectionId id);
+
 }

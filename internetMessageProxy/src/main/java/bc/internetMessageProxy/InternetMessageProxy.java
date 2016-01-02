@@ -78,9 +78,7 @@ public class InternetMessageProxy implements IInternetMessageProxy {
 	public RecievedMessage getMessageBlocking() throws Exception {
 		RecievedMessage message = null;
 		message = recievedMessages.poll(1000, TimeUnit.SECONDS); // TODO this poll time is without sense, why 100
-		System.out.println("M112 got message in proxy");
 		if (message == null) {
-			System.err.println("E542 mesage polling timeout ");
 			throw new Exception("Message polling timeouted");
 		}
 		return message;
@@ -89,11 +87,9 @@ public class InternetMessageProxy implements IInternetMessageProxy {
 	@Override
 	public RecievedMessage getMessageBlockingWithTimeout() throws Exception {
 		RecievedMessage message = null;
-		message = recievedMessages.poll(30, TimeUnit.SECONDS);
-		
-		System.out.println("M1120 got message in proxy");
+		message = recievedMessages.poll(10, TimeUnit.SECONDS);
+
 		if (message == null) {
-			System.err.println("E5420 mesage polling timeout ");
 			throw new Exception("Message polling timeouted");
 		}
 		return message;
@@ -156,7 +152,7 @@ public class InternetMessageProxy implements IInternetMessageProxy {
 		try {
 			socket = new Socket(url.getHost(), url.getPort());
 		} catch (Exception e) {
-			System.err.println("E891");
+			System.err.println("E891 while connecting to "+url);
 			return Optional.empty();
 		}
 		Connection newConnection = new Connection(socket, recievedMessages, newId);

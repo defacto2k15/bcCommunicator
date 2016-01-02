@@ -3,6 +3,8 @@ package bc.bcCommunicator.EndToEnd.Help;
 import java.net.URL;
 
 import bc.bcCommunicator.Model.BasicTypes.Username;
+import bc.bcCommunicator.Model.Messages.Request.IntroductoryRequest;
+import bc.bcCommunicator.Model.Messages.Talk.IntroductoryTalk;
 
 public class FakeUserRunner extends FakeInternetEntity{
 
@@ -27,9 +29,8 @@ public class FakeUserRunner extends FakeInternetEntity{
 		return this.port;
 	}
 
-	public void assertRecievedIntroductoryTalkWith(Username clientUsername, URL clientUrl) {
-		// TODO Auto-generated method stub
-		// TODO implement this!
+	public void assertRecievedIntroductoryTalkWith(Username clientUsername, URL clientUrl) throws Exception {
+		assertRecievedMessageWithText( new IntroductoryTalk(clientUsername, clientUrl).getMessageText() );
 	}
 
 }

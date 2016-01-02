@@ -7,8 +7,9 @@ import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 
+import bc.bcCommunicator.Model.IActorUsernameContainer;
 import bc.bcCommunicator.Model.IModelMessagesSender;
-import bc.bcCommunicator.Model.IUsernameContainer;
+import bc.bcCommunicator.Model.IOtherUsersDataContainer;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Messages.Handling.UsernameOkResponseHandler;
 import bc.bcCommunicator.Model.Messages.Response.IUsernameOkResponse;
@@ -18,7 +19,7 @@ import bc.internetMessageProxy.ConnectionId;
 
 public class UsernameOkResponseHandlerTest {
 	private final Mockery context = new JUnit4Mockery();
-	private IUsernameContainer container = context.mock( IUsernameContainer.class);
+	private IActorUsernameContainer container = context.mock( IActorUsernameContainer.class);
 	private IUsernameInputView inputView = context.mock( IUsernameInputView.class );
 	private IUsernameOkResponse response = context.mock(IUsernameOkResponse.class);
 	private ConnectionId id = new ConnectionId(92);

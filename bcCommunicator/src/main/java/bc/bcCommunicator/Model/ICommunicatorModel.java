@@ -18,5 +18,5 @@ public interface ICommunicatorModel {
 	void usernameSubmitted(Username username) throws Exception;
 	void messageWasRecieved(IMessage recievedMessage, ConnectionId connectionId);
 	void userConnectionFailed(URL failedUrl);
-	void userConnectionWasSuccesfull(URL sucessfullUrl, ConnectionId result);
+	void userConnectionWasSuccesfull(URL sucessfullUrl, ConnectionId result) throws Exception;
 }

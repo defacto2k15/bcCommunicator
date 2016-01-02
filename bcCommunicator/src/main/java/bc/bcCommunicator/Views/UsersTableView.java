@@ -2,6 +2,7 @@ package bc.bcCommunicator.Views;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -34,6 +35,17 @@ public class UsersTableView extends JPanel implements IUsersTableView{
 	@Override
 	public void clearTable() {
 		rows.clear();
+		tableModel.repaint();
+	}
+	
+
+	@Override
+	public void changeStateOfUser(Username username, UserConnectionState state) {
+		List<UsersTableRow> onlyRow = rows.stream().filter( (row)->{return row.username == username; }).collect( Collectors.toList());
+		if( onlyRow.size() != 1){
+			throw new IllegalStateException("There should be one line with username "+username+" but is "+onlyRow.size());
+		}
+		onlyRow.get(0).userConnectionState = state;
 		tableModel.repaint();
 	}
 	
@@ -84,5 +96,6 @@ public class UsersTableView extends JPanel implements IUsersTableView{
 			throw new Exception("Not expected, column num must be 0 or 1");
 		}
 	}
+
 	
 }

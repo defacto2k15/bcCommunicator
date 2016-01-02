@@ -32,7 +32,8 @@ public class CommunicatorModelTest {
 	private final IInternetMessagerCommand command = context.mock(IInternetMessagerCommand.class);
 	private final IModelMessageProvider messageProvider = context.mock(IModelMessageProvider.class);
 	private final IConnectionsContainer connectionsContainer = context.mock(IConnectionsContainer.class);
-	private final IUsernameContainer usernameContainer = context.mock(IUsernameContainer.class);
+	private final IOtherUsersDataContainer usernameContainer = context.mock(IOtherUsersDataContainer.class);
+	private final IActorUsernameContainer actorUsernameContainer = context.mock(IActorUsernameContainer.class);
 	private final IRecievedMessagesHandler recievedHandler = context.mock(IRecievedMessagesHandler.class);
 	
 	private final IModelMessagesSender messagesSender = context.mock(IModelMessagesSender.class);
@@ -40,7 +41,7 @@ public class CommunicatorModelTest {
 	@Before
 	public void setUp() throws MalformedURLException{
 		clientUrl = new URL("http://localhost:5555");
-		model = new CommunicatorModel(messager, commandProvider, clientUrl, messageProvider, connectionsContainer, usernameContainer, recievedHandler, messagesSender );
+		model = new CommunicatorModel(messager, commandProvider, clientUrl, messageProvider, connectionsContainer, usernameContainer, recievedHandler, messagesSender, actorUsernameContainer );
 		model.setController(controller);
 	}
 	
@@ -60,7 +61,7 @@ public class CommunicatorModelTest {
 	public void modelNotifiesControllerAboutServerConnectionStatusViewChangeAfterConnectionWithServerIsIstablished() throws Exception{
 		context.checking(new Expectations(){{
 			ignoring(connectionsContainer);
-			ignoring(usernameContainer);
+			ignoring(actorUsernameContainer);
 			ignoring(messageProvider);
 			ignoring(commandProvider);
 			ignoring(messager);
@@ -85,7 +86,7 @@ public class CommunicatorModelTest {
 		ConnectionId id = new ConnectionId(99);
 		context.checking(new Expectations(){{
 			ignoring(controller);
-			ignoring(usernameContainer);
+			ignoring(actorUsernameContainer);
 			ignoring(messageProvider);
 			ignoring(commandProvider);
 			ignoring(messager);			
@@ -104,7 +105,7 @@ public class CommunicatorModelTest {
 		context.checking(new Expectations(){{
 			ignoring(controller);
 			ignoring(connectionsContainer);
-			oneOf(usernameContainer).isUsernameSet(); will(returnValue(true));
+			oneOf(actorUsernameContainer).isUsernameSet(); will(returnValue(true));
 			oneOf(messagesSender).sendIntroductoryRequest();
 			
 			/*oneOf(messageProvider).getIntroductoryRequest(username, clientUrl); will(returnValue(request));
@@ -123,7 +124,7 @@ public class CommunicatorModelTest {
 		Username username = new Username("Name");
 		context.checking(new Expectations(){{
 			ignoring(connectionsContainer);
-			oneOf(usernameContainer).isUsernameSet(); will(returnValue(false));
+			oneOf(actorUsernameContainer).isUsernameSet(); will(returnValue(false));
 			oneOf(controller).serverConnectionWasSuccesfull(); 
 		}});
 		
@@ -151,7 +152,7 @@ public class CommunicatorModelTest {
 			ignoring(messageProvider);
 			ignoring(commandProvider);
 			ignoring(messager);
-			oneOf(usernameContainer).setUsername(username);
+			oneOf(actorUsernameContainer).setUsername(username);
 		}});
 		
 		model.usernameSubmitted(username);
@@ -181,6 +182,61 @@ public class CommunicatorModelTest {
 			oneOf(recievedHandler).handle( message, id );
 		}});
 		model.messageWasRecieved(message, id);
+		context.assertIsSatisfied();
+	}
+	
+	@Test
+	public void whenConnectionToUserWasSuccessfullModelSavesConenctionId() throws Exception{
+		URL url = new URL("http://www.sth.com");
+		Username username = new Username("name");
+		ConnectionId id = new ConnectionId(99);
+		context.checking(new Expectations(){{
+			oneOf(usernameContainer).getUsernameForAddress(url); will(returnValue(username));
+			oneOf(connectionsContainer).setIdForUser(username, id);
+			
+			allowing(connectionsContainer);
+			allowing(usernameContainer);
+			allowing(controller);
+			allowing(actorUsernameContainer);
+			allowing(messagesSender);
+		}});
+		model.userConnectionWasSuccesfull(url, id);
+		context.assertIsSatisfied();
+	}
+	
+	@Test
+	public void whenConenctionToUserWasSuccesfullTellControllerToChangeStateOfThisUserInView() throws Exception{
+		URL url = new URL("http://sth.com");
+		Username username = new Username("name");
+		ConnectionId id = new ConnectionId(99);
+		context.checking( new Expectations(){{
+			oneOf(usernameContainer).getUsernameForAddress(url); will(returnValue(username));
+			oneOf(controller).userWasConnected( username );
+			
+			allowing(connectionsContainer);
+			allowing(usernameContainer);
+			allowing(controller);
+			allowing(actorUsernameContainer);
+			allowing(messagesSender);
+		}});
+		model.userConnectionWasSuccesfull(url, id);
+		context.assertIsSatisfied();
+	}
+	
+	@Test
+	public void afterConnectionModelSendsIntroductoryTalkToOtherUser() throws Exception{
+		ConnectionId id = new ConnectionId(99);
+		Username actorUsername = new Username("OUR NAME");
+		
+		context.checking(new Expectations(){{
+			allowing(usernameContainer);
+			allowing(connectionsContainer);
+			allowing(controller);
+			
+			oneOf(actorUsernameContainer).getUsername(); will(returnValue(actorUsername));
+			oneOf(messagesSender).sendIntroductoryTalkToUser(id, actorUsername, clientUrl);
+		}});
+		model.userConnectionWasSuccesfull(new URL("http://NOT_IMPORTANT.com"), id );
 		context.assertIsSatisfied();
 	}
 

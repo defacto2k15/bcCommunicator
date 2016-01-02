@@ -21,6 +21,7 @@ import bc.bcCommunicator.EndToEnd.Help.FakeInternetEntity;
 import bc.bcCommunicator.EndToEnd.Help.FakeServerRunner;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Messages.AllUsersAddresses;
+import bc.bcCommunicator.Model.Messages.Talk.IntroductoryTalk;
 import bc.bcCommunicator.Views.UserConnectionState;
 import bc.commonTestUtilities.FreePortGetter;
 
@@ -35,10 +36,12 @@ public class EndToEndTests {
 	private List<FakeUserRunner> users = new ArrayList<>();
 	private final int CLIENT_COUNT = 3;
 	
+	FreePortGetter getter = new FreePortGetter();
+	
 
 	@Before
 	public void setUp() throws Exception {
-		FreePortGetter getter = new FreePortGetter();
+		
 		SERVER_PORT = getter.getFreePortNumber();
 		CLIENT_PORT = getter.getFreePortNumber();
 		server = new FakeServerRunner(SERVER_PORT);
@@ -49,7 +52,9 @@ public class EndToEndTests {
 		//Map<Username, URL> usernameAddressesMap = new HashMap<>();
 		for( int i = 0; i < CLIENT_COUNT; i++ ){
 			int port = getter.getFreePortNumber();
-			users.add( new FakeUserRunner(port, new Username("User"+i), new URL("http://127.0.0.1:"+port)));			
+			FakeUserRunner runner = new FakeUserRunner(port, new Username("User"+i), new URL("http://127.0.0.1:"+port));
+			runner.start();
+			users.add( runner );		
 			//usernameAddressesMap.put(new Username("User"+i), new URL("http://127.0.0.1:"+port));
 		}
 		
@@ -156,7 +161,7 @@ public class EndToEndTests {
 		URL url = new URL("http://127.0.0.1:"+SERVER_PORT);
 		client.connectToServer(url);
 		
-		
+		Thread.sleep(100);
 		server.assertHasRecievedIntrodutionRequestWith(username, clientUrl );
 		server.sendUsernameOkResponseWith(username, clientUrl);	
 		server.sendAllUsersAddressesResponse(getUsernamesWithAddresses());
@@ -164,6 +169,22 @@ public class EndToEndTests {
 			user.assertRecievedIntroductoryTalkWith(username, new URL("http://127.0.0.1:"+CLIENT_PORT));
 		}
 	}
+	
+	@Test
+	public void afterConnectingToUserAppropiateChangeOfStateIsWrittenToTable() throws Exception {
+		client.insertUsername(username); 
+		URL url = new URL("http://127.0.0.1:"+SERVER_PORT);
+		client.connectToServer(url);
+		server.assertHasRecievedIntrodutionRequestWith(username, clientUrl );
+		server.sendUsernameOkResponseWith(username, clientUrl);	
+		
+		Username someUserUsername = getUsernamesWithAddresses().keySet().iterator().next();
+		server.sendAllUsersAddressesResponse(getUsernamesWithAddresses());		
+		client.assertUserHasConnectionState( someUserUsername, UserConnectionState.Connected);
+	}
+	
+	
+
 	
 	/*@Test
 	public void afterGettingAllUsersAddressesClientIsTryingToConnectToOtherUsers() throws Exception {

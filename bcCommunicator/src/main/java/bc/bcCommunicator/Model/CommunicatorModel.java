@@ -22,13 +22,14 @@ public class CommunicatorModel implements ICommunicatorModel {
 	private URL ourUrl;
 	private IModelMessageProvider messageProvider;
 	private IConnectionsContainer connectionsContainer;
-	private IUsernameContainer usernameContainer;
+	private IOtherUsersDataContainer usernameContainer;
+	private IActorUsernameContainer actorUsernameContainer;
 	private IRecievedMessagesHandler recievedHander;
 	private IModelMessagesSender messagesSender;
 
 	public CommunicatorModel(IInternetMessager messager, IInternetMessagerCommandProvider commandProvider, URL clientUrl, 
-			IModelMessageProvider messageProvider, IConnectionsContainer connectionsContainer, IUsernameContainer usernameContainer
-			, IRecievedMessagesHandler recievedHandler, IModelMessagesSender messagesSender) {
+			IModelMessageProvider messageProvider, IConnectionsContainer connectionsContainer, IOtherUsersDataContainer usernameContainer
+			, IRecievedMessagesHandler recievedHandler, IModelMessagesSender messagesSender,  IActorUsernameContainer actorUsernameContainer) {
 		this.messager = messager;
 		this.commandProvider = commandProvider;
 		this.ourUrl = clientUrl;
@@ -37,6 +38,7 @@ public class CommunicatorModel implements ICommunicatorModel {
 		this.usernameContainer = usernameContainer;
 		this.recievedHander = recievedHandler;
 		this.messagesSender = messagesSender;
+		this.actorUsernameContainer = actorUsernameContainer;
 		Thread newThread = new Thread(()->{
 								while(true){
 									try {
@@ -65,7 +67,7 @@ public class CommunicatorModel implements ICommunicatorModel {
 	public void serverConnectionWasSuccesfull(ConnectionId serverConnectionId) throws Exception {
 		connectionsContainer.setServerConnectionId(serverConnectionId);
 		controller.serverConnectionWasSuccesfull();
-		if( usernameContainer.isUsernameSet() ){	
+		if( actorUsernameContainer.isUsernameSet() ){	
 			messagesSender.sendIntroductoryRequest();
 		}
 	}
@@ -83,7 +85,7 @@ public class CommunicatorModel implements ICommunicatorModel {
 
 	@Override
 	public void usernameSubmitted(Username username) throws Exception {
-		usernameContainer.setUsername(username);
+		actorUsernameContainer.setUsername(username);
 		if( connectionsContainer.isServerConnected() ){
 			messagesSender.sendIntroductoryRequest();
 		}
@@ -101,9 +103,11 @@ public class CommunicatorModel implements ICommunicatorModel {
 	}
 
 	@Override
-	public void userConnectionWasSuccesfull(URL sucessfullUrl, ConnectionId result) {
-		// TODO napisz ze sie udalo itd
-		
+	public void userConnectionWasSuccesfull(URL sucessfullUrl, ConnectionId result) throws Exception {
+		Username username = usernameContainer.getUsernameForAddress(sucessfullUrl);
+		connectionsContainer.setIdForUser(username, result);
+		controller.userWasConnected(username);
+		messagesSender.sendIntroductoryTalkToUser(result, actorUsernameContainer.getUsername(), ourUrl);
 	}
 
 }

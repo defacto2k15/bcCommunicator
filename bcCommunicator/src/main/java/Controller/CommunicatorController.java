@@ -85,4 +85,10 @@ public class CommunicatorController implements ICommunicatorController {
 			usersTableView.addLineToTable(oneName, UserConnectionState.NotConnected);
 		}
 	}
+
+	@Override
+	public void userWasConnected(Username username) {
+		usersTableView.changeStateOfUser(username, UserConnectionState.Connected);
+		
+	}
 }

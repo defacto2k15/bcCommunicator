@@ -22,4 +22,6 @@ public interface ICommunicatorController {
 
 	void setBulkUsers(List<Username> usernames);
 
+	void userWasConnected(Username username);
+
 }

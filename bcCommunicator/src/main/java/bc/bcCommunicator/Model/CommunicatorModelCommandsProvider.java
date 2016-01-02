@@ -53,7 +53,11 @@ public class CommunicatorModelCommandsProvider implements ICommunicatorModelComm
 
 	@Override
 	public ICommunicatorModelCommand getUserConectionWasSuccesfullCommand( URL sucessfullUrl, ConnectionId result) {
-		return (  ICommunicatorModel model )->{ model.userConnectionWasSuccesfull(sucessfullUrl, result); };
+		return (  ICommunicatorModel model )->{ try {
+			model.userConnectionWasSuccesfull(sucessfullUrl, result);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} };
 	}
 
 }

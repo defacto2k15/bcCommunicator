@@ -4,6 +4,7 @@ import java.net.URL;
 
 import Controller.CommunicatorController;
 import Controller.ICommunicatorController;
+import bc.bcCommunicator.Model.ActorUsernameContainer;
 import bc.bcCommunicator.Model.CommunicatorModel;
 import bc.bcCommunicator.Model.CommunicatorModelCommandsProvider;
 import bc.bcCommunicator.Model.ConnectionsContainer;
@@ -12,15 +13,13 @@ import bc.bcCommunicator.Model.ICommunicatorModelCommandsProvider;
 import bc.bcCommunicator.Model.IConnectionsContainer;
 import bc.bcCommunicator.Model.IModelMessagesSender;
 import bc.bcCommunicator.Model.ModelMessagesSender;
-import bc.bcCommunicator.Model.UsernameContainer;
+import bc.bcCommunicator.Model.OtherUsersDataContainer;
 import bc.bcCommunicator.Model.Internet.IInternetMessager;
 import bc.bcCommunicator.Model.Internet.IInternetMessagerCommandProvider;
 import bc.bcCommunicator.Model.Internet.InternetMessager;
 import bc.bcCommunicator.Model.Internet.InternetMessagerCommandProvider;
-import bc.bcCommunicator.Model.Messages.IMessage;
 import bc.bcCommunicator.Model.Messages.IModelMessageProvider;
 import bc.bcCommunicator.Model.Messages.ModelMessageProvider;
-import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.IRecievedMessageCreator;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.MessageFieldsExtractor;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.MessageFieldsValuesCreator;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.MessageFromTypeCreator;
@@ -28,7 +27,6 @@ import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.RecievedMessa
 import bc.bcCommunicator.Model.Messages.Handling.AllUsersAddressesResponseHandler;
 import bc.bcCommunicator.Model.Messages.Handling.RecievedMessagesHandler;
 import bc.bcCommunicator.Model.Messages.Handling.UsernameOkResponseHandler;
-import bc.bcCommunicator.Views.IServerConnectionStatusView;
 import bc.bcCommunicator.Views.MainWindow;
 import bc.bcCommunicator.Views.ServerConnectionStatusView;
 import bc.bcCommunicator.Views.UsernameInputView;
@@ -65,19 +63,19 @@ public class Main {
 		
 		UsernameInputView usernameInputView = new UsernameInputView();
 		
-		UsernameContainer usernameContainer = new UsernameContainer();
-
+		OtherUsersDataContainer usernameContainer = new OtherUsersDataContainer();
+		ActorUsernameContainer actorUsernameContainer = new ActorUsernameContainer();
 		
 		IConnectionsContainer connectionsContainer = new ConnectionsContainer();
 		IModelMessageProvider messagesProvider = new ModelMessageProvider();
 		IInternetMessagerCommandProvider commandProvider = new InternetMessagerCommandProvider();
-		IModelMessagesSender messagesSender = new ModelMessagesSender(usernameContainer, connectionsContainer, commandProvider, messagesProvider, messager, clientUrl);
+		IModelMessagesSender messagesSender = new ModelMessagesSender(actorUsernameContainer, connectionsContainer, commandProvider, messagesProvider, messager, clientUrl);
 		AllUsersAddressesResponseHandler allUsersResponseHandler = new AllUsersAddressesResponseHandler(usernameContainer, commandProvider, messager);
 		ICommunicatorModel model 
 			= new CommunicatorModel(messager, commandProvider, clientUrl,
 					messagesProvider, connectionsContainer, usernameContainer, 
-					new RecievedMessagesHandler(new UsernameOkResponseHandler(usernameContainer, usernameInputView, messagesSender), 
-												allUsersResponseHandler), messagesSender );
+					new RecievedMessagesHandler(new UsernameOkResponseHandler(actorUsernameContainer, usernameInputView, messagesSender), 
+												allUsersResponseHandler), messagesSender, actorUsernameContainer );
 		
 		UsersTableView usersTableView = new UsersTableView();		
 		ServerConnectionStatusView connectionStatusView = new ServerConnectionStatusView();

@@ -56,7 +56,6 @@ public class FakeInternetEntity {
 		} catch (Exception e) {
 			Assert.fail("Message timeouted.");
 		}
-		System.out.println("CHECKING "+actualMessageText);
 		Assert.assertEquals(expectedMessageText, actualMessageText);
 	}
 

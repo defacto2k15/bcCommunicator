@@ -10,17 +10,18 @@ import bc.bcCommunicator.Model.Messages.AllUsersAddresses;
 import bc.bcCommunicator.Model.Messages.IModelMessageProvider;
 import bc.bcCommunicator.Model.Messages.Request.IRequest;
 import bc.bcCommunicator.Model.Messages.Talk.ITalk;
+import bc.internetMessageProxy.ConnectionId;
 
 public class ModelMessagesSender implements IModelMessagesSender{
 
-	private IUsernameContainer usernameContainer;
+	private IActorUsernameContainer usernameContainer;
 	private IConnectionsContainer connectionsContainer;
 	private IInternetMessagerCommandProvider commandProvider;
 	private IModelMessageProvider messageProvider;
 	private IInternetMessager messager;
 	private URL clientUrl;
 
-	public ModelMessagesSender( IUsernameContainer usernameContainer, IConnectionsContainer connectionsContainer,
+	public ModelMessagesSender( IActorUsernameContainer usernameContainer, IConnectionsContainer connectionsContainer,
 			IInternetMessagerCommandProvider commandProvider, IModelMessageProvider messageProvider,
 			IInternetMessager messager, URL clientUrl){
 		this.usernameContainer = usernameContainer;
@@ -44,12 +45,11 @@ public class ModelMessagesSender implements IModelMessagesSender{
 	}
 
 	@Override
-	public void sendIntroductoryTalkToAllUsers() {
-		/*Map<Username, URL> usernameAndAddresses = usernameContainer.getUsernamesWithAddresses().getAllUsersAddresses();
-		for( Map.Entry<Username, URL> entry : usernameAndAddresses.entrySet() ){
-			ITalk talk = messageProvider.getIntroductoryTalk( entry.getKey(), entry.getValue() );
-			messager.addCommand(commandProvider.getSendMessageCommand(connectionsContainer.getConnectionIdOfUser(entry.getKey()), talk ));		
-		} TODO nie to all users tylko do userow pokolei jako reakcja na polaczenie!*/
+	public void sendIntroductoryTalkToUser(ConnectionId connection, Username actorUsername, URL ourUrl) throws Exception {
+		ITalk talk = messageProvider.getIntroductoryTalk(actorUsername, ourUrl);
+		messager.addCommand( commandProvider.getSendMessageCommand( connection , talk));
 	}
+
+
 
 }

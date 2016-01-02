@@ -47,9 +47,7 @@ public class InternetMessager implements IInternetMessager {
 				while(true){
 					RecievedMessage message = null;
 					try {
-						System.out.println("M482 waiting for message!");
 						message = proxy.getMessageBlocking();
-						System.out.println("M990 Got message lol!");
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

@@ -8,7 +8,7 @@ import java.util.TreeSet;
 
 import Controller.ICommunicatorController;
 import bc.bcCommunicator.Model.IModelMessagesSender;
-import bc.bcCommunicator.Model.IUsernameContainer;
+import bc.bcCommunicator.Model.IOtherUsersDataContainer;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Internet.IInternetMessager;
 import bc.bcCommunicator.Model.Internet.IInternetMessagerCommandProvider;
@@ -17,13 +17,13 @@ import bc.bcCommunicator.Model.Messages.Response.IAllUsersAddressesResponse;
 import bc.internetMessageProxy.ConnectionId;
 
 public class AllUsersAddressesResponseHandler extends AbstractMessageHandler{
-	IUsernameContainer usersContainer;
+	IOtherUsersDataContainer usersContainer;
 	private ICommunicatorController controller;
 	private IInternetMessagerCommandProvider commandProvider;
 	private IInternetMessager messager;
 	
 	
-	public AllUsersAddressesResponseHandler(IUsernameContainer container,
+	public AllUsersAddressesResponseHandler(IOtherUsersDataContainer container,
 			IInternetMessagerCommandProvider commandProvider, IInternetMessager messager) {
 				this.usersContainer = container;
 				this.commandProvider = commandProvider;

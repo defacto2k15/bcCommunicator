@@ -70,17 +70,13 @@ class Connection implements Runnable {
 			StringBuilder builder = new StringBuilder();
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
-            	System.out.println("M542 recieved line " + inputLine);
             	if( inputLine.equals("")){
             		builder.setLength(0);
-            		System.out.println("F101 Empty message");
             	}else{
             		if( inputLine.endsWith(ConstantMessageParts.MESSAGE_ENDING_ELEMENT)){                	
 	                	inputLine = inputLine.substring(0, inputLine.length() -
 	                			ConstantMessageParts.MESSAGE_ENDING_ELEMENT.length());
 	                    	builder.append(inputLine);
-	                    	System.out.println("M134 Putting messge to consumer "+builder.toString());
-	                    	System.out.println("M135 END MESSGE");
 	                    	
 	                    	consumerOfMessages.put(new RecievedMessage(builder.toString(), this.id));  
 	                    	builder.setLength(0);

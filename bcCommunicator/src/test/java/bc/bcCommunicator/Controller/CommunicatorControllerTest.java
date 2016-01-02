@@ -120,5 +120,16 @@ public class CommunicatorControllerTest {
 		context.assertIsSatisfied();
 	}
 	
+	@Test
+	public void whenUserWasConnectedControlelrTellsUserTableToSetAppropiateUserConnectionStatus(){
+		Username username = new Username("Some name");
+		context.checking(new Expectations(){{
+			oneOf(usersTableView).changeStateOfUser(username, UserConnectionState.Connected);
+		}});
+		controller.userWasConnected(username);
+		context.assertIsSatisfied();
+	}
+	
+	
 
 }

@@ -23,7 +23,7 @@ import static org.hamcrest.Matchers.hasItems;
 
 import Controller.ICommunicatorController;
 import bc.bcCommunicator.Model.IModelMessagesSender;
-import bc.bcCommunicator.Model.IUsernameContainer;
+import bc.bcCommunicator.Model.IOtherUsersDataContainer;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Internet.IInternetMessager;
 import bc.bcCommunicator.Model.Internet.IInternetMessagerCommand;
@@ -36,7 +36,7 @@ import bc.internetMessageProxy.ConnectionId;
 
 public class AllUsersAddressesResponseHandlerTest {
 	private final Mockery context = new JUnit4Mockery();
-	private final IUsernameContainer container = context.mock(IUsernameContainer.class);
+	private final IOtherUsersDataContainer container = context.mock(IOtherUsersDataContainer.class);
 	private final ICommunicatorController controller = context.mock(ICommunicatorController.class);
 	private final IInternetMessagerCommandProvider commandProvider = context.mock(IInternetMessagerCommandProvider.class);
 	private final IInternetMessager messager = context.mock(IInternetMessager.class);

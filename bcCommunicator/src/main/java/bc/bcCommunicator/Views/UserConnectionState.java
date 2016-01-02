@@ -2,7 +2,8 @@ package bc.bcCommunicator.Views;
 
 public enum UserConnectionState {
 	NotConnected, 
-	CantConnect;
+	CantConnect,
+	Connected;
 	
 	public String getStateDescription(){
 		return this.name();

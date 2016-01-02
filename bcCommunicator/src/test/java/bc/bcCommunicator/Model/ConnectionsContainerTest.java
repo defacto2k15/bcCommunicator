@@ -45,4 +45,20 @@ public class ConnectionsContainerTest {
 		container.removeServerConnectionIdIfExists();
 		container.getServerConnectionId();
 	}
+	
+	@Test
+	public void canSaveAndRecieveIdOfOtherUserFromHisName(){
+		Username name = new Username("SomeName");
+		ConnectionId id = new ConnectionId(99);
+		container.setIdForUser(name, id);
+		assertEquals(id, container.getConnectionIdOfUser(name));
+	}
+	
+	@Test(expected=IllegalStateException.class)
+	public void whenTryingToGetIdForNotAddedUserExceptionIsThrown(){
+		container.setIdForUser(new Username("Name1"), new ConnectionId(22));
+		container.setIdForUser(new Username("Name2"), new ConnectionId(33));
+		
+		container.getConnectionIdOfUser(new Username("BAD NAME"));
+	}
 }
