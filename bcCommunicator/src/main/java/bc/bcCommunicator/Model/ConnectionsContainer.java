@@ -1,5 +1,6 @@
 package bc.bcCommunicator.Model;
 
+import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.internetMessageProxy.ConnectionId;
 
 public class ConnectionsContainer implements IConnectionsContainer {
@@ -26,6 +27,12 @@ public class ConnectionsContainer implements IConnectionsContainer {
 	@Override
 	public boolean isServerConnected() {
 		return serverConnectionId!=null;
+	}
+
+	@Override
+	public ConnectionId getConnectionIdOfUser(Username key) {
+		// TODO TAIMPLEMENTUJ TO
+		return null;
 	}
 
 }

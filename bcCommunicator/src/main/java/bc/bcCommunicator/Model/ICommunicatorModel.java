@@ -17,4 +17,6 @@ public interface ICommunicatorModel {
 	void connectionLost(ConnectionId id);
 	void usernameSubmitted(Username username) throws Exception;
 	void messageWasRecieved(IMessage recievedMessage, ConnectionId connectionId);
+	void userConnectionFailed(URL failedUrl);
+	void userConnectionWasSuccesfull(URL sucessfullUrl, ConnectionId result);
 }

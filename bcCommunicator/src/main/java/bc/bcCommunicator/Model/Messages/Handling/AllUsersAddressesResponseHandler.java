@@ -1,25 +1,35 @@
 package bc.bcCommunicator.Model.Messages.Handling;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import Controller.ICommunicatorController;
 import bc.bcCommunicator.Model.IModelMessagesSender;
 import bc.bcCommunicator.Model.IUsernameContainer;
 import bc.bcCommunicator.Model.BasicTypes.Username;
+import bc.bcCommunicator.Model.Internet.IInternetMessager;
+import bc.bcCommunicator.Model.Internet.IInternetMessagerCommandProvider;
+import bc.bcCommunicator.Model.Messages.AllUsersAddresses;
 import bc.bcCommunicator.Model.Messages.Response.IAllUsersAddressesResponse;
 import bc.internetMessageProxy.ConnectionId;
 
 public class AllUsersAddressesResponseHandler extends AbstractMessageHandler{
 	IUsernameContainer usersContainer;
 	private ICommunicatorController controller;
-	private IModelMessagesSender messagesSender;
+	private IInternetMessagerCommandProvider commandProvider;
+	private IInternetMessager messager;
 	
-	public AllUsersAddressesResponseHandler(IUsernameContainer container, IModelMessagesSender messagesSender) {
-		this.usersContainer = container;
-		this.messagesSender = messagesSender;
+	
+	public AllUsersAddressesResponseHandler(IUsernameContainer container,
+			IInternetMessagerCommandProvider commandProvider, IInternetMessager messager) {
+				this.usersContainer = container;
+				this.commandProvider = commandProvider;
+				this.messager = messager;
 	}
-	
+
 	public void setController(  ICommunicatorController controller ){
 		this.controller = controller;
 	}
@@ -27,12 +37,18 @@ public class AllUsersAddressesResponseHandler extends AbstractMessageHandler{
 	public void handle( IAllUsersAddressesResponse usernameOkResponse, ConnectionId id) throws Exception{
 		assert(controller != null);
 		List<Username > usernames = new ArrayList<>();
-		for( Username name : usernameOkResponse.getAllUsersAddresses().getAllUsersAddresses().keySet() ){
+		AllUsersAddresses allUserAddresses = usernameOkResponse.getAllUsersAddresses();
+		Set<Username> sortedUsernames = new TreeSet<Username>(allUserAddresses.getAllUsersAddresses().keySet() );
+		for( Username name : sortedUsernames){
 			usernames.add(name);
 			usersContainer.addUserWithAddress(name, usernameOkResponse.getAllUsersAddresses().getAllUsersAddresses().get(name));
 		}
 			
 		controller.setBulkUsers(usernames);
+		
+		for( URL key : allUserAddresses.getAllUsersAddresses().values()){
+			messager.addCommand(commandProvider.getConnectToUserCommand(key));
+		}
 	}
 
 }

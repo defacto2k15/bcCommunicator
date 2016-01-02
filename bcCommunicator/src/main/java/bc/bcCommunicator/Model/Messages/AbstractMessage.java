@@ -21,6 +21,7 @@ import bc.bcCommunicator.Model.Messages.Handling.AbstractMessageHandler;
 import bc.bcCommunicator.Model.Messages.Handling.IRecievedMessagesHandler;
 import bc.bcCommunicator.Model.Messages.Request.RequestMessageType;
 import bc.bcCommunicator.Model.Messages.Response.ResponseMessageType;
+import bc.bcCommunicator.Model.Messages.Talk.TalkMessageType;
 import bc.internetMessageProxy.ConnectionId;
 
 public abstract class AbstractMessage< ConcreteMessageType extends IMessageType > implements IMessage {
@@ -45,6 +46,10 @@ public abstract class AbstractMessage< ConcreteMessageType extends IMessageType 
 	
 	protected void addField(ResponseMessageType messageType) throws Exception{
 		fieldsInMessage.put(MessageField.RESPONSE_TYPE_FIELD, messageType.getTypeName());
+	}
+	
+	protected void addField(TalkMessageType messageType ) throws Exception {
+		fieldsInMessage.put(MessageField.TALK_TYPE_FIELD, messageType.getTypeName());
 	}
 	
 	protected void addField( AllUsersAddresses allUsersAddresses ) throws Exception{

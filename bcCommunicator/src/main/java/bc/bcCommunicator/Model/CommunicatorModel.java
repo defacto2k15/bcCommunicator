@@ -94,4 +94,16 @@ public class CommunicatorModel implements ICommunicatorModel {
 		recievedHander.handle(recievedMessage, connectionId);
 	}
 
+	@Override
+	public void userConnectionFailed(URL failedUrl) {
+		// TODO implement this, check which username it is, and  than put it on screen
+		
+	}
+
+	@Override
+	public void userConnectionWasSuccesfull(URL sucessfullUrl, ConnectionId result) {
+		// TODO napisz ze sie udalo itd
+		
+	}
+
 }

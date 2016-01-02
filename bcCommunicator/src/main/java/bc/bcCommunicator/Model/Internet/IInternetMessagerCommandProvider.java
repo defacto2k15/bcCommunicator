@@ -13,4 +13,6 @@ public interface IInternetMessagerCommandProvider {
 
 	IInternetMessagerCommand getSendMessageCommand(ConnectionId id, IMessage message);
 
+	IInternetMessagerCommand getConnectToUserCommand(URL oneAddress);
+
 }

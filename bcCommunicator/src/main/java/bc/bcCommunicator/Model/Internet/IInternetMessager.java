@@ -17,5 +17,7 @@ public interface IInternetMessager {
 	void setModel(ICommunicatorModel model);
 
 	void sendMessage(ConnectionId id, String messageText);
+
+	void connectToUser(URL oneAddress);
 	
 }

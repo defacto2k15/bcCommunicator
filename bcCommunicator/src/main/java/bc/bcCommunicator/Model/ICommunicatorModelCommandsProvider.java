@@ -1,6 +1,7 @@
 package bc.bcCommunicator.Model;
 
 import java.net.URL;
+import java.util.Optional;
 
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Messages.IMessage;
@@ -19,5 +20,9 @@ public interface ICommunicatorModelCommandsProvider {
 	ICommunicatorModelCommand getUsernameSubmittedCommand(Username username);
 
 	ICommunicatorModelCommand getMessageRecievedCommand(IMessage recievedMessage, ConnectionId connectionId);
+	
+	ICommunicatorModelCommand getUserConnectionFailed( URL failedUrl);
+
+	ICommunicatorModelCommand getUserConectionWasSuccesfullCommand( URL sucessfullUrl,  ConnectionId result);
 	
 }

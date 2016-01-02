@@ -106,4 +106,21 @@ public class InternetMessager implements IInternetMessager {
 		proxy.sendMessage(id, messageText);
 	}
 
+	@Override
+	public void connectToUser(URL userAddress) {
+		Optional<ConnectionId> result = null;
+		try {
+			result = proxy.startConnection(userAddress);
+		} catch (IOException e) {
+			model.addCommand(modelCommandsProvider.getUserConnectionFailed(userAddress));
+			return;
+		}
+		
+		if( result.isPresent() ){
+			model.addCommand(modelCommandsProvider.getUserConectionWasSuccesfullCommand( userAddress, result.get()));
+		} else {
+			model.addCommand(modelCommandsProvider.getUserConnectionFailed(userAddress));
+		}		
+	}
+
 }

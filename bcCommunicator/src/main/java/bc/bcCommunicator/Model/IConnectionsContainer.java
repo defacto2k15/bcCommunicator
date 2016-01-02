@@ -1,5 +1,6 @@
 package bc.bcCommunicator.Model;
 
+import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.internetMessageProxy.ConnectionId;
 
 public interface IConnectionsContainer {
@@ -11,5 +12,7 @@ public interface IConnectionsContainer {
 	void removeServerConnectionIdIfExists();
 
 	boolean isServerConnected();
+
+	ConnectionId getConnectionIdOfUser(Username key);
 
 }

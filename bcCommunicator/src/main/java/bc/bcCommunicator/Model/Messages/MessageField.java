@@ -7,6 +7,7 @@ import bc.bcCommunicator.Model.Messages.MessageFieldValues.RequestMessageTypeFie
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.ResponseMessageTypeFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.UrlMessageFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.UsernameMessageFieldValue;
+import bc.bcCommunicator.Model.Messages.MessageFieldValues.TalkMessageTypeFieldValue;
 
 public enum MessageField {
 	USERNAME_FIELD("USERNAME_FIELD", UsernameMessageFieldValue::new),
@@ -14,7 +15,8 @@ public enum MessageField {
 	MESSAGE_TYPE_FIELD("MESSAGE_TYPE", NullMessageFieldValue::new),
 	REQUEST_TYPE_FIELD("REQUEST_TYPE", RequestMessageTypeFieldValue::new),
 	RESPONSE_TYPE_FIELD("RESPONSE_TYPE", ResponseMessageTypeFieldValue::new),
-	AllUsersAddresses("ALL_USERS_ADDRESSES", AllUsersAddressesFieldValue::new);
+	AllUsersAddresses("ALL_USERS_ADDRESSES", AllUsersAddressesFieldValue::new),
+	TALK_TYPE_FIELD("TALK_TYPE", TalkMessageTypeFieldValue::new);
 	
 	private String text;
 	private IMessageFieldValueConstructor fieldValueConstructor;

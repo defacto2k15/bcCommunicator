@@ -1,6 +1,6 @@
 package bc.bcCommunicator.Model.BasicTypes;
 
-public class Username {
+public class Username implements Comparable<Username>{
 	private String name;
 	
 	public Username(String name){
@@ -18,5 +18,10 @@ public class Username {
 	        result = (this.getName() == that.getName());
 	    }
 	    return result;
+	}
+
+	@Override
+	public int compareTo(Username o) {
+		return o.name.compareTo(this.name);
 	}
 }

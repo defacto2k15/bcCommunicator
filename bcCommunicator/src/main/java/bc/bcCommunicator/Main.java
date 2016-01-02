@@ -72,7 +72,7 @@ public class Main {
 		IModelMessageProvider messagesProvider = new ModelMessageProvider();
 		IInternetMessagerCommandProvider commandProvider = new InternetMessagerCommandProvider();
 		IModelMessagesSender messagesSender = new ModelMessagesSender(usernameContainer, connectionsContainer, commandProvider, messagesProvider, messager, clientUrl);
-		AllUsersAddressesResponseHandler allUsersResponseHandler = new AllUsersAddressesResponseHandler(usernameContainer, messagesSender);
+		AllUsersAddressesResponseHandler allUsersResponseHandler = new AllUsersAddressesResponseHandler(usernameContainer, commandProvider, messager);
 		ICommunicatorModel model 
 			= new CommunicatorModel(messager, commandProvider, clientUrl,
 					messagesProvider, connectionsContainer, usernameContainer, 

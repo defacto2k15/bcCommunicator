@@ -37,7 +37,6 @@ public class CommunicatorModelCommandsProvider implements ICommunicatorModelComm
 		return (ICommunicatorModel model)->{ try {
 			model.usernameSubmitted(username);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} };
 	}
@@ -45,6 +44,16 @@ public class CommunicatorModelCommandsProvider implements ICommunicatorModelComm
 	@Override
 	public ICommunicatorModelCommand getMessageRecievedCommand(IMessage recievedMessage, ConnectionId connectionId) {
 		return( ICommunicatorModel model)->{ model.messageWasRecieved(recievedMessage, connectionId ); };
+	}
+
+	@Override
+	public ICommunicatorModelCommand getUserConnectionFailed(URL failedUrl) {
+		return ( ICommunicatorModel model)-> { model.userConnectionFailed( failedUrl); };
+	}
+
+	@Override
+	public ICommunicatorModelCommand getUserConectionWasSuccesfullCommand( URL sucessfullUrl, ConnectionId result) {
+		return (  ICommunicatorModel model )->{ model.userConnectionWasSuccesfull(sucessfullUrl, result); };
 	}
 
 }
