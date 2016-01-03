@@ -44,4 +44,9 @@ public class InternetMessagerCommandProvider implements IInternetMessagerCommand
 		};
 	}
 
+	@Override
+	public IInternetMessagerCommand getListenOnPortCommand(int clientPort) {
+		return (IInternetMessager messager) -> { messager.listenOnPort(clientPort); };
+	}
+
 }

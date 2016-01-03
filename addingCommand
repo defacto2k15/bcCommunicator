@@ -1,0 +1,1 @@
+find * -size -4M -type f -print | xargs git add

@@ -42,8 +42,7 @@ public class CommunicatorModelTest {
 	@Before
 	public void setUp() throws MalformedURLException{
 		clientUrl = new URL("http://localhost:5555");
-		model = new CommunicatorModel(messager, commandProvider, clientUrl, messageProvider, connectionsContainer, usernameContainer, recievedHandler, messagesSender, actorUsernameContainer, connectivityHandler );
-		model.setController(controller);
+		model = new CommunicatorModel(messager, commandProvider, clientUrl, messageProvider, connectionsContainer, usernameContainer, recievedHandler, messagesSender, actorUsernameContainer, connectivityHandler, controller );
 	}
 	
 	@Test
@@ -81,7 +80,7 @@ public class CommunicatorModelTest {
 		IRequest request = context.mock(IRequest.class);
 		ConnectionId id = new ConnectionId(99);
 		context.checking(new Expectations(){{
-			ignoring(usernameContainer);
+			allowing(actorUsernameContainer);
 			oneOf(connectionsContainer).isServerConnected(); will(returnValue(true));
 			oneOf(messagesSender).sendIntroductoryRequest();
 		}});

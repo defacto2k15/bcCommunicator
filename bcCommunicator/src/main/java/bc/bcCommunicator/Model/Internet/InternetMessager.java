@@ -121,4 +121,9 @@ public class InternetMessager implements IInternetMessager {
 		}		
 	}
 
+	@Override
+	public void listenOnPort(int clientPort) {
+		proxy.startListening(clientPort);
+	}
+
 }

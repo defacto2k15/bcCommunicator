@@ -3,6 +3,7 @@ package bc.bcCommunicator;
 import java.net.URL;
 
 import Controller.CommunicatorController;
+import Controller.CommunicatorControllerContainer;
 import Controller.ICommunicatorController;
 import bc.bcCommunicator.Model.ActorUsernameContainer;
 import bc.bcCommunicator.Model.CommunicatorModel;
@@ -26,6 +27,7 @@ import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.MessageFields
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.MessageFromTypeCreator;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.RecievedMessageCreator;
 import bc.bcCommunicator.Model.Messages.Handling.AllUsersAddressesResponseHandler;
+import bc.bcCommunicator.Model.Messages.Handling.IntroductoryTalkHandler;
 import bc.bcCommunicator.Model.Messages.Handling.RecievedMessagesHandler;
 import bc.bcCommunicator.Model.Messages.Handling.UsernameOkResponseHandler;
 import bc.bcCommunicator.Views.MainWindow;
@@ -55,6 +57,7 @@ public class Main {
 	}
 	
 	public Main( URL clientUrl){
+		CommunicatorControllerContainer boxedController = new CommunicatorControllerContainer();
 		
 		IInternetMessagerCommandProvider messagerCommandsProvider = new InternetMessagerCommandProvider();
 		ICommunicatorModelCommandsProvider modelCommandsProvider = new CommunicatorModelCommandsProvider();
@@ -71,26 +74,27 @@ public class Main {
 		IModelMessageProvider messagesProvider = new ModelMessageProvider();
 		IInternetMessagerCommandProvider commandProvider = new InternetMessagerCommandProvider();
 		IModelMessagesSender messagesSender = new ModelMessagesSender(actorUsernameContainer, connectionsContainer, commandProvider, messagesProvider, messager, clientUrl);
-		AllUsersAddressesResponseHandler allUsersResponseHandler = new AllUsersAddressesResponseHandler(usernameContainer, commandProvider, messager);
-		ConnectivityHandler connectivityHandler = new ConnectivityHandler(clientUrl, connectionsContainer, usernameContainer, actorUsernameContainer, messagesSender);
+		AllUsersAddressesResponseHandler allUsersResponseHandler = new AllUsersAddressesResponseHandler(usernameContainer, commandProvider, messager, clientUrl, boxedController);
+		ConnectivityHandler connectivityHandler = new ConnectivityHandler(boxedController, clientUrl, connectionsContainer, usernameContainer, actorUsernameContainer, messagesSender);
+		
+		IntroductoryTalkHandler introductoryTalkHandler =  new IntroductoryTalkHandler(boxedController, usernameContainer, connectionsContainer);
 		
 		ICommunicatorModel model 
 			= new CommunicatorModel(messager, commandProvider, clientUrl,
 					messagesProvider, connectionsContainer, usernameContainer, 
 					new RecievedMessagesHandler(new UsernameOkResponseHandler(actorUsernameContainer, usernameInputView, messagesSender), 
-												allUsersResponseHandler), messagesSender, actorUsernameContainer, connectivityHandler );
+												allUsersResponseHandler,
+												introductoryTalkHandler)
+									, messagesSender, actorUsernameContainer, connectivityHandler, boxedController );
 		
 		UsersTableView usersTableView = new UsersTableView();		
 		ServerConnectionStatusView connectionStatusView = new ServerConnectionStatusView();
 		ICommunicatorController controller
 			= new CommunicatorController(connectionStatusView, model, modelCommandsProvider, usernameInputView, usersTableView);
+
 		controller.setViewHandlers();
-		model.setController(controller);
-		allUsersResponseHandler.setController(controller);
-		connectivityHandler.setController(controller);
-		
 		messager.setModel(model);
-		
+		boxedController.setRealController(controller);
 		
 		MainWindow window = new MainWindow(connectionStatusView, usernameInputView, usersTableView);		
 		// USTAW HANDLERA ALL usernames and addresses tak aby wywyłał odpowiednią wiadomość do controllera (setBulk..),

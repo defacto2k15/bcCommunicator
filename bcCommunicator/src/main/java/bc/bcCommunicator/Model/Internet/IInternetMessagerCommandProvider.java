@@ -15,4 +15,6 @@ public interface IInternetMessagerCommandProvider {
 
 	IInternetMessagerCommand getConnectToUserCommand(URL oneAddress);
 
+	IInternetMessagerCommand getListenOnPortCommand(int clientPort);
+
 }

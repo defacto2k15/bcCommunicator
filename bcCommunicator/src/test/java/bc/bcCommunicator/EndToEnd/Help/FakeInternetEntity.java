@@ -1,6 +1,9 @@
 package bc.bcCommunicator.EndToEnd.Help;
 
+import java.io.IOException;
 import java.net.URL;
+import java.net.UnknownHostException;
+import java.util.Optional;
 
 import org.junit.Assert;
 import org.junit.Assert.*;
@@ -78,7 +81,11 @@ public class FakeInternetEntity {
 		}
 	}
 
-
+	public void connectTo(URL clientUrl) throws UnknownHostException, IOException {
+		Optional<ConnectionId> optionalId = proxy.startConnection(clientUrl);
+		Assert.assertTrue("Connection to url "+clientUrl+" failed", optionalId.isPresent());
+		lastConnectionId = optionalId.get();
+	}
 	
 
 }

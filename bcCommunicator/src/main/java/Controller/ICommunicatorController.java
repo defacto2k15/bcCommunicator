@@ -26,4 +26,6 @@ public interface ICommunicatorController {
 
 	void userConnectionLost(Username someUserUsername);
 
+	void newUserConnected(Username username);
+
 }

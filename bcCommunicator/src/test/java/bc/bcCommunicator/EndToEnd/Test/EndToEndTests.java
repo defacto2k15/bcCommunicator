@@ -200,7 +200,28 @@ public class EndToEndTests {
 		client.assertUserHasConnectionState( someUserUsername, UserConnectionState.NotConnected );
 	}
 	
-
+	@Test
+	public void afterClientRecievesIntroductoryTalkItWritesUserDataToTable() throws Exception {
+		Username fakeUserUsername = new Username("SomeUsername");
+		int fakeUserPort = getter.getFreePortNumber();
+		URL fakeUserUrl = new URL("http://127.0.0.1:"+fakeUserPort);
+		FakeUserRunner fakeUser = new FakeUserRunner(fakeUserPort, fakeUserUsername, fakeUserUrl);
+		
+		client.insertUsername(username); 
+		URL url = new URL("http://127.0.0.1:"+SERVER_PORT);
+		client.connectToServer(url);
+		server.sendUsernameOkResponseWith(username, clientUrl);	
+		server.sendAllUsersAddressesResponse(getUsernamesWithAddresses());	
+		
+		Thread.sleep(200);
+		fakeUser.start();
+		fakeUser.connectTo( clientUrl );
+		fakeUser.sendIntroducoryTalk( fakeUserUsername, fakeUserUrl);
+		
+		client.assertUserHasConnectionState( fakeUserUsername, UserConnectionState.Connected );
+	}
+	
+	//NAPISZ TEST JAK DOSTAJESZ INTRODUCTORY TALK ZE SIE POJAWIA NA EKRANIE NOWY UZYTK
 	
 	/*@Test
 	public void afterGettingAllUsersAddressesClientIsTryingToConnectToOtherUsers() throws Exception {

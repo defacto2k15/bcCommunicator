@@ -3,7 +3,9 @@ package bc.bcCommunicator.Model.Messages.CreatingFromRecievedString;
 import bc.bcCommunicator.Model.Messages.IMessage;
 import bc.bcCommunicator.Model.Messages.MessageField;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.ResponseMessageTypeFieldValue;
+import bc.bcCommunicator.Model.Messages.MessageFieldValues.TalkMessageTypeFieldValue;
 import bc.bcCommunicator.Model.Messages.Response.ResponseMessageType;
+import bc.bcCommunicator.Model.Messages.Talk.TalkMessageType;
 
 public class RecievedMessageCreator implements IRecievedMessageCreator {
 
@@ -17,9 +19,17 @@ public class RecievedMessageCreator implements IRecievedMessageCreator {
 
 	@Override
 	public IMessage createMessage(String message) throws Exception {
+		IMessageInitializedFromFields messageToInitialize = null;
 		IFieldsContainer container =  extractor.getFields(message); // TODO other type than response!
-		ResponseMessageTypeFieldValue responseType = container.getFieldValue(ResponseMessageTypeFieldValue.class);
-		IMessageInitializedFromFields messageToInitialize = fromTypeCreator.get(responseType);
+		if( container.containsField(ResponseMessageTypeFieldValue.class)){
+			ResponseMessageTypeFieldValue responseType = container.getFieldValue(ResponseMessageTypeFieldValue.class);
+			messageToInitialize = fromTypeCreator.get(responseType);
+		} else if( container.containsField(TalkMessageTypeFieldValue.class)){
+			TalkMessageTypeFieldValue responseType = container.getFieldValue(TalkMessageTypeFieldValue.class);
+			messageToInitialize = fromTypeCreator.get(responseType);			
+		} else {
+			throw new IllegalArgumentException("Problem: message do not have field value of responseType nor TalkType");
+		}
 		return messageToInitialize.getMessage( container );
 	}
 

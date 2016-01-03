@@ -140,5 +140,15 @@ public class CommunicatorControllerTest {
 		context.assertIsSatisfied();	
 	}
 	
+	@Test
+	public void whenNewUserIsAddedAppropiateLineIsAddedToTable(){
+		Username username = new Username("Some name");
+		context.checking( new Expectations(){{
+			oneOf(usersTableView).addLineToTable(username, UserConnectionState.Connected);
+		}});
+		controller.newUserConnected(username);
+		context.assertIsSatisfied();
+	}
+	
 
 }

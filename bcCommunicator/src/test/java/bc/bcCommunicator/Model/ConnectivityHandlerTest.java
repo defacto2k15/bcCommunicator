@@ -31,8 +31,7 @@ public class ConnectivityHandlerTest {
 	@Before
 	public void setUp() throws MalformedURLException{
 		clientUrl = new URL("http://localhost:5555");
-		handler = new ConnectivityHandler( clientUrl, connectionsContainer, usernameContainer, actorUsernameContainer, messagesSender);
-		handler.setController(controller);
+		handler = new ConnectivityHandler( controller, clientUrl, connectionsContainer, usernameContainer, actorUsernameContainer, messagesSender);
 	}
 	
 	@Test

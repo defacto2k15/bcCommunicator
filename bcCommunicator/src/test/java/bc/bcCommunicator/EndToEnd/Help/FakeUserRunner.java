@@ -33,4 +33,10 @@ public class FakeUserRunner extends FakeInternetEntity{
 		assertRecievedMessageWithText( new IntroductoryTalk(clientUsername, clientUrl).getMessageText() );
 	}
 
+	public void sendIntroducoryTalk(Username fakeUserUsername, URL fakeUserUrl) throws Exception {
+		sendMessageToLastConnectionSocket( new IntroductoryTalk(fakeUserUsername, fakeUserUrl) );
+	}
+
+
+
 }

@@ -40,12 +40,16 @@ public class AllUsersAddressesResponseHandlerTest {
 	private final ICommunicatorController controller = context.mock(ICommunicatorController.class);
 	private final IInternetMessagerCommandProvider commandProvider = context.mock(IInternetMessagerCommandProvider.class);
 	private final IInternetMessager messager = context.mock(IInternetMessager.class);
-	AllUsersAddressesResponseHandler handler = new AllUsersAddressesResponseHandler(container, commandProvider, messager);
+	
 	Map<Username, URL> usernameAddressMap = new HashMap<>();
 	Set<Username> allUsers = new TreeSet<>();
 	AllUsersAddresses allUsersAddresses;
 	private final IAllUsersAddressesResponse response = context.mock(IAllUsersAddressesResponse.class);
 	private final ConnectionId id = new ConnectionId(99);
+	URL clientUrl;
+	int clientPort;
+	
+	AllUsersAddressesResponseHandler handler;
 	
 	@Before
 	public void setUp() throws MalformedURLException{
@@ -61,7 +65,12 @@ public class AllUsersAddressesResponseHandlerTest {
 		allUsers.add(user3);
 		allUsers.add(user2);
 		allUsers.add(user1);
-		handler.setController(controller);
+		
+		
+		clientPort = 2020;
+		clientUrl = new URL("http://127.0.0.1:"+clientPort);
+		handler = new AllUsersAddressesResponseHandler(container, commandProvider, messager, clientUrl, controller);
+		
 	}
 	
 
@@ -75,6 +84,9 @@ public class AllUsersAddressesResponseHandlerTest {
 			for( Username oneUsername : usernameAddressMap.keySet() ){
 				oneOf(container).addUserWithAddress(oneUsername, usernameAddressMap.get(oneUsername));
 			}
+			
+			allowing(commandProvider);
+			allowing(messager);
 		}});
 		handler.handle(response, id);
 		context.assertIsSatisfied();
@@ -88,22 +100,14 @@ public class AllUsersAddressesResponseHandlerTest {
 			ignoring(commandProvider);
 			allowing(response).getAllUsersAddresses(); will(returnValue(allUsersAddresses));
 			oneOf(controller).setBulkUsers(new ArrayList<Username>(allUsers));
+			
+			allowing(commandProvider);
+			allowing(messager);
 		}});
 		handler.handle(response, id);
 		context.assertIsSatisfied();
 	}
 	
-/*	@Test
-	public void sendsIntroductoryTalkToUsers() throws Exception {
-		context.checking(new Expectations(){{
-			ignoring(container);
-			ignoring(controller);
-			allowing(response).getAllUsersAddresses(); will(returnValue(allUsersAddresses));
-			oneOf(messagesSender).sendIntroductoryTalkToAllUsers();
-		}});		
-		handler.handle(response, id);
-		context.assertIsSatisfied();
-	}*/
 	
 	@Test
 	public void ItIsOrderedToMessagerToConnectToUsers() throws Exception {
@@ -116,11 +120,30 @@ public class AllUsersAddressesResponseHandlerTest {
 				oneOf(commandProvider).getConnectToUserCommand(oneAddress); will(returnValue(command));
 				oneOf(messager).addCommand(command);
 			}
+			
+			allowing(commandProvider);
+			allowing(messager);
 		}});		
 		handler.handle(response, id);
 		context.assertIsSatisfied();
-
-		
+	}
+	
+	@Test
+	public void ItIsOrderedToMessagerToStartListeningOnPort() throws Exception {
+		IInternetMessagerCommand startListeningCommand = context.mock(IInternetMessagerCommand.class);
+		context.checking(new Expectations(){{
+			ignoring(container);
+			ignoring(controller);
+			allowing(response).getAllUsersAddresses(); will(returnValue(allUsersAddresses));
+			
+			oneOf(commandProvider).getListenOnPortCommand(clientPort); will(returnValue(startListeningCommand));
+			oneOf(messager).addCommand(startListeningCommand);
+			
+			allowing(commandProvider);
+			allowing(messager);
+		}});
+		handler.handle(response, id);
+		context.assertIsSatisfied();
 	}
 
 }

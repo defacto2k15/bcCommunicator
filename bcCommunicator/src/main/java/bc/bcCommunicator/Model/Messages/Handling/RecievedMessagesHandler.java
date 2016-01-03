@@ -6,16 +6,20 @@ import bc.bcCommunicator.Model.Messages.IMessage;
 import bc.bcCommunicator.Model.Messages.Response.IAllUsersAddressesResponse;
 import bc.bcCommunicator.Model.Messages.Response.IUsernameOkResponse;
 import bc.bcCommunicator.Model.Messages.Response.UsernameOkResponse;
+import bc.bcCommunicator.Model.Messages.Talk.IIntroductoryTalk;
 import bc.internetMessageProxy.ConnectionId;
 
 public class RecievedMessagesHandler extends AbstractMessageHandler implements IRecievedMessagesHandler {
 	UsernameOkResponseHandler usernameOkResponseHandler;
 	AllUsersAddressesResponseHandler allUsersAddressesResponseHandler;
+	private IntroductoryTalkHandler introductoryTalkHandler;
 	
 	public RecievedMessagesHandler(UsernameOkResponseHandler usernameOkResponseHandler,
-			AllUsersAddressesResponseHandler allUsersAddressesResponseHandler){
+			AllUsersAddressesResponseHandler allUsersAddressesResponseHandler, 
+			IntroductoryTalkHandler introductoryTalkHandler){
 		this.usernameOkResponseHandler = usernameOkResponseHandler;
 		this.allUsersAddressesResponseHandler = allUsersAddressesResponseHandler;
+		this.introductoryTalkHandler = introductoryTalkHandler;
 	}
 	
 	@Override
@@ -40,6 +44,10 @@ public class RecievedMessagesHandler extends AbstractMessageHandler implements I
 	
 	public void handle( IAllUsersAddressesResponse usernameOkResponse, ConnectionId id) throws Exception{
 		allUsersAddressesResponseHandler.handle(usernameOkResponse, id);
+	}
+	
+	public void handle( IIntroductoryTalk introductoryTalk, ConnectionId id) throws Exception{
+		introductoryTalkHandler.handle(introductoryTalk, id);
 	}
 
 }

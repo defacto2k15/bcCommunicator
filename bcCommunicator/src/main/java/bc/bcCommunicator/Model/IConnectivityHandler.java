@@ -11,5 +11,4 @@ public interface IConnectivityHandler {
 	void connectionLost(ConnectionId id);
 	void userConnectionFailed(URL failedUrl);
 	void userConnectionWasSuccesfull(URL sucessfullUrl, ConnectionId result) throws Exception;
-	void setController( ICommunicatorController controller);
 }

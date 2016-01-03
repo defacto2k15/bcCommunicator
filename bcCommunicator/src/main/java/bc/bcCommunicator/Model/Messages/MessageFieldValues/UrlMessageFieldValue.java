@@ -16,7 +16,7 @@ public class UrlMessageFieldValue implements IMessageFieldValue{
 	@Override
 	public IMessageFieldValue createFromString(String text) throws Exception {
 		UrlMessageFieldValue fieldValue = new UrlMessageFieldValue();
-		fieldValue.url = new URL("text");
+		fieldValue.url = new URL(text);
 		return fieldValue;
 	}
 

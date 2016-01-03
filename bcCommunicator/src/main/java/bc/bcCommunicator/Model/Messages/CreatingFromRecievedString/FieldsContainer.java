@@ -27,4 +27,9 @@ public class FieldsContainer implements IFieldsContainer {
 		list.add(field);
 	}
 
+	@Override
+	public <T extends IMessageFieldValue> boolean containsField(Class<T> type) throws Exception {
+		return list.stream().filter(u -> type.isInstance(u)).count() != 0;
+	}
+
 }

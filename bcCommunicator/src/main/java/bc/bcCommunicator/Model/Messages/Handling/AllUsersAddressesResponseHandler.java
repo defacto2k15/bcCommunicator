@@ -21,19 +21,19 @@ public class AllUsersAddressesResponseHandler extends AbstractMessageHandler{
 	private ICommunicatorController controller;
 	private IInternetMessagerCommandProvider commandProvider;
 	private IInternetMessager messager;
+	private URL clientUrl;
 	
 	
-	public AllUsersAddressesResponseHandler(IOtherUsersDataContainer container,
-			IInternetMessagerCommandProvider commandProvider, IInternetMessager messager) {
+	public AllUsersAddressesResponseHandler(IOtherUsersDataContainer container, 
+			IInternetMessagerCommandProvider commandProvider, IInternetMessager messager, URL clientUrl,  ICommunicatorController controller) {
 				this.usersContainer = container;
 				this.commandProvider = commandProvider;
 				this.messager = messager;
+				this.clientUrl = clientUrl;
+				this.controller = controller;
+				
 	}
 
-	public void setController(  ICommunicatorController controller ){
-		this.controller = controller;
-	}
-	
 	public void handle( IAllUsersAddressesResponse usernameOkResponse, ConnectionId id) throws Exception{
 		assert(controller != null);
 		List<Username > usernames = new ArrayList<>();
@@ -49,6 +49,9 @@ public class AllUsersAddressesResponseHandler extends AbstractMessageHandler{
 		for( URL key : allUserAddresses.getAllUsersAddresses().values()){
 			messager.addCommand(commandProvider.getConnectToUserCommand(key));
 		}
+		
+		int clientPort = clientUrl.getPort();
+		messager.addCommand( commandProvider.getListenOnPortCommand(clientPort));
 	}
 
 }

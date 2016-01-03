@@ -23,6 +23,17 @@ public class UsersTableView extends JPanel implements IUsersTableView{
 		add(usersTable);
 		usernameColumn.setHeaderValue(WindowNames.USERS_TABLE_USERNAME_COLUMN);
 		usersTable.addColumn(usernameColumn);
+//		usersTable.addMouseListener(new java.awt.event.MouseAdapter() {
+//		    @Override
+//		    public void mouseClicked(java.awt.event.MouseEvent evt) {
+//		        int row = usersTable.rowAtPoint(evt.getPoint());
+//		        int col = usersTable.columnAtPoint(evt.getPoint());
+//		        if (row >= 0 && col >= 0) {
+//		        	tableModel.ge
+//
+//		        }
+//		    }*/
+//		});
 		setVisible(true);
 	}
 	

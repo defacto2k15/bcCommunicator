@@ -12,7 +12,6 @@ public interface ICommunicatorModel {
 	void addCommand( ICommunicatorModelCommand command);
 	void doConnectivityCommand( IConnectivityCommand command) throws Exception;
 	void connectToServer( URL serverAddress );
-	void setController(ICommunicatorController controller);
 	/*void serverConnectionWasSuccesfull(ConnectionId serverConnection) throws Exception; todo delete
 	void serverConnectionFailed();
 	void connectionLost(ConnectionId id);*/

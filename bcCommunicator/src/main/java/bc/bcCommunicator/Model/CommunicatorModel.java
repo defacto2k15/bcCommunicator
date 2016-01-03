@@ -30,8 +30,9 @@ public class CommunicatorModel implements ICommunicatorModel {
 
 	public CommunicatorModel(IInternetMessager messager, IInternetMessagerCommandProvider commandProvider, URL clientUrl, 
 			IModelMessageProvider messageProvider, IConnectionsContainer connectionsContainer, IOtherUsersDataContainer usernameContainer
-			, IRecievedMessagesHandler recievedHandler, IModelMessagesSender messagesSender,  IActorUsernameContainer actorUsernameContainer
-			, IConnectivityHandler connectivityHandler) {
+			, IRecievedMessagesHandler recievedHandler, IModelMessagesSender messagesSender
+			, IActorUsernameContainer actorUsernameContainer
+			, IConnectivityHandler connectivityHandler, ICommunicatorController controller) {
 		this.messager = messager;
 		this.commandProvider = commandProvider;
 		this.ourUrl = clientUrl;
@@ -42,6 +43,7 @@ public class CommunicatorModel implements ICommunicatorModel {
 		this.messagesSender = messagesSender;
 		this.actorUsernameContainer = actorUsernameContainer;
 		this.connectivityHandler = connectivityHandler;
+		this.controller = controller;
 		Thread newThread = new Thread(()->{
 								while(true){
 									try {
@@ -61,10 +63,6 @@ public class CommunicatorModel implements ICommunicatorModel {
 
 	public void connectToServer(URL serverAddress) {
 		messager.addCommand(commandProvider.getConnectToServerCommand(serverAddress));
-	}
-
-	public void setController(ICommunicatorController controller) {	
-		this.controller = controller;
 	}
 
 

@@ -19,5 +19,7 @@ public interface IInternetMessager {
 	void sendMessage(ConnectionId id, String messageText);
 
 	void connectToUser(URL oneAddress);
+
+	void listenOnPort(int clientPort);
 	
 }

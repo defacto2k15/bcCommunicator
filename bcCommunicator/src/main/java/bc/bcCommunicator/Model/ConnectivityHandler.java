@@ -18,7 +18,7 @@ public class ConnectivityHandler implements IConnectivityHandler {
 	private IActorUsernameContainer actorUsernameContainer;
 	private IModelMessagesSender messagesSender;
 
-	public ConnectivityHandler( URL ourUrl,
+	public ConnectivityHandler(ICommunicatorController controller, URL ourUrl,
 			IConnectionsContainer connectionsContainer, IOtherUsersDataContainer usernameContainer,
 			IActorUsernameContainer actorUsernameContainer, IModelMessagesSender messagesSender) {
 		this.ourUrl = ourUrl;
@@ -26,12 +26,9 @@ public class ConnectivityHandler implements IConnectivityHandler {
 		this.usernameContainer = usernameContainer;
 		this.actorUsernameContainer = actorUsernameContainer;
 		this.messagesSender = messagesSender;
-	}
-	
-	@Override
-	public void setController( ICommunicatorController controller){
 		this.controller = controller;
 	}
+
 
 	@Override
 	public void userConnectionFailed(URL failedUrl) {
