@@ -121,7 +121,7 @@ public class CommunicatorControllerTest {
 	}
 	
 	@Test
-	public void whenUserWasConnectedControlelrTellsUserTableToSetAppropiateUserConnectionStatus(){
+	public void whenUserWasConnectedControllerTellsUserTableToSetAppropiateUserConnectionStatus(){
 		Username username = new Username("Some name");
 		context.checking(new Expectations(){{
 			oneOf(usersTableView).changeStateOfUser(username, UserConnectionState.Connected);
@@ -130,6 +130,15 @@ public class CommunicatorControllerTest {
 		context.assertIsSatisfied();
 	}
 	
+	@Test
+	public void whenConnectedUserIsLostInUserTableAppropiateStatusIsSet(){
+		Username username = new Username("Some name");
+		context.checking(new Expectations(){{
+			oneOf(usersTableView).changeStateOfUser(username, UserConnectionState.ConnectionLost);
+		}});
+		controller.userConnectionLost(username);
+		context.assertIsSatisfied();	
+	}
 	
 
 }

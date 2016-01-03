@@ -183,6 +183,22 @@ public class EndToEndTests {
 		client.assertUserHasConnectionState( someUserUsername, UserConnectionState.Connected);
 	}
 	
+	@Test
+	public void whenConnectionToUserFailsAppropiateChangeOfStateIsWrittenToTable() throws Exception {
+		client.insertUsername(username); 
+		URL url = new URL("http://127.0.0.1:"+SERVER_PORT);
+		client.connectToServer(url);
+		server.assertHasRecievedIntrodutionRequestWith(username, clientUrl );
+		server.sendUsernameOkResponseWith(username, clientUrl);	
+		server.sendAllUsersAddressesResponse(getUsernamesWithAddresses());	
+		
+		Thread.sleep(400);
+		
+		Username someUserUsername = users.get(0).getUsername();
+		users.get(0).stop();
+		
+		client.assertUserHasConnectionState( someUserUsername, UserConnectionState.NotConnected );
+	}
 	
 
 	

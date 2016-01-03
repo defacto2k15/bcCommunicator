@@ -10,13 +10,14 @@ import bc.internetMessageProxy.ConnectionId;
 
 public interface ICommunicatorModel {
 	void addCommand( ICommunicatorModelCommand command);
+	void doConnectivityCommand( IConnectivityCommand command) throws Exception;
 	void connectToServer( URL serverAddress );
 	void setController(ICommunicatorController controller);
-	void serverConnectionWasSuccesfull(ConnectionId serverConnection) throws Exception;
+	/*void serverConnectionWasSuccesfull(ConnectionId serverConnection) throws Exception; todo delete
 	void serverConnectionFailed();
-	void connectionLost(ConnectionId id);
+	void connectionLost(ConnectionId id);*/
 	void usernameSubmitted(Username username) throws Exception;
 	void messageWasRecieved(IMessage recievedMessage, ConnectionId connectionId);
-	void userConnectionFailed(URL failedUrl);
-	void userConnectionWasSuccesfull(URL sucessfullUrl, ConnectionId result) throws Exception;
+//	void userConnectionFailed(URL failedUrl);
+//	void userConnectionWasSuccesfull(URL sucessfullUrl, ConnectionId result) throws Exception;
 }

@@ -1,0 +1,15 @@
+package bc.bcCommunicator.Model;
+
+import java.net.URL;
+
+import Controller.ICommunicatorController;
+import bc.internetMessageProxy.ConnectionId;
+
+public interface IConnectivityHandler {
+	public void serverConnectionWasSuccesfull(ConnectionId serverConnection) throws Exception;
+	void serverConnectionFailed();
+	void connectionLost(ConnectionId id);
+	void userConnectionFailed(URL failedUrl);
+	void userConnectionWasSuccesfull(URL sucessfullUrl, ConnectionId result) throws Exception;
+	void setController( ICommunicatorController controller);
+}

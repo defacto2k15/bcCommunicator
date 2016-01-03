@@ -14,6 +14,8 @@ public interface IConnectionsContainer {
 	boolean isServerConnected();
 
 	ConnectionId getConnectionIdOfUser(Username key);
+	
+	Username getUsernameForConnectionId( ConnectionId id);
 
 	void setIdForUser(Username name, ConnectionId id);
 

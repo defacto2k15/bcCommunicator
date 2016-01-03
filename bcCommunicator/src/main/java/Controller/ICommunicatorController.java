@@ -24,4 +24,6 @@ public interface ICommunicatorController {
 
 	void userWasConnected(Username username);
 
+	void userConnectionLost(Username someUserUsername);
+
 }

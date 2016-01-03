@@ -26,10 +26,12 @@ public class CommunicatorModel implements ICommunicatorModel {
 	private IActorUsernameContainer actorUsernameContainer;
 	private IRecievedMessagesHandler recievedHander;
 	private IModelMessagesSender messagesSender;
+	private IConnectivityHandler connectivityHandler;
 
 	public CommunicatorModel(IInternetMessager messager, IInternetMessagerCommandProvider commandProvider, URL clientUrl, 
 			IModelMessageProvider messageProvider, IConnectionsContainer connectionsContainer, IOtherUsersDataContainer usernameContainer
-			, IRecievedMessagesHandler recievedHandler, IModelMessagesSender messagesSender,  IActorUsernameContainer actorUsernameContainer) {
+			, IRecievedMessagesHandler recievedHandler, IModelMessagesSender messagesSender,  IActorUsernameContainer actorUsernameContainer
+			, IConnectivityHandler connectivityHandler) {
 		this.messager = messager;
 		this.commandProvider = commandProvider;
 		this.ourUrl = clientUrl;
@@ -39,6 +41,7 @@ public class CommunicatorModel implements ICommunicatorModel {
 		this.recievedHander = recievedHandler;
 		this.messagesSender = messagesSender;
 		this.actorUsernameContainer = actorUsernameContainer;
+		this.connectivityHandler = connectivityHandler;
 		Thread newThread = new Thread(()->{
 								while(true){
 									try {
@@ -64,24 +67,6 @@ public class CommunicatorModel implements ICommunicatorModel {
 		this.controller = controller;
 	}
 
-	public void serverConnectionWasSuccesfull(ConnectionId serverConnectionId) throws Exception {
-		connectionsContainer.setServerConnectionId(serverConnectionId);
-		controller.serverConnectionWasSuccesfull();
-		if( actorUsernameContainer.isUsernameSet() ){	
-			messagesSender.sendIntroductoryRequest();
-		}
-	}
-
-	@Override
-	public void serverConnectionFailed() {
-		connectionsContainer.removeServerConnectionIdIfExists();
-		controller.serverConnectionFailed();
-	}
-
-	@Override
-	public void connectionLost(ConnectionId id) {
-		// TODO IMPLEMENT WITH TESTS
-	}
 
 	@Override
 	public void usernameSubmitted(Username username) throws Exception {
@@ -97,17 +82,7 @@ public class CommunicatorModel implements ICommunicatorModel {
 	}
 
 	@Override
-	public void userConnectionFailed(URL failedUrl) {
-		// TODO implement this, check which username it is, and  than put it on screen
-		
+	public void doConnectivityCommand(IConnectivityCommand command) throws Exception {
+		command.run(connectivityHandler);
 	}
-
-	@Override
-	public void userConnectionWasSuccesfull(URL sucessfullUrl, ConnectionId result) throws Exception {
-		Username username = usernameContainer.getUsernameForAddress(sucessfullUrl);
-		connectionsContainer.setIdForUser(username, result);
-		controller.userWasConnected(username);
-		messagesSender.sendIntroductoryTalkToUser(result, actorUsernameContainer.getUsername(), ourUrl);
-	}
-
 }

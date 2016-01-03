@@ -91,4 +91,9 @@ public class CommunicatorController implements ICommunicatorController {
 		usersTableView.changeStateOfUser(username, UserConnectionState.Connected);
 		
 	}
+
+	@Override
+	public void userConnectionLost(Username username) {
+		usersTableView.changeStateOfUser(username, UserConnectionState.ConnectionLost);
+	}
 }

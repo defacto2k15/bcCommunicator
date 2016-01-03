@@ -8,6 +8,7 @@ import bc.bcCommunicator.Model.ActorUsernameContainer;
 import bc.bcCommunicator.Model.CommunicatorModel;
 import bc.bcCommunicator.Model.CommunicatorModelCommandsProvider;
 import bc.bcCommunicator.Model.ConnectionsContainer;
+import bc.bcCommunicator.Model.ConnectivityHandler;
 import bc.bcCommunicator.Model.ICommunicatorModel;
 import bc.bcCommunicator.Model.ICommunicatorModelCommandsProvider;
 import bc.bcCommunicator.Model.IConnectionsContainer;
@@ -71,11 +72,13 @@ public class Main {
 		IInternetMessagerCommandProvider commandProvider = new InternetMessagerCommandProvider();
 		IModelMessagesSender messagesSender = new ModelMessagesSender(actorUsernameContainer, connectionsContainer, commandProvider, messagesProvider, messager, clientUrl);
 		AllUsersAddressesResponseHandler allUsersResponseHandler = new AllUsersAddressesResponseHandler(usernameContainer, commandProvider, messager);
+		ConnectivityHandler connectivityHandler = new ConnectivityHandler(clientUrl, connectionsContainer, usernameContainer, actorUsernameContainer, messagesSender);
+		
 		ICommunicatorModel model 
 			= new CommunicatorModel(messager, commandProvider, clientUrl,
 					messagesProvider, connectionsContainer, usernameContainer, 
 					new RecievedMessagesHandler(new UsernameOkResponseHandler(actorUsernameContainer, usernameInputView, messagesSender), 
-												allUsersResponseHandler), messagesSender, actorUsernameContainer );
+												allUsersResponseHandler), messagesSender, actorUsernameContainer, connectivityHandler );
 		
 		UsersTableView usersTableView = new UsersTableView();		
 		ServerConnectionStatusView connectionStatusView = new ServerConnectionStatusView();
@@ -84,6 +87,8 @@ public class Main {
 		controller.setViewHandlers();
 		model.setController(controller);
 		allUsersResponseHandler.setController(controller);
+		connectivityHandler.setController(controller);
+		
 		messager.setModel(model);
 		
 		

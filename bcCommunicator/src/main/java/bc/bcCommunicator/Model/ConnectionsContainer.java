@@ -1,7 +1,9 @@
 package bc.bcCommunicator.Model;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.internetMessageProxy.ConnectionId;
@@ -43,7 +45,25 @@ public class ConnectionsContainer implements IConnectionsContainer {
 
 	@Override
 	public void setIdForUser(Username name, ConnectionId id) {
+		if( usernames.values().contains(id)){
+			throw new IllegalStateException("There is arleady one user with associated conenction id "+id);
+		}
 		usernames.put(name, id);
+	}
+
+	@Override
+	public Username getUsernameForConnectionId(ConnectionId id) {
+		List<Username> oneElementList = usernames.entrySet().stream()
+				.filter( (entry) ->{ return entry.getValue() == id;} )
+				.map( (entry)-> entry.getKey())
+				.collect( Collectors.toList());
+		if( oneElementList.isEmpty()){
+			throw new IllegalArgumentException("There is no user with connectionId "+id);
+		}
+		if( oneElementList.size() > 1){
+			throw new IllegalStateException("There is more than 1 users with connection id of "+id+". Strange That should be checked");
+		}
+		return oneElementList.get(0);
 	}
 
 }
