@@ -30,8 +30,8 @@ public class ModelMessageProvider implements IModelMessageProvider{
 	}
 
 	@Override
-	public ITalk getLetterTalk(LetterDate date, LetterText text, Username recipient) throws Exception {
-		return new LetterTalk(date, text, recipient);
+	public ITalk getLetterTalk(LetterDate date, LetterText text, Username sender, Username recipient) throws Exception {
+		return new LetterTalk(date, text, sender, recipient);
 	}
 
 }

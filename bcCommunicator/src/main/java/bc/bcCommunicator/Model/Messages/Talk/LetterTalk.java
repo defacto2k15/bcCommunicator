@@ -14,22 +14,25 @@ import bc.bcCommunicator.Model.Messages.Letter.LetterSendingType;
 import bc.bcCommunicator.Model.Messages.Letter.LetterText;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.LetterDateMessageFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.LetterTextMessageFieldValue;
+import bc.bcCommunicator.Model.Messages.MessageFieldValues.RecipientFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.UrlMessageFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.UsernameMessageFieldValue;
 import bc.internetMessageProxy.ConnectionId;
 
 public class LetterTalk extends AbstractTalk implements ILetterTalk {
-	public LetterTalk(LetterDate date, LetterText letterText, Username sender) throws Exception {
+	public LetterTalk(LetterDate date, LetterText letterText, Username sender, Username reciever) throws Exception {
 		addField(TalkMessageType.LetterTalkType);
 		addField(date);
 		addField(letterText);
 		addField(sender);
+		addField(reciever, true);
 	}
 	
 	public LetterTalk( IFieldsContainer container) throws Exception{
 		this(container.getFieldValue(LetterDateMessageFieldValue.class).getDate(),
 				container.getFieldValue(LetterTextMessageFieldValue.class).getLetterText(),
-					container.getFieldValue(UsernameMessageFieldValue.class).getUsername());
+					container.getFieldValue(UsernameMessageFieldValue.class).getUsername(),
+					container.getFieldValue(RecipientFieldValue.class).getUsername());
 	}
 	
 
@@ -39,6 +42,7 @@ public class LetterTalk extends AbstractTalk implements ILetterTalk {
 				new LetterText( fieldsInMessage.get(MessageField.LETTER_TEXT_FIELD)),
 				new LetterDate( fieldsInMessage.get(MessageField.DATE_FIELD)),
 				new Username( fieldsInMessage.get(MessageField.USERNAME_FIELD)),
+				new Username( fieldsInMessage.get(MessageField.RECIPIENT_FIELD)),
 				LetterSendingType.Recieved);
 	}
 	

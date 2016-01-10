@@ -23,9 +23,14 @@ public class IntroductoryTalkHandler extends AbstractMessageHandler {
 	@Override
 	public void handle( IIntroductoryTalk talk, ConnectionId id) throws Exception{
 		Username username = talk.getUsername();
-		controller.newUserConnected(username);
 		connectionsContainer.setIdForUser(username, id);
-		usersDataContainer.addUserWithAddress(username, talk.getUrl());
+		if( usersDataContainer.isUsernameInDatabase(username)){
+			usersDataContainer.updateUrlOfUser(username, talk.getUrl());
+			controller.userWasConnected(username);
+		} else {
+			usersDataContainer.addUserWithAddress(username, talk.getUrl());
+			controller.newUserConnected(username);
+		}
 	}
 
 }

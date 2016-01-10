@@ -34,6 +34,10 @@ public abstract class AbstractMessage< ConcreteMessageType extends IMessageType 
 		fieldsInMessage.put(MessageField.USERNAME_FIELD, name.getName());
 	}
 	
+	protected void addField(Username name, boolean NOT_USED) throws Exception{
+		fieldsInMessage.put(MessageField.RECIPIENT_FIELD, name.getName());
+	}
+	
 	protected void addField(URL clientUrl) throws Exception{
 		fieldsInMessage.put(MessageField.CLIENT_URL_FIELD, clientUrl.toString());
 	}

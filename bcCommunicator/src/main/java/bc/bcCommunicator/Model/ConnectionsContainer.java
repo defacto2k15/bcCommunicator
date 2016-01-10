@@ -45,6 +45,7 @@ public class ConnectionsContainer implements IConnectionsContainer {
 
 	@Override
 	public void setIdForUser(Username name, ConnectionId id) {
+		System.out.println("M465 settng id name: "+name.getName()+" id "+id.getId());
 		if( usernames.values().contains(id)){
 			throw new IllegalStateException("There is arleady one user with associated conenction id "+id);
 		}
@@ -74,6 +75,15 @@ public class ConnectionsContainer implements IConnectionsContainer {
 	@Override
 	public boolean isThereUserWithThisConnectionId(ConnectionId id) {
 		return usernames.containsValue(id);
+	}
+
+	@Override
+	public void connectionLost(Username username) {
+		if( usernames.containsKey(username) == false){
+			throw new IllegalArgumentException("There is no connection of user "+username.getName());
+		}
+		
+		usernames.remove(username);
 	}
 
 }

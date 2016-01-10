@@ -96,6 +96,10 @@ public class CommunicatorClientDriver extends JFrameDriver {
 		getUsersTable().hasCell( withLabelText(username.getName()) );
 	}
 
+	public void userTableHasOneRowWithUsername(Username username) {
+		/* TODO implement this */
+	}
+
 //	public void thereIsWindowWithName(String string) {
 //		new JFrameDriver(this, named(string)).hasTitle(string);
 //	}

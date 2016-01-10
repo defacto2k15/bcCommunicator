@@ -79,16 +79,17 @@ public class Main {
 		OtherUsersDataContainer usernameContainer = new OtherUsersDataContainer();
 		ActorUsernameContainer actorUsernameContainer = new ActorUsernameContainer();
 		IPendingLettersContainer pendingLettersContainer = new PendingLettersContainer();
+
+		LetterContainer letterContainer = new LetterContainer();
 		
 		IConnectionsContainer connectionsContainer = new ConnectionsContainer();
 		IModelMessageProvider messagesProvider = new ModelMessageProvider();
 		IInternetMessagerCommandProvider commandProvider = new InternetMessagerCommandProvider();
 		IModelMessagesSender messagesSender = new ModelMessagesSender(actorUsernameContainer, connectionsContainer, commandProvider, messagesProvider, messager, clientUrl);
 		AllUsersAddressesResponseHandler allUsersResponseHandler = new AllUsersAddressesResponseHandler(usernameContainer, commandProvider, messager, clientUrl, boxedController);
-		ConnectivityHandler connectivityHandler = new ConnectivityHandler(boxedController, clientUrl, connectionsContainer, usernameContainer, actorUsernameContainer, messagesSender, pendingLettersContainer);
+		ConnectivityHandler connectivityHandler = new ConnectivityHandler(boxedController, clientUrl, connectionsContainer, usernameContainer, actorUsernameContainer, messagesSender, pendingLettersContainer, letterContainer);
 		
 		IntroductoryTalkHandler introductoryTalkHandler =  new IntroductoryTalkHandler(boxedController, usernameContainer, connectionsContainer);
-		LetterContainer letterContainer = new LetterContainer();
 		LetterTalkMessageHandler letterTalkHandler = new LetterTalkMessageHandler(letterContainer, boxedController);
 		
 		ICommunicatorModel model 

@@ -80,8 +80,14 @@ public class CommunicatorControllerContainer implements ICommunicatorController 
 	}
 
 	@Override
-	public void letterWasSent(Letter letter) {
+	public void letterWasSent(Letter letter) throws ParseException {
 		realController.letterWasSent(letter);
+	}
+
+	@Override
+	public void letterSendingFailed(Username talkingUsername) {
+		realController.letterSendingFailed(talkingUsername);
+		
 	}
 
 }

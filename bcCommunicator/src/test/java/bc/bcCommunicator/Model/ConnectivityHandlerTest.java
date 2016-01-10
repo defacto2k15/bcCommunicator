@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Handler;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -30,12 +31,13 @@ public class ConnectivityHandlerTest {
 	private IActorUsernameContainer actorUsernameContainer = context.mock( IActorUsernameContainer.class);
 	private IModelMessagesSender messagesSender = context.mock( IModelMessagesSender.class);
 	private IPendingLettersContainer pendingLettersContainer = context.mock(IPendingLettersContainer.class);
+	private  ILetterContainer letterContainer = context.mock(ILetterContainer.class);
 	
 	@Before
 	public void setUp() throws MalformedURLException{
 		clientUrl = new URL("http://localhost:5555");
 		handler = new ConnectivityHandler( controller, clientUrl, connectionsContainer, usernameContainer,
-				actorUsernameContainer, messagesSender, pendingLettersContainer);
+				actorUsernameContainer, messagesSender, pendingLettersContainer, letterContainer);
 	}
 	
 	@Test
@@ -179,6 +181,7 @@ public class ConnectivityHandlerTest {
 			oneOf(connectionsContainer).getServerConnectionId(); will(returnValue(serverConnectionId));
 			oneOf(connectionsContainer).getUsernameForConnectionId(lostConnectonId); will(returnValue(someUserUsername));
 			oneOf(controller).userConnectionLost(someUserUsername);
+			oneOf(connectionsContainer).connectionLost(someUserUsername);
 		}});
 		
 		handler.connectionLost(lostConnectonId);
@@ -197,9 +200,25 @@ public class ConnectivityHandlerTest {
 			oneOf(pendingLettersContainer).isPendingLetterAvalible(talkingUsername); will(returnValue(true));
 			oneOf(pendingLettersContainer).getPendingLetter(talkingUsername); will(returnValue(letter));
 			oneOf(controller).letterWasSent(letter);
+			oneOf(letterContainer).addLetterOfTalkToUser(talkingUsername, letter);
 		}});
 		
 		handler.messageSentSuccesfully(userConnectionId);
+		context.assertIsSatisfied();
+	}
+	
+	@Test
+	public void whenMessageSendingFailedWePassThisInfoToController() throws Exception {
+		ConnectionId userConnectionId = new ConnectionId(99);
+		Username talkingUsername = new Username("SomeUsername");
+		
+		context.checking(new Expectations(){{
+			oneOf(connectionsContainer).isThereUserWithThisConnectionId(userConnectionId); will(returnValue(true));
+			oneOf(connectionsContainer).getUsernameForConnectionId(userConnectionId); will(returnValue(talkingUsername));
+			oneOf(controller).letterSendingFailed(talkingUsername);
+		}});
+	
+		handler.messageSendingFailed(userConnectionId);
 		context.assertIsSatisfied();
 	}
 

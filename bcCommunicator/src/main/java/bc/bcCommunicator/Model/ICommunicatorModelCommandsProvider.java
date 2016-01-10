@@ -28,5 +28,9 @@ public interface ICommunicatorModelCommandsProvider {
 	ICommunicatorModelCommand getGetTalkStateDataCommand(Username username);
 
 	ICommunicatorModelCommand getLetterWasWrittenCommand(String letterText, Username recipient);
+
+	ICommunicatorModelCommand getMessageWasSentSuccesfullyCommand(ConnectionId id);
+
+	ICommunicatorModelCommand getMessageSendingFailedCommand(ConnectionId id);
 	
 }

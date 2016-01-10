@@ -38,6 +38,8 @@ public interface ICommunicatorController {
 
 	void letterWasWritten(Username username, String text);
 
-	void letterWasSent(Letter letter);
+	void letterWasSent(Letter letter) throws ParseException;
+
+	void letterSendingFailed(Username talkingUsername);
 
 }

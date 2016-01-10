@@ -154,16 +154,36 @@ public class CommunicatorControllerTest {
 		Username username = new Username("Some name");
 		context.checking(new Expectations(){{
 			oneOf(usersTableView).changeStateOfUser(username, UserConnectionState.ConnectionLost);
+			oneOf(talkWindowsContainer).isWindowOpenForUser(username); will(returnValue(false));
 		}});
 		controller.userConnectionLost(username);
 		context.assertIsSatisfied();	
 	}
 	
 	@Test
-	public void whenNewUserIsAddedAppropiateLineIsAddedToTable(){
+	public void whenConnectedUserIsLostAndTalkWindowIsOpenAppropiateStatusIsSet(){
+		ITalkWindow talkWindow = context.mock(ITalkWindow.class);
 		Username username = new Username("Some name");
+		context.checking(new Expectations(){{
+			allowing(usersTableView);
+			oneOf(talkWindowsContainer).isWindowOpenForUser(username); will(returnValue(true));
+			oneOf(talkWindowsContainer).getUserWindow(username); will(returnValue(talkWindow));
+			oneOf(talkWindow).setConnectionState(UserConnectionState.ConnectionLost);
+		}});
+		controller.userConnectionLost(username);
+		context.assertIsSatisfied();	
+	}
+	
+	@Test
+	public void whenNewUserIsAddedAppropiateLineIsAddedToTableAndIfTalkWindowIsOpenedWeUpdateState(){
+		Username username = new Username("Some name");
+		ITalkWindow talkWindow = context.mock(ITalkWindow.class);
+		
 		context.checking( new Expectations(){{
 			oneOf(usersTableView).addLineToTable(username, UserConnectionState.Connected, TalkState.NoNewMessages);
+			oneOf(talkWindowsContainer).isWindowOpenForUser(username); will(returnValue(true));
+			oneOf(talkWindowsContainer).getUserWindow(username); will(returnValue(talkWindow));
+			oneOf(talkWindow).setConnectionState(UserConnectionState.Connected);
 		}});
 		controller.newUserConnected(username);
 		context.assertIsSatisfied();
@@ -187,7 +207,7 @@ public class CommunicatorControllerTest {
 		ITalkWindow window = context.mock(ITalkWindow.class);
 		Username username = new Username("Some name");
 		
-		Letter letter = new Letter( new LetterText("Wth"), new LetterDate(new Date()), username, LetterSendingType.Recieved );
+		Letter letter = ConstantSampleInstances.getSampleLetter();
 		List<Letter> letterList = new ArrayList<>();
 		letterList.add(letter);
 		
@@ -203,13 +223,9 @@ public class CommunicatorControllerTest {
 			oneOf(window).setUsername( username);
 			oneOf(window).setLetterState(LetterState.No_Letter);
 			
-			oneOf(talkWindowsContainer).getUserWindow(username); will(returnValue(window));
-			oneOf(letterViewFactory).getLetterView(username.getName(), letter.text.getTextValue(),
-					letter.date.getDateAsString(), true); will(returnValue(view));
-			oneOf(window).addLetterView(view);
-			
 			//allowing(window).addLetterView(with(any(ILetterView.class)));
 		}});
+		checkThatNewLetterViewIsCreated(letter.getOtherUserInTalk(), letter, false);
 		
 		controller.talkStateChanged(stateData);
 		context.assertIsSatisfied();
@@ -217,11 +233,10 @@ public class CommunicatorControllerTest {
 	
 	@Test
 	public void afterLetterSentIfTalkWindowIsNotOpenRowInTalkTableIsChangedToInsidateNewMessageShown() throws ParseException{
-		Username username = new Username("SomeName");
-		Letter letter = new Letter( new LetterText("Wth"), new LetterDate(new Date()), username, LetterSendingType.Recieved );
+		Letter letter = ConstantSampleInstances.getSampleLetter();
 		context.checking(new Expectations(){{
-			oneOf(talkWindowsContainer).isWindowOpenForUser(username); will(returnValue(false));
-			oneOf(usersTableView).changeStateOfUser(username, TalkState.NewMessage);
+			oneOf(talkWindowsContainer).isWindowOpenForUser(letter.getOtherUserInTalk()); will(returnValue(false));
+			oneOf(usersTableView).changeStateOfUser(letter.getOtherUserInTalk(), TalkState.NewMessage);
 		}});
 		
 		controller.recievedNewLetter(letter);
@@ -230,33 +245,17 @@ public class CommunicatorControllerTest {
 	
 	@Test
 	public void afterLetterSendIfTalkWindowIsOpenNewLetterViewIsAdded() throws ParseException{
-		Username username = new Username("SomeName");
-		LetterText text = new LetterText("SomeText");
-		LetterDate date = new LetterDate(new Date());
 		
 		Letter letter = ConstantSampleInstances.getSampleLetter();
 		context.checking(new Expectations(){{
-			oneOf(talkWindowsContainer).isWindowOpenForUser(letter.sender); will(returnValue(true));
+			oneOf(talkWindowsContainer).isWindowOpenForUser(letter.getOtherUserInTalk()); will(returnValue(true));
 		}});
-		checkThatNewLetterViewIsCreated(letter.sender, letter, false);
+		checkThatNewLetterViewIsCreated(letter.getOtherUserInTalk(), letter, false);
 		
 		controller.recievedNewLetter(letter);
 		context.assertIsSatisfied();			
 	}
 	
-	private void checkThatNewLetterViewIsCreated( Username userTalkingTo,  Letter letter, boolean alignLeft) throws ParseException{
-		ILetterView view = new ILetterView() {
-		};			
-		ITalkWindow window = context.mock(ITalkWindow.class);
-		
-		context.checking(new Expectations(){{
-			oneOf(letterViewFactory).getLetterView(letter.sender.getName(), letter.text.getTextValue(),
-					letter.date.getDateAsString(), alignLeft); will(returnValue(view));
-			
-			oneOf(talkWindowsContainer).getUserWindow(userTalkingTo); will(returnValue(window));
-			oneOf(window).addLetterView(view);
-		}});
-	}
 	
 	@Test
 	public void afterLetterIsWrittenModelIsNotifiedAndStateInTalkWindowIsChanged(){
@@ -275,12 +274,50 @@ public class CommunicatorControllerTest {
 		context.assertIsSatisfied();
 	}
 	
-//	@Test
-//	public void afterLetterWasSentWeAddLetterViewToAppropiateWindowAndSetLetterStatesThere() throws Exception {
-//		Letter letter = ConstantSampleInstances.getSampleLetter();
-//		
-//		context.checking(new Expectations(){{
-//			
-//		}});
-//	}
+	@Test
+	public void afterLetterWasSentWeAddItToTalkWindowAndSetLetterStateLabelInThere() throws ParseException{
+		Letter letter = ConstantSampleInstances.getSampleLetter();
+		ITalkWindow window = context.mock(ITalkWindow.class);
+		
+		context.checking( new Expectations(){{
+			oneOf(talkWindowsContainer).isWindowOpenForUser(letter.getOtherUserInTalk()); will(returnValue(true));
+			oneOf(talkWindowsContainer).getUserWindow(letter.getOtherUserInTalk()); will(returnValue(window));
+			oneOf(window).setLetterState(LetterState.Letter_Sent);
+			oneOf(window).emptyInputField();
+		}});
+		checkThatNewLetterViewIsCreated(letter.getOtherUserInTalk(), letter, false);
+		
+		controller.letterWasSent(letter);
+		context.assertIsSatisfied();
+	}
+	
+	private void checkThatNewLetterViewIsCreated( Username userTalkingTo,  Letter letter, boolean alignLeft) throws ParseException{
+		ILetterView view = new ILetterView() {
+		};			
+		ITalkWindow window = context.mock(ITalkWindow.class, "w1");
+		
+		context.checking(new Expectations(){{
+			oneOf(letterViewFactory).getLetterView(letter.sender.getName(), letter.text.getTextValue(),
+					letter.date.getDateAsString(), alignLeft); will(returnValue(view));
+					
+			oneOf(talkWindowsContainer).getUserWindow(userTalkingTo); will(returnValue(window));
+			oneOf(window).addLetterView(view);
+		}});
+		/* contex.assertIsSatisfied NOT WYMAGANE */
+	}
+	
+	@Test
+	public void whenLetterSendingFailedWeChangeStateInTalkWindow() throws Exception {
+		Username username = new Username("SomeName");
+		ITalkWindow window = context.mock(ITalkWindow.class);
+		
+		context.checking(new Expectations(){{
+			oneOf(talkWindowsContainer).isWindowOpenForUser(username); will(returnValue(true));
+			oneOf(talkWindowsContainer).getUserWindow(username); will(returnValue(window));
+			oneOf(window).setLetterState(LetterState.Letter_Failed);	
+		}});
+		controller.letterSendingFailed(username);
+		context.assertIsSatisfied();
+	}
+
 }

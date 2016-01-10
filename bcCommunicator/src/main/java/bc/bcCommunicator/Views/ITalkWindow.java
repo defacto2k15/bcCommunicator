@@ -12,4 +12,10 @@ public interface ITalkWindow {
 
 	void addLetterView(ILetterView view);
 
+	void emptyInputField();
+	
+	void setClosingListener( ITalkWindowViewClosingListener closingListener );
+
+	void requetsToBeActiveFrame();
+
 }

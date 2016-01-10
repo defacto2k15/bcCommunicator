@@ -16,12 +16,12 @@ import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 
 import bc.bcCommunicator.WindowNames;
-import bc.bcCommunicator.Model.Messages.Letter.Letter;
 
 public class LetterView extends ILetterView{
 	private JLabel senderName;
 	private JTextArea letterText;
 	private JLabel sendDate;
+	private Color letterColor;
 	
 	public LetterView(String username, String inLetterText, String dateText, boolean alignLeft) {
 		setLayout(new GridBagLayout());
@@ -29,19 +29,19 @@ public class LetterView extends ILetterView{
 		
 		setBorder(new MatteBorder(2, 2, 2, 2, Color.CYAN));
 		
-		int aligment = SwingConstants.RIGHT;
+		letterColor = Color.CYAN;
 		if( alignLeft == true){
-			aligment = SwingConstants.LEFT;
+			letterColor = Color.RED;
 		}
 		
 		Border paddingBorder = BorderFactory.createEmptyBorder(2,2,2,2);
 		
-		addSenderName(username, aligment, paddingBorder);
+		addSenderName(username, paddingBorder);
 		
 		String letterTextName = LetterViewNamesCreator.createLetterViewLetterTextName( inLetterText);
-		addLetterText(letterTextName, inLetterText, aligment, paddingBorder);
+		addLetterText(letterTextName, inLetterText, paddingBorder);
 		
-		addSendDate(dateText, aligment, paddingBorder);
+		addSendDate(dateText, paddingBorder);
 		
 		
 
@@ -54,14 +54,14 @@ public class LetterView extends ILetterView{
 		setPreferredSize(d); 
 	}
 
-	private void addSendDate(String dateText, int aligment, Border paddingBorder) {
+	private void addSendDate(String dateText, Border paddingBorder) {
 		sendDate = new JLabel();
 		sendDate.setName(WindowNames.LETTER_SEND_DATE_NAME);
 		sendDate.setText(dateText);
 		sendDate.setVisible(true);
 		//sendDate.setHorizontalAlignment(aligment);
 		sendDate.setBorder(BorderFactory.createCompoundBorder(paddingBorder,
-				new MatteBorder(1, 1, 1, 1, Color.CYAN)));
+				new MatteBorder(1, 1, 1, 1, letterColor)));
 		
 		GridBagConstraints c = new GridBagConstraints();
 		c.weightx = 0;
@@ -73,7 +73,7 @@ public class LetterView extends ILetterView{
 		add(sendDate, c);
 	}
 
-	private void addLetterText(String componentName, String inLetterText, int aligment, Border paddingBorder) {
+	private void addLetterText(String componentName, String inLetterText,  Border paddingBorder) {
 		letterText = new JTextArea();
 		letterText.setName(componentName);
 		letterText.setText(inLetterText);
@@ -82,7 +82,7 @@ public class LetterView extends ILetterView{
 		
 		//letterText.setHorizontalAlignment(aligment);
 		letterText.setBorder(BorderFactory.createCompoundBorder(paddingBorder,
-				new MatteBorder(1, 1, 1, 1, Color.CYAN)));
+				new MatteBorder(1, 1, 1, 1, letterColor)));
 		
 		GridBagConstraints c = new GridBagConstraints();
 		c.weightx = 0.5;
@@ -96,14 +96,14 @@ public class LetterView extends ILetterView{
 		
 	}
 
-	private void addSenderName(String username, int aligment, Border paddingBorder) {
+	private void addSenderName(String username, Border paddingBorder) {
 		senderName = new JLabel();
 		senderName.setName(WindowNames.LETTER_SENDER_NAME);
 		senderName.setText(username);
 		senderName.setVisible(true);
 		//senderName.setHorizontalAlignment(aligment);
 		senderName.setBorder(BorderFactory.createCompoundBorder(paddingBorder,
-				new MatteBorder(1, 1, 1, 1, Color.CYAN)));
+				new MatteBorder(1, 1, 1, 1, letterColor)));
 		
 		GridBagConstraints c = new GridBagConstraints();
 		c.weightx = 1;

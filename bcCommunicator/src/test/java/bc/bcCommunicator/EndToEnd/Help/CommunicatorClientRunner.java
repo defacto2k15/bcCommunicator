@@ -111,4 +111,16 @@ public class CommunicatorClientRunner {
 		talkWindowContainers.getDriver(username).clickSendButton(username);
 	}
 
+	public void assertTalkWindowHasEmptyInputField(Username username) {
+		talkWindowContainers.getDriver(username).assertLetterInputHasText("");
+	}
+
+	public void closeTalkWindow(Username username) {
+		talkWindowContainers.getDriver(username).dispose();
+	}
+
+	public void assertThereIsOneUserInTable(Username username) {
+		driver.userTableHasOneRowWithUsername( username );
+	}
+
 }

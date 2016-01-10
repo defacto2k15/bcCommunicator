@@ -108,47 +108,49 @@ public class CommunicatorController implements ICommunicatorController {
 	@Override
 	public void userConnectionLost(Username username) {
 		usersTableView.changeStateOfUser(username, UserConnectionState.ConnectionLost);
+		if( talkWindowsContainer.isWindowOpenForUser(username)){
+			talkWindowsContainer.getUserWindow(username).setConnectionState(UserConnectionState.ConnectionLost);
+		}
 	}
 
 	@Override
 	public void newUserConnected(Username username) {	
 		usersTableView.addLineToTable(username, UserConnectionState.Connected, TalkState.NoNewMessages);
+		if( talkWindowsContainer.isWindowOpenForUser(username) ){
+			talkWindowsContainer.getUserWindow(username).setConnectionState(UserConnectionState.Connected);
+		}
 	}
 
 	@Override
 	public void rowInUserTableWasClicked(Username username) {
-		System.out.println("M347: CC row clicked");
 		if (talkWindowsContainer.isWindowOpenForUser(username) ){
+			System.out.println("M719");
 			// todo zrob cos to
 		} else {
-			System.out.println("M348: openin windo");
 			model.addCommand( commandsProvider.getGetTalkStateDataCommand(username));
 		}
 	}
 
 	@Override
 	public void talkStateChanged(TalkStateData stateData) throws ParseException {
-		System.out.println("M900");
 		if (talkWindowsContainer.isWindowOpenForUser(stateData.username) == false){
 			ITalkWindow window = windowsFactory.createTalkWindow(stateData.username, this);
 			window.setConnectionState(stateData.state);
 			window.setUsername(stateData.username);
 			window.setLetterState(LetterState.No_Letter);
 			talkWindowsContainer.addWindowForUser(stateData.username, window);
-			System.out.println("M901");
 			for( Letter letter : stateData.letters ){
-				System.out.println("M902");
-				addLetterToView(stateData.username, letter);
+				addLetterToView(letter.getOtherUserInTalk(), letter);
 			}
 		}		
 	}
 
 	@Override
 	public void recievedNewLetter(Letter letter) throws ParseException {
-		if( talkWindowsContainer.isWindowOpenForUser(letter.sender) == false){
-			usersTableView.changeStateOfUser(letter.sender, TalkState.NewMessage);
+		if( talkWindowsContainer.isWindowOpenForUser(letter.getOtherUserInTalk()) == false){
+			usersTableView.changeStateOfUser(letter.getOtherUserInTalk(), TalkState.NewMessage);
 		} else {
-			addLetterToView(letter.sender, letter);
+			addLetterToView(letter.getOtherUserInTalk(), letter);
 		}
 	}
 
@@ -165,8 +167,19 @@ public class CommunicatorController implements ICommunicatorController {
 	}
 
 	@Override
-	public void letterWasSent(Letter letter) {
-		// TODO Auto-generated method stub
-		
+	public void letterWasSent(Letter letter) throws ParseException {
+		if( talkWindowsContainer.isWindowOpenForUser(letter.getOtherUserInTalk())){
+			ITalkWindow talkWindow = talkWindowsContainer.getUserWindow(letter.getOtherUserInTalk());
+			talkWindow.setLetterState(LetterState.Letter_Sent);
+			talkWindow.emptyInputField();
+			addLetterToView(letter.getOtherUserInTalk(), letter);
+		}
+	}
+
+	@Override
+	public void letterSendingFailed(Username username) {
+		if( talkWindowsContainer.isWindowOpenForUser(username) ){
+			talkWindowsContainer.getUserWindow(username).setLetterState(LetterState.Letter_Failed);
+		}
 	}
 }

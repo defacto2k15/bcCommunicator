@@ -53,7 +53,7 @@ public class ModelMessagesSender implements IModelMessagesSender{
 
 	@Override
 	public void sendLetterTalk(Letter createdLetter, ConnectionId recipientConnectionId) throws Exception {
-		ITalk talk = messageProvider.getLetterTalk( createdLetter.date, createdLetter.text, createdLetter.sender );
+		ITalk talk = messageProvider.getLetterTalk( createdLetter.date, createdLetter.text, createdLetter.sender, createdLetter.recipient );
 		messager.addCommand( commandProvider.getSendMessageCommand(recipientConnectionId, talk));
 	}
 

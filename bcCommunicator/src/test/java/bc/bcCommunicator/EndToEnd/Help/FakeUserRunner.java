@@ -42,7 +42,7 @@ public class FakeUserRunner extends FakeInternetEntity{
 	}
 
 	public void sendLetterTalk( LetterText letterText) throws Exception {
-		sendMessageToLastConnectionSocket( new LetterTalk(new LetterDate( new Date()), letterText, username));
+		sendMessageToLastConnectionSocket( new LetterTalk(new LetterDate( new Date()), letterText, username, new Username("recipient")));
 	}
 
 	public void assertRecievedLetterTalkWithText(Username username2, LetterText letterText) {	

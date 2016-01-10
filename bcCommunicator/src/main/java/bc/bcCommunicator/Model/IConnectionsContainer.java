@@ -23,4 +23,6 @@ public interface IConnectionsContainer {
 	
 	boolean isThereUserWithThisConnectionId( ConnectionId id);
 
+	void connectionLost(Username someUserUsername);
+
 }

@@ -19,12 +19,13 @@ public class ConnectivityHandler implements IConnectivityHandler {
 	private IActorUsernameContainer actorUsernameContainer;
 	private IModelMessagesSender messagesSender;
 	private IPendingLettersContainer pendingLettersContainer;
+	private ILetterContainer letterContainer;
 	
 
 	public ConnectivityHandler(ICommunicatorController controller, URL ourUrl,
 			IConnectionsContainer connectionsContainer, IOtherUsersDataContainer usernameContainer,
 			IActorUsernameContainer actorUsernameContainer, IModelMessagesSender messagesSender,
-			IPendingLettersContainer pendingLettersContainer) {
+			IPendingLettersContainer pendingLettersContainer,  ILetterContainer letterContainer) {
 		this.ourUrl = ourUrl;
 		this.connectionsContainer = connectionsContainer;
 		this.usernameContainer = usernameContainer;
@@ -32,11 +33,13 @@ public class ConnectivityHandler implements IConnectivityHandler {
 		this.messagesSender = messagesSender;
 		this.controller = controller;
 		this.pendingLettersContainer = pendingLettersContainer;
+		this.letterContainer = letterContainer;
 	}
 
 
 	@Override
 	public void userConnectionFailed(URL failedUrl) {
+		System.err.println("X001 Not expecting this, so not written some hndling code");
 		// TODO implement this, check which username it is, and  than put it on screen
 		
 	}
@@ -70,8 +73,10 @@ public class ConnectivityHandler implements IConnectivityHandler {
 		if( id == connectionsContainer.getServerConnectionId() ){
 			// TODO un grey out server connection button etc..
 		} else {
+			System.out.println("M451 connectionLost nd setting controller");
 			Username lostConnectionUserUsername = connectionsContainer.getUsernameForConnectionId(id);
 			controller.userConnectionLost(lostConnectionUserUsername);
+			connectionsContainer.connectionLost(lostConnectionUserUsername);
 		}
 	}
 
@@ -83,7 +88,17 @@ public class ConnectivityHandler implements IConnectivityHandler {
 			if( pendingLettersContainer.isPendingLetterAvalible(username)){
 				Letter pendingLetter = pendingLettersContainer.getPendingLetter(username);
 				controller.letterWasSent(pendingLetter);
+				letterContainer.addLetterOfTalkToUser(username, pendingLetter);
 			}
+		}
+	}
+
+
+	@Override
+	public void messageSendingFailed(ConnectionId id) {
+		if( connectionsContainer.isThereUserWithThisConnectionId(id) ){
+			Username username =  connectionsContainer.getUsernameForConnectionId(id);
+			controller.letterSendingFailed(username);
 		}
 	}
 }

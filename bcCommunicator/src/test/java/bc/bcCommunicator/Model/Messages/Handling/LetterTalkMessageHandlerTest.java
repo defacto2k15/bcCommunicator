@@ -31,7 +31,7 @@ public class LetterTalkMessageHandlerTest {
 	private final ILetterTalk talk = context.mock(ILetterTalk.class);
 	Username username = new Username("SomeName");
 	private final Letter letter = new Letter(new LetterText("SomeText"), 
-			new LetterDate(new Date()), username, LetterSendingType.Recieved);;
+			new LetterDate(new Date()), username, new Username("reciever"),   LetterSendingType.Recieved);;
 	
 	@Test
 	public void handlerNotifiesControllerOfNewLetter() throws Exception{

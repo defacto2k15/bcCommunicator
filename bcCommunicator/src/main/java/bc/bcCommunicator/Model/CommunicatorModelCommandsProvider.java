@@ -108,4 +108,28 @@ public class CommunicatorModelCommandsProvider implements ICommunicatorModelComm
 		} };
 	}
 
+	@Override
+	public ICommunicatorModelCommand getMessageWasSentSuccesfullyCommand(ConnectionId id) {
+		return ( ICommunicatorModel model)-> {
+			try {
+				model.doConnectivityCommand( (IConnectivityHandler handler)->{ handler.messageSentSuccesfully(id);});
+			} catch (Exception e) {
+				System.err.println("E315");
+				e.printStackTrace();
+			}
+		};
+	}
+
+	@Override
+	public ICommunicatorModelCommand getMessageSendingFailedCommand(ConnectionId id) {
+		return ( ICommunicatorModel model)-> {
+			try {
+				model.doConnectivityCommand( (IConnectivityHandler handler)->{ handler.messageSendingFailed(id);});
+			} catch (Exception e) {
+				System.err.println("E318");
+				e.printStackTrace();
+			}
+		};
+	}
+
 }

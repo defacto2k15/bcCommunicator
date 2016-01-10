@@ -6,6 +6,7 @@ import bc.bcCommunicator.Model.Messages.MessageFieldValues.AllUsersAddressesFiel
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.LetterDateMessageFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.LetterTextMessageFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.NullMessageFieldValue;
+import bc.bcCommunicator.Model.Messages.MessageFieldValues.RecipientFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.RequestMessageTypeFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.ResponseMessageTypeFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.UrlMessageFieldValue;
@@ -21,7 +22,8 @@ public enum MessageField {
 	AllUsersAddresses("ALL_USERS_ADDRESSES", AllUsersAddressesFieldValue::new),
 	TALK_TYPE_FIELD("TALK_TYPE", TalkMessageTypeFieldValue::new),
 	DATE_FIELD("DATE_FIELD", LetterDateMessageFieldValue::new), 
-	LETTER_TEXT_FIELD("LETTER_TEXT_FIELD", LetterTextMessageFieldValue::new);
+	LETTER_TEXT_FIELD("LETTER_TEXT_FIELD", LetterTextMessageFieldValue::new),
+	RECIPIENT_FIELD("RECIPIENT_FIELD", RecipientFieldValue::new);
 	
 	private String text;
 	private IMessageFieldValueConstructor fieldValueConstructor;

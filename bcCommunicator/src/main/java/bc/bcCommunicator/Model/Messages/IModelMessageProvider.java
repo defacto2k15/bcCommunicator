@@ -14,6 +14,6 @@ public interface IModelMessageProvider {
 	IRequest getAllUsersAddressesRequest() throws Exception;
 
 	ITalk getIntroductoryTalk(Username key, URL value) throws Exception;
-
-	ITalk getLetterTalk(LetterDate date, LetterText text, Username recipient) throws Exception;
+	
+	ITalk getLetterTalk(LetterDate date, LetterText text, Username sender, Username recipient) throws Exception;
 }

@@ -29,9 +29,10 @@ public class IntroductoryTalkHandlerTest {
 	ConnectionId newUserConnectionId = new ConnectionId(88);
 	
 	@Test
-	public void whenIntroductoryTalkIsSentControlelrIsToldToAddUser() throws Exception {	
+	public void whenIntroductoryTalkIsSentAndUsernameIsNewControllerIsToldToAddUser() throws Exception {	
 		Username username = new Username("SomeUsername");
 		context.checking( new Expectations(){{
+			oneOf(usersDataContainer).isUsernameInDatabase(username); will(returnValue(false));
 			oneOf(inTalk).getUsername(); will(returnValue(username));
 			oneOf(controller).newUserConnected(username);
 			
@@ -48,6 +49,7 @@ public class IntroductoryTalkHandlerTest {
 	public void newConnectionIsAddedToConnectionsContainer() throws Exception {
 		Username username = new Username("SomeUsername");
 		context.checking( new Expectations(){{
+			oneOf(usersDataContainer).isUsernameInDatabase(username); will(returnValue(false));
 			oneOf(inTalk).getUsername(); will(returnValue(username));
 			oneOf(connectionsContainer).setIdForUser(username, newUserConnectionId);
 			
@@ -61,10 +63,11 @@ public class IntroductoryTalkHandlerTest {
 	}
 	
 	@Test
-	public void addressOfUserIsSavedInContainer() throws Exception {
+	public void WhenUsernameIsNewAddressOfUserIsSavedInContainer() throws Exception {
 		Username username = new Username("SomeUsername");
 		URL address = new URL("http://sth.com");
 		context.checking(new Expectations(){{
+			oneOf(usersDataContainer).isUsernameInDatabase(username); will(returnValue(false));
 			oneOf(inTalk).getUsername(); will(returnValue(username));
 			oneOf(inTalk).getUrl(); will(returnValue(address));
 			oneOf(usersDataContainer).addUserWithAddress(username, address);
@@ -72,6 +75,23 @@ public class IntroductoryTalkHandlerTest {
 			allowing(inTalk);
 			ignoring(controller);
 			ignoring(connectionsContainer);
+		}});
+		
+		handler.handle(inTalk, newUserConnectionId);
+		context.assertIsSatisfied();
+	}
+	
+	@Test
+	public void whenUserIsReconnectingWeNotifyControllerAndUsersDataContainerIsUpdated() throws Exception {
+		Username username = new Username("SomeUsername");
+		URL address = new URL("http://sth.com");
+		context.checking(new Expectations() {{
+			oneOf(inTalk).getUsername(); will(returnValue(username));
+			oneOf(inTalk).getUrl(); will(returnValue(address));
+			oneOf(connectionsContainer).setIdForUser(username, newUserConnectionId);
+			oneOf(usersDataContainer).isUsernameInDatabase(username); will(returnValue(true));
+			oneOf(controller).userWasConnected(username);
+			oneOf(usersDataContainer).updateUrlOfUser( username, address);
 		}});
 		
 		handler.handle(inTalk, newUserConnectionId);

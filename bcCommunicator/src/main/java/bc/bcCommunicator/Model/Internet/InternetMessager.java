@@ -56,7 +56,7 @@ public class InternetMessager implements IInternetMessager {
 						recievedMessage = recievedMessageCreator.createMessage( message.getMessage());
 						model.addCommand(modelCommandsProvider.getMessageRecievedCommand( recievedMessage, message.getConnectionId()));
 					} catch (Exception e) {
-						// TODO TUTAJ LATAJĄ EXCEPTION
+						System.err.println("E102");
 						e.printStackTrace();
 					}
 					
@@ -102,6 +102,11 @@ public class InternetMessager implements IInternetMessager {
 	@Override
 	public void sendMessage(ConnectionId id, String messageText){
 		boolean sendWasSuccesfull = proxy.sendMessage(id, messageText);
+		if( sendWasSuccesfull){
+			model.addCommand(modelCommandsProvider.getMessageWasSentSuccesfullyCommand(id));
+		}else{
+			model.addCommand(modelCommandsProvider.getMessageSendingFailedCommand(id));
+		}
 	}
 
 	@Override

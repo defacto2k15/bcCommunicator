@@ -3,7 +3,7 @@ package bc.bcCommunicator.Views;
 public enum LetterState {
 	No_Letter(""),
 	Letter_Sent("Letter sent"),
-	Letter_Sending("Letter begin sent"),
+	Letter_Sending("Sending letter..."),
 	Letter_Failed("Failed sending letter");
 	
 	private String message;

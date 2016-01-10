@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -314,39 +315,112 @@ public class EndToEndTests {
 		
 		client.talkWindowsHasLetter(userToTalkTo.getUsername(), letterText);
 		client.assertTalkWindowHasLetterStateSet(userToTalkTo.getUsername(), LetterState.Letter_Sent);
+		client.assertTalkWindowHasEmptyInputField(userToTalkTo.getUsername());
+	}
+	
+	@Test
+	public void afterSendingAndRecievingSeveralLettersAllAreWrittenToWindow() throws Exception{
+		List<LetterText> lettersToWrite = Arrays.asList( new LetterText("Text1"), new LetterText("Text2"), new LetterText("text3") );
+		List<LetterText> lettersToRecieve = Arrays.asList( new LetterText("Letter1"), new LetterText("Letter2"));
+		
+		doStartupStuff();
+		FakeUserRunner userToTalkTo = users.get(0);
+		client.clickOnUserTableRow( userToTalkTo.getUsername() );	
+		
+		writeAndSendLetters(userToTalkTo, lettersToWrite);
+		recieveLetters( userToTalkTo, lettersToRecieve);
+		
+		assertTalkWindowHasLetters( userToTalkTo, lettersToWrite);
+		assertTalkWindowHasLetters( userToTalkTo, lettersToRecieve);
 	}
 
-//	@Test
-//	public void clientWritesLetterToUserAndUserRecievesIt() throws Exception {
-//		doStartupStuff();
-//		
-//		FakeUserRunner userToTalkTo = users.get(0);
-//		client.clickOnUserTableRow( userToTalkTo.getUsername() );
-//		LetterText text = new LetterText("Some text");
-//		client.writeToUser(userToTalkTo.getUsername(), text);
-//		
-//		userToTalkTo.assertRecievedLetterTalkWithText(LetterText);
-//	}
-	
-	//NAPISZ TEST JAK DOSTAJESZ INTRODUCTORY TALK ZE SIE POJAWIA NA EKRANIE NOWY UZYTK
-	
-	/*@Test
-	public void afterGettingAllUsersAddressesClientIsTryingToConnectToOtherUsers() throws Exception {
-		client.insertUsername(username); 
-		URL url = new URL("http://127.0.0.1:"+SERVER_PORT);
-		client.connectToServer(url);
-		
-		
-		server.assertHasRecievedIntrodutionRequestWith(username, clientUrl );
-		server.sendUsernameOkResponseWith(username, clientUrl);
-		
-		users.get(0).stop();
-		server.sendAllUsersAddressesResponse(getUsernamesWithAddresses());
-		
-		client.assertUserHasConnectionState(users.get(0).getUsername(), UserConnectionState.CantConnect );
-		client.assertUserHasConnectionState(users.get(1).getUsername(), UserConnectionState.CantConnect );
-		client.assertUserHasConnectionState(users.get(2).getUsername(), UserConnectionState.CantConnect );
-	}*/
-	
 
+
+	private void assertTalkWindowHasLetters(FakeUserRunner userToTalkTo, List<LetterText> letters) {
+		for( LetterText letterText : letters){
+			client.talkWindowsHasLetter( userToTalkTo.getUsername(), letterText);
+		}
+	}
+
+	private void recieveLetters(FakeUserRunner userToTalkTo, List<LetterText> lettersToRecieve) throws Exception {
+		for( LetterText letterText : lettersToRecieve){
+			userToTalkTo.sendLetterTalk(letterText);
+		}
+	}
+
+	private void writeAndSendLetters(FakeUserRunner userToTalkTo, List<LetterText> lettersToWrite) {
+		for( LetterText letterText : lettersToWrite){
+			client.writeLetterTextToInputField( userToTalkTo.getUsername(), letterText);
+			client.clickSendButton( userToTalkTo.getUsername());
+		}
+	}
+
+	@Test
+	public void afterClosingAndReopeningTalkWindowLettersAreStillThere() throws Exception {
+		doStartupStuff();
+		FakeUserRunner userToTalkTo = users.get(0);
+		client.clickOnUserTableRow( userToTalkTo.getUsername() );	
+		
+		LetterText letterText = new LetterText("Some letter text");
+		client.writeLetterTextToInputField( userToTalkTo.getUsername(), letterText);
+		client.clickSendButton( userToTalkTo.getUsername());
+		
+		client.closeTalkWindow(userToTalkTo.getUsername() );
+		
+		client.clickOnUserTableRow( userToTalkTo.getUsername() );	
+		client.talkWindowsHasLetter( userToTalkTo.getUsername(), letterText);
+	}
+	
+	@Test
+	public void whenConnectionWithUserIsLostAppropiateDataIsWrittenToTable() throws Exception {
+		doStartupStuff();
+		
+		FakeUserRunner userToTalkTo = users.get(0);	
+		client.assertUserHasConnectionState( userToTalkTo.getUsername(), UserConnectionState.Connected);
+		userToTalkTo.stop();
+		client.assertUserHasConnectionState( userToTalkTo.getUsername(), UserConnectionState.ConnectionLost);
+	}
+	
+	@Test
+	public void whenConnectionWithUserIsLostConnectionLostStateIsWrittenInTalkWindow() throws Exception {
+		doStartupStuff();
+		FakeUserRunner userToTalkTo = users.get(0);			
+		client.clickOnUserTableRow( userToTalkTo.getUsername() );	
+		
+		client.assertTalkWindowHasUserConnectionState(userToTalkTo.getUsername(), UserConnectionState.Connected );
+		userToTalkTo.stop();
+		client.assertTalkWindowHasUserConnectionState(userToTalkTo.getUsername(), UserConnectionState.ConnectionLost );
+	}
+	
+	@Test
+	public void ifConnectionIsLostAndThenReconnectedConnectionStateInUserTableIsSet() throws Exception {
+		doStartupStuff();
+		FakeUserRunner userToTalkTo = users.get(0);			
+		client.assertUserHasConnectionState( userToTalkTo.getUsername(), UserConnectionState.Connected);	
+		
+		userToTalkTo.stop();
+		client.assertUserHasConnectionState( userToTalkTo.getUsername(), UserConnectionState.ConnectionLost);
+		
+		FakeUserRunner newRunner = new FakeUserRunner(getter.getFreePortNumber(), userToTalkTo.getUsername(), userToTalkTo.getUrl());
+		newRunner.start();
+		newRunner.connectTo(clientUrl);
+
+		newRunner.sendIntroducoryTalk(newRunner.getUsername(), newRunner.getUrl());
+
+		client.assertThereIsOneUserInTable( newRunner.getUsername() );
+		client.assertUserHasConnectionState( newRunner.getUsername(), UserConnectionState.Connected);	
+	}
+	
+	
+	@Test
+	public void ifWeSendLetterAndItFailsAppropiateStateIsSetInTalkWindow() throws Exception {
+		doStartupStuff();
+		FakeUserRunner userToTalkTo = users.get(0);			
+		client.clickOnUserTableRow( userToTalkTo.getUsername() );	
+		
+		userToTalkTo.stop();
+		writeAndSendLetters(userToTalkTo, Arrays.asList(new LetterText("Some text")));
+		client.assertTalkWindowHasLetterStateSet(userToTalkTo.getUsername(), LetterState.Letter_Failed);
+	}
+	
 }

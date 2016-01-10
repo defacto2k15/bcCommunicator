@@ -112,12 +112,18 @@ public class CommunicatorModel implements ICommunicatorModel {
 
 	@Override
 	public void letterWasWritten(String letterText, Username recipient) throws Exception {
+		System.out.println("M452 letter was written");
 		if( connectionsContainer.isUserConnected(recipient)){
+			System.out.println("M453 user connected to passign letter");
 			ConnectionId recipientId = connectionsContainer.getConnectionIdOfUser(recipient);
 			Letter toSend = letterFactory.create(new LetterText(letterText), new LetterDate(new Date()), 
-					actorUsernameContainer.getUsername(), LetterSendingType.Sent);
+					actorUsernameContainer.getUsername(), recipient, LetterSendingType.Sent);
+			System.out.println("M651 Sending letter ");
 			messagesSender.sendLetterTalk(toSend, recipientId);
 			pendingLettersContainer.addPendingLetter(recipient, toSend);
+		} else {
+			System.out.println("M454 user not connected");
+			controller.letterSendingFailed(recipient);
 		}
 	}
 }

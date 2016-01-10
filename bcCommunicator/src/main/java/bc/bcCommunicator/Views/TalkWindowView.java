@@ -11,6 +11,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -25,7 +27,7 @@ import Controller.ICommunicatorController;
 import bc.bcCommunicator.WindowNames;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 
-public class TalkWindowView  extends JFrame implements ITalkWindow {
+public class TalkWindowView  extends JFrame implements ITalkWindow, WindowListener {
 	JLabel talkUserUsernameLabel;
 	JLabel talkUserConnectionStateLabel;
 	JLabel letterStateLabel;
@@ -34,6 +36,7 @@ public class TalkWindowView  extends JFrame implements ITalkWindow {
 	JButton sendLetterButton;
 	private ICommunicatorController controller;
 	private Username username;
+	private ITalkWindowViewClosingListener closingListener;
 	
 	public TalkWindowView( Username username, ICommunicatorController controller){
 		super(WindowNames.TALK_WINDOW_PREFIX+username.getName());
@@ -42,9 +45,10 @@ public class TalkWindowView  extends JFrame implements ITalkWindow {
 		this.username = username;
 		
 		setName(WindowNames.TALK_WINDOW_PREFIX+username.getName());
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(400, 600);
 		setLayout(new GridBagLayout());
+		addWindowListener(this);
 		
 		talkUserUsernameLabel = new JLabel(WindowNames.TALK_USER_USERNAME_LABEL);
 		talkUserUsernameLabel.setName(WindowNames.TALK_USER_USERNAME_LABEL);
@@ -111,17 +115,17 @@ public class TalkWindowView  extends JFrame implements ITalkWindow {
 
 	@Override
 	public void setConnectionState(UserConnectionState connected) {
-		talkUserConnectionStateLabel.setText( "Stan połączenia: "+ connected.getStateDescription());
+		talkUserConnectionStateLabel.setText(connected.getStateDescription());
 	}
 
 	@Override
 	public void setUsername(Username username) {
-		talkUserUsernameLabel.setText("Rozmowa z "+username.getName());
+		talkUserUsernameLabel.setText("Talk with: "+username.getName());
 	}
 
 	@Override
 	public void setLetterState(LetterState state) {
-		letterStateLabel.setText("Stan wysłania listu: "+state.getMessage());
+		letterStateLabel.setText(state.getMessage());
 	}
 
 	@Override
@@ -136,5 +140,52 @@ public class TalkWindowView  extends JFrame implements ITalkWindow {
 		        anchor, fill, insets, 0, 0);
 		    container.add(component, gbc);
 	}
+
+	@Override
+	public void emptyInputField() {
+		letterTextInputField.setText("");
+	}
+
+	@Override
+	public void setClosingListener(ITalkWindowViewClosingListener closingListener) {
+		this.closingListener = closingListener; 
+	}
+	
+	@Override
+	public void requetsToBeActiveFrame() {
+		requestFocus();
+	}
+	
+	@Override
+	public void windowClosed(WindowEvent e) {
+		closingListener.windowIsClosing(this);
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+	}
+
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+	}
+
+	
 		
 }

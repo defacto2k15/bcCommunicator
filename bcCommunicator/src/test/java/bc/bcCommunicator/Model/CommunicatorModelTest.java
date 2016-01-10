@@ -18,6 +18,7 @@ import org.junit.Test;
 import Controller.ICommunicatorController;
 import Controller.ITalkStateDataFactory;
 import Controller.TalkStateData;
+import bc.bcCommunicator.EndToEnd.Help.ConstantSampleInstances;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Internet.IInternetMessager;
 import bc.bcCommunicator.Model.Internet.IInternetMessagerCommand;
@@ -151,11 +152,11 @@ public class CommunicatorModelTest {
 		Username recipient = new Username("SomeUsername");
 		Username clientUsername = new Username("clientUsername");
 		ConnectionId recipientConnectionId = new ConnectionId(99);
-		Letter createdLetter = new Letter(new LetterText(letterText), new LetterDate(new Date()),  recipient, LetterSendingType.Sent);
+		Letter createdLetter = ConstantSampleInstances.getSampleLetter();
 		context.checking(new Expectations(){{
 			oneOf(actorUsernameContainer).getUsername(); will(returnValue(clientUsername));
 			oneOf(letterFactory).create(with(new LetterText(letterText)), with(any(LetterDate.class)), 
-					with(clientUsername), with(LetterSendingType.Sent));
+					with(clientUsername), with(recipient), with(LetterSendingType.Sent));
 				will(returnValue(createdLetter));
 			oneOf(connectionsContainer).isUserConnected(recipient); will(returnValue(true));
 			oneOf(connectionsContainer).getConnectionIdOfUser(recipient); will(returnValue(recipientConnectionId));
@@ -166,5 +167,19 @@ public class CommunicatorModelTest {
 		model.letterWasWritten(letterText, recipient);
 		context.assertIsSatisfied();
 	}
+	
+	@Test
+	public void ifLetterWasWrittenButUserIsNotConnectedThisInfoIsPassedToController() throws Exception{
+		Username recipient = new Username("SomeName");
+		
+		context.checking(new Expectations(){{
+			oneOf(connectionsContainer).isUserConnected(recipient); will(returnValue(false));
+			oneOf(controller).letterSendingFailed(recipient);
+		}});
+		
+		model.letterWasWritten("LetterTextNOT_USED", recipient);
+		context.assertIsSatisfied();
+	}
+	
 
 }

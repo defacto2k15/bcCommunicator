@@ -12,4 +12,8 @@ public interface IOtherUsersDataContainer {
 	void addUserWithAddress(Username username, URL address);
 	
 	Username getUsernameForAddress( URL address);
+
+	boolean isUsernameInDatabase(Username username);
+
+	public void updateUrlOfUser(Username username, URL address);
 }

@@ -10,7 +10,7 @@ public class LetterViewNamesCreator {
 	
 	public static String createLetterViewLetterTextName(String inLetterText) {
 		String hash = WindowNames.LETTER_TEXT_NAME+(inLetterText).hashCode();
-		System.out.println("Creted hash "+hash);
+		System.out.println("Creted hash "+hash+ "from text "+inLetterText);
 		return hash;
 	}
 }

@@ -12,4 +12,5 @@ public interface IConnectivityHandler {
 	void userConnectionFailed(URL failedUrl);
 	void userConnectionWasSuccesfull(URL sucessfullUrl, ConnectionId result) throws Exception;
 	void messageSentSuccesfully(ConnectionId id) throws Exception;
+	public void messageSendingFailed(ConnectionId id);
 }

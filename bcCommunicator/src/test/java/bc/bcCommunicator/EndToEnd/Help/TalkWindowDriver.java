@@ -51,10 +51,19 @@ public class TalkWindowDriver extends JFrameDriver  {
 	}
 
 	public void writeLetterInput(LetterText letterText) {
-		new JTextAreaDriver(this, JTextArea.class, named(WindowNames.LETTER_TEXT_INPUT_FIELD)).typeText(letterText.getTextValue());
+		JTextAreaDriver driver = new JTextAreaDriver(this, JTextArea.class, 
+				named(WindowNames.LETTER_TEXT_INPUT_FIELD));
+		driver.typeText("X");
+		driver.replaceAllText(letterText.getTextValue());
 	}
 
 	public void clickSendButton(Username username) {
 		new JButtonDriver(this, JButton.class, named(WindowNames.SEND_LETTER_BUTTON)).click();
+	}
+
+	public void assertLetterInputHasText(String string) {
+		JTextAreaDriver driver = new JTextAreaDriver(this, JTextArea.class, 
+				named(WindowNames.LETTER_TEXT_INPUT_FIELD));
+		driver.hasText(string);
 	}
 }

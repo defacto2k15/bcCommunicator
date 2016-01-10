@@ -13,7 +13,7 @@ public class InternetMessagerCommandProvider implements IInternetMessagerCommand
 			try {
 				messager.connectToServer(serverAddress);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				System.err.println("E360");
 				e.printStackTrace();
 			}
 		};

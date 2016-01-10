@@ -42,6 +42,19 @@ public class OtherUsersDataContainer implements IOtherUsersDataContainer {
 		}	
 		return outList.get(0);
 	}
+
+	@Override
+	public boolean isUsernameInDatabase(Username username) {
+		return usernameWithAddress.containsKey(username);
+	}
+
+	@Override
+	public void updateUrlOfUser(Username username, URL address) {
+		if( usernameWithAddress.containsKey(username) == false ){
+			throw new IllegalArgumentException("There is no data about user "+username.getName()+" set");
+		}
+		usernameWithAddress.put(username, address);
+	}
 	
 
 }

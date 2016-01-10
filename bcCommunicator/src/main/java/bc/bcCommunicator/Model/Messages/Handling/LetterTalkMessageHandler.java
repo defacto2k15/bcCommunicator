@@ -1,6 +1,7 @@
 package bc.bcCommunicator.Model.Messages.Handling;
 
 import Controller.ICommunicatorController;
+import bc.bcCommunicator.Model.IActorUsernameContainer;
 import bc.bcCommunicator.Model.ILetterContainer;
 import bc.bcCommunicator.Model.Messages.Letter.Letter;
 import bc.bcCommunicator.Model.Messages.Response.IAllUsersAddressesResponse;
@@ -19,7 +20,6 @@ public class LetterTalkMessageHandler extends AbstractMessageHandler{
 
 	@Override
 	public void handle( ILetterTalk letterTalk, ConnectionId id) throws Exception{
-		System.out.println("M113 hnding");
 		Letter letter = letterTalk.getLetter();
 		controller.recievedNewLetter(letter);
 		container.addLetterOfTalkToUser(letter.sender, letter);
