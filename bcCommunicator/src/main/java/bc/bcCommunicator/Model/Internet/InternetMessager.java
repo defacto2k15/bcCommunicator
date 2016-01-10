@@ -101,7 +101,7 @@ public class InternetMessager implements IInternetMessager {
 	
 	@Override
 	public void sendMessage(ConnectionId id, String messageText){
-		proxy.sendMessage(id, messageText);
+		boolean sendWasSuccesfull = proxy.sendMessage(id, messageText);
 	}
 
 	@Override

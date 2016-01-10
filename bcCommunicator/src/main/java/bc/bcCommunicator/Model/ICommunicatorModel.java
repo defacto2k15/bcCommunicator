@@ -1,6 +1,7 @@
 package bc.bcCommunicator.Model;
 
 import java.net.URL;
+import java.text.ParseException;
 import java.util.function.Consumer;
 
 import Controller.ICommunicatorController;
@@ -19,4 +20,6 @@ public interface ICommunicatorModel {
 	void messageWasRecieved(IMessage recievedMessage, ConnectionId connectionId);
 //	void userConnectionFailed(URL failedUrl);
 //	void userConnectionWasSuccesfull(URL sucessfullUrl, ConnectionId result) throws Exception;
+	void getTalkStateData(Username username) throws ParseException;
+	void letterWasWritten(String letterText, Username recipient) throws Exception;
 }

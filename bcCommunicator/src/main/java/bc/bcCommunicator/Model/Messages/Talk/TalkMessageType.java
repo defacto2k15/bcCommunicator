@@ -4,7 +4,7 @@ import bc.bcCommunicator.Model.Messages.IMessageType;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.IMessageInitializedFromFields;
 
 public enum TalkMessageType implements IMessageType{
-	IntroductoryTalkType("IntroductoryTalkType", IntroductoryTalk::new);
+	IntroductoryTalkType("IntroductoryTalkType", IntroductoryTalk::new), LetterTalkType("LetterTalkType", LetterTalk::new);
 	
 	private String typeName;
 	private IMessageInitializedFromFields fromFieldsConstructor;

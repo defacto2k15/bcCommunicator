@@ -5,6 +5,7 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.Optional;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Assert.*;
 
@@ -47,10 +48,13 @@ public class FakeInternetEntity {
 		// TODO Auto-generated method stub
 		assert false;
 	}
+	
+	public void ignoreRecievedMessage() {
+		getMessageText();
+	}
 
-
-
-	protected void assertRecievedMessageWithText(String expectedMessageText) {
+	
+	private String getMessageText(){
 		String actualMessageText = null;
 		try {
 			RecievedMessage message = proxy.getMessageBlockingWithTimeout();
@@ -58,8 +62,17 @@ public class FakeInternetEntity {
 			lastConnectionId = message.getConnectionId();
 		} catch (Exception e) {
 			Assert.fail("Message timeouted.");
-		}
-		Assert.assertEquals(expectedMessageText, actualMessageText);
+		}	
+		return actualMessageText;
+	}
+
+	protected void assertRecievedMessageContainingText( String text){
+		Assert.assertThat(getMessageText(), CoreMatchers.containsString(text));
+	}
+
+	protected void assertRecievedMessageWithExactText(String expectedMessageText) {
+
+		Assert.assertEquals(expectedMessageText, getMessageText());
 	}
 
 

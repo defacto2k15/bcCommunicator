@@ -19,6 +19,8 @@ import org.w3c.dom.Element;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Messages.Handling.AbstractMessageHandler;
 import bc.bcCommunicator.Model.Messages.Handling.IRecievedMessagesHandler;
+import bc.bcCommunicator.Model.Messages.Letter.LetterDate;
+import bc.bcCommunicator.Model.Messages.Letter.LetterText;
 import bc.bcCommunicator.Model.Messages.Request.RequestMessageType;
 import bc.bcCommunicator.Model.Messages.Response.ResponseMessageType;
 import bc.bcCommunicator.Model.Messages.Talk.TalkMessageType;
@@ -55,6 +57,15 @@ public abstract class AbstractMessage< ConcreteMessageType extends IMessageType 
 	protected void addField( AllUsersAddresses allUsersAddresses ) throws Exception{
 		fieldsInMessage.put(MessageField.AllUsersAddresses, allUsersAddresses.parseToXml());
 	}
+	
+	protected void addField( LetterDate date ) throws Exception{
+		fieldsInMessage.put(MessageField.DATE_FIELD, date.getDateAsString());
+	}	
+	
+	protected void addField( LetterText text ) throws Exception{
+		fieldsInMessage.put(MessageField.LETTER_TEXT_FIELD , text.getTextValue());
+	}	
+	
 	
 	@Override
 	public String getMessageText() throws Exception {

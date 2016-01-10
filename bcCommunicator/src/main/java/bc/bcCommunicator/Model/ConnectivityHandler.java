@@ -8,6 +8,7 @@ import bc.bcCommunicator.Model.Internet.IInternetMessager;
 import bc.bcCommunicator.Model.Internet.IInternetMessagerCommandProvider;
 import bc.bcCommunicator.Model.Messages.IModelMessageProvider;
 import bc.bcCommunicator.Model.Messages.Handling.IRecievedMessagesHandler;
+import bc.bcCommunicator.Model.Messages.Letter.Letter;
 import bc.internetMessageProxy.ConnectionId;
 
 public class ConnectivityHandler implements IConnectivityHandler {
@@ -17,16 +18,20 @@ public class ConnectivityHandler implements IConnectivityHandler {
 	private IOtherUsersDataContainer usernameContainer;
 	private IActorUsernameContainer actorUsernameContainer;
 	private IModelMessagesSender messagesSender;
+	private IPendingLettersContainer pendingLettersContainer;
+	
 
 	public ConnectivityHandler(ICommunicatorController controller, URL ourUrl,
 			IConnectionsContainer connectionsContainer, IOtherUsersDataContainer usernameContainer,
-			IActorUsernameContainer actorUsernameContainer, IModelMessagesSender messagesSender) {
+			IActorUsernameContainer actorUsernameContainer, IModelMessagesSender messagesSender,
+			IPendingLettersContainer pendingLettersContainer) {
 		this.ourUrl = ourUrl;
 		this.connectionsContainer = connectionsContainer;
 		this.usernameContainer = usernameContainer;
 		this.actorUsernameContainer = actorUsernameContainer;
 		this.messagesSender = messagesSender;
 		this.controller = controller;
+		this.pendingLettersContainer = pendingLettersContainer;
 	}
 
 
@@ -67,6 +72,18 @@ public class ConnectivityHandler implements IConnectivityHandler {
 		} else {
 			Username lostConnectionUserUsername = connectionsContainer.getUsernameForConnectionId(id);
 			controller.userConnectionLost(lostConnectionUserUsername);
+		}
+	}
+
+
+	@Override
+	public void messageSentSuccesfully(ConnectionId id) throws Exception {
+		if( connectionsContainer.isThereUserWithThisConnectionId(id) ){
+			Username username =  connectionsContainer.getUsernameForConnectionId(id);
+			if( pendingLettersContainer.isPendingLetterAvalible(username)){
+				Letter pendingLetter = pendingLettersContainer.getPendingLetter(username);
+				controller.letterWasSent(pendingLetter);
+			}
 		}
 	}
 }

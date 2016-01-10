@@ -24,5 +24,9 @@ public interface ICommunicatorModelCommandsProvider {
 	ICommunicatorModelCommand getUserConnectionFailed( URL failedUrl);
 
 	ICommunicatorModelCommand getUserConectionWasSuccesfullCommand( URL sucessfullUrl,  ConnectionId result);
+
+	ICommunicatorModelCommand getGetTalkStateDataCommand(Username username);
+
+	ICommunicatorModelCommand getLetterWasWrittenCommand(String letterText, Username recipient);
 	
 }

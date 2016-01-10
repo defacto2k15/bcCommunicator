@@ -4,13 +4,18 @@ import java.net.URL;
 import java.util.Arrays;
 
 import bc.bcCommunicator.Main;
+import bc.bcCommunicator.WindowNames;
 import bc.bcCommunicator.Model.BasicTypes.Username;
+import bc.bcCommunicator.Model.Messages.Letter.LetterText;
+import bc.bcCommunicator.Views.LetterState;
 import bc.bcCommunicator.Views.ServerConnectionStatus;
+import bc.bcCommunicator.Views.TalkState;
 import bc.bcCommunicator.Views.UserConnectionState;
 import bc.bcCommunicator.Views.UsernameInputStatus;
 
 public class CommunicatorClientRunner {
 	private CommunicatorClientDriver driver ;
+	private TalkWindowDriverContainer talkWindowContainers = new TalkWindowDriverContainer();
 	
 	public void start(URL urlOfClient) {
 		Thread thread = new Thread("Communicator app"){
@@ -67,6 +72,43 @@ public class CommunicatorClientRunner {
 
 	public void assertUserHasConnectionState(Username oneUsername, UserConnectionState userConnectionState) throws InterruptedException {
 		driver.usersTableHasRowWithValues(oneUsername, userConnectionState);
+	}
+
+	public void clickOnUserTableRow(Username clickedUser) {
+		driver.clickOnUserTableRowWithUsername(clickedUser);
+	}
+
+	public void assertHasTalkWindowForUser(Username clickedUser) {
+		talkWindowContainers.getDriver(clickedUser).assertHasTitle(WindowNames.TALK_WINDOW_PREFIX+clickedUser.getName());
+	}
+
+	public void assertTalkWindowHasUserConnectionState(Username username, UserConnectionState state) {
+		talkWindowContainers.getDriver(username).assertHasConnectionState( state );
+	}
+
+	public void assertTalkWindowHasUsernameSet(Username username) {
+		talkWindowContainers.getDriver(username).assertHasTalkUserUsername( username );
+	}
+
+	public void assertTalkWindowHasLetterStateSet(Username username, LetterState state) {
+		talkWindowContainers.getDriver(username).assertHasLetterStateLabel(state);
+	}
+
+	public void userTalkHasNewMessageInTable(Username username) {
+		driver.usersTableHasRowWithValues(username, TalkState.NewMessage);
+	}
+
+	public void talkWindowsHasLetter(Username username, LetterText letterText) {
+		talkWindowContainers.getDriver(username).assertHasLetterViewWithText( letterText);
+		
+	}
+
+	public void writeLetterTextToInputField(Username username, LetterText letterText) {
+		talkWindowContainers.getDriver(username).writeLetterInput(letterText);
+	}
+
+	public void clickSendButton(Username username) {
+		talkWindowContainers.getDriver(username).clickSendButton(username);
 	}
 
 }

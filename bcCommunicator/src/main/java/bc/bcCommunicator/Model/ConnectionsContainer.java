@@ -66,4 +66,14 @@ public class ConnectionsContainer implements IConnectionsContainer {
 		return oneElementList.get(0);
 	}
 
+	@Override
+	public boolean isUserConnected(Username username) {
+		return usernames.containsKey(username);
+	}
+
+	@Override
+	public boolean isThereUserWithThisConnectionId(ConnectionId id) {
+		return usernames.containsValue(id);
+	}
+
 }

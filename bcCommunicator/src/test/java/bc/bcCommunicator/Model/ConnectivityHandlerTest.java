@@ -12,7 +12,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import Controller.ICommunicatorController;
+import bc.bcCommunicator.EndToEnd.Help.ConstantSampleInstances;
 import bc.bcCommunicator.Model.BasicTypes.Username;
+import bc.bcCommunicator.Model.Messages.Letter.Letter;
 import bc.bcCommunicator.Model.Messages.Request.IRequest;
 import bc.internetMessageProxy.ConnectionId;
 
@@ -27,11 +29,13 @@ public class ConnectivityHandlerTest {
 	private IOtherUsersDataContainer usernameContainer = context.mock( IOtherUsersDataContainer.class);
 	private IActorUsernameContainer actorUsernameContainer = context.mock( IActorUsernameContainer.class);
 	private IModelMessagesSender messagesSender = context.mock( IModelMessagesSender.class);
+	private IPendingLettersContainer pendingLettersContainer = context.mock(IPendingLettersContainer.class);
 	
 	@Before
 	public void setUp() throws MalformedURLException{
 		clientUrl = new URL("http://localhost:5555");
-		handler = new ConnectivityHandler( controller, clientUrl, connectionsContainer, usernameContainer, actorUsernameContainer, messagesSender);
+		handler = new ConnectivityHandler( controller, clientUrl, connectionsContainer, usernameContainer,
+				actorUsernameContainer, messagesSender, pendingLettersContainer);
 	}
 	
 	@Test
@@ -178,6 +182,24 @@ public class ConnectivityHandlerTest {
 		}});
 		
 		handler.connectionLost(lostConnectonId);
+		context.assertIsSatisfied();
+	}
+	
+	@Test
+	public void ifMessageWasSentToUserAndPendingLetterInThisUserTalkIsSetWeSayToControllerThatLetterWasSend() throws Exception{
+		ConnectionId userConnectionId = new ConnectionId(99);
+		Username talkingUsername = new Username("SomeUsername");
+		Letter letter = ConstantSampleInstances.getSampleLetter();
+		
+		context.checking(new Expectations(){{
+			oneOf(connectionsContainer).isThereUserWithThisConnectionId(userConnectionId); will(returnValue(true));
+			oneOf(connectionsContainer).getUsernameForConnectionId(userConnectionId); will(returnValue(talkingUsername));
+			oneOf(pendingLettersContainer).isPendingLetterAvalible(talkingUsername); will(returnValue(true));
+			oneOf(pendingLettersContainer).getPendingLetter(talkingUsername); will(returnValue(letter));
+			oneOf(controller).letterWasSent(letter);
+		}});
+		
+		handler.messageSentSuccesfully(userConnectionId);
 		context.assertIsSatisfied();
 	}
 

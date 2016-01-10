@@ -1,6 +1,7 @@
 package bc.bcCommunicator.Model;
 
 import java.net.URL;
+import java.text.ParseException;
 import java.util.logging.Handler;
 
 import bc.bcCommunicator.Model.BasicTypes.Username;
@@ -83,6 +84,26 @@ public class CommunicatorModelCommandsProvider implements ICommunicatorModelComm
 				});
 		} catch (Exception e) {
 			System.err.println("E306");
+			e.printStackTrace();
+		} };
+	}
+
+	@Override
+	public ICommunicatorModelCommand getGetTalkStateDataCommand(Username username) {
+		return ( ICommunicatorModel model) -> { try {
+			model.getTalkStateData(username);
+		} catch (ParseException e) {
+			System.err.println("E3107");
+			e.printStackTrace();
+		} };
+	}
+
+	@Override
+	public ICommunicatorModelCommand getLetterWasWrittenCommand(String letterText, Username recipient) {
+		return (ICommunicatorModel model ) -> { try {
+			model.letterWasWritten( letterText, recipient);
+		} catch (Exception e) {
+			System.err.println("E307");
 			e.printStackTrace();
 		} };
 	}

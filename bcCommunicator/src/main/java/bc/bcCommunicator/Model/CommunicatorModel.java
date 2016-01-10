@@ -1,17 +1,26 @@
 package bc.bcCommunicator.Model;
 
 import java.net.URL;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import Controller.ICommunicatorController;
+import Controller.ITalkStateDataFactory;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Internet.IInternetMessager;
 import bc.bcCommunicator.Model.Internet.IInternetMessagerCommandProvider;
 import bc.bcCommunicator.Model.Messages.IMessage;
 import bc.bcCommunicator.Model.Messages.IModelMessageProvider;
 import bc.bcCommunicator.Model.Messages.Handling.IRecievedMessagesHandler;
+import bc.bcCommunicator.Model.Messages.Letter.ILetterFactory;
+import bc.bcCommunicator.Model.Messages.Letter.Letter;
+import bc.bcCommunicator.Model.Messages.Letter.LetterDate;
+import bc.bcCommunicator.Model.Messages.Letter.LetterSendingType;
+import bc.bcCommunicator.Model.Messages.Letter.LetterText;
 import bc.bcCommunicator.Model.Messages.Request.IRequest;
+import bc.bcCommunicator.Views.UserConnectionState;
 import bc.internetMessageProxy.ConnectionId;
 
 public class CommunicatorModel implements ICommunicatorModel {
@@ -27,12 +36,17 @@ public class CommunicatorModel implements ICommunicatorModel {
 	private IRecievedMessagesHandler recievedHander;
 	private IModelMessagesSender messagesSender;
 	private IConnectivityHandler connectivityHandler;
+	private ITalkStateDataFactory talkStateDataFactory;
+	private ILetterFactory letterFactory;
+	private ILetterContainer letterContainer;
+	private IPendingLettersContainer pendingLettersContainer;
 
 	public CommunicatorModel(IInternetMessager messager, IInternetMessagerCommandProvider commandProvider, URL clientUrl, 
 			IModelMessageProvider messageProvider, IConnectionsContainer connectionsContainer, IOtherUsersDataContainer usernameContainer
 			, IRecievedMessagesHandler recievedHandler, IModelMessagesSender messagesSender
 			, IActorUsernameContainer actorUsernameContainer
-			, IConnectivityHandler connectivityHandler, ICommunicatorController controller) {
+			, IConnectivityHandler connectivityHandler, ICommunicatorController controller
+			, ITalkStateDataFactory talkStateDataFactory, ILetterFactory letterFactory, ILetterContainer letterContainer, IPendingLettersContainer pendingLettersContainer) {
 		this.messager = messager;
 		this.commandProvider = commandProvider;
 		this.ourUrl = clientUrl;
@@ -44,6 +58,10 @@ public class CommunicatorModel implements ICommunicatorModel {
 		this.actorUsernameContainer = actorUsernameContainer;
 		this.connectivityHandler = connectivityHandler;
 		this.controller = controller;
+		this.talkStateDataFactory = talkStateDataFactory;
+		this.letterFactory = letterFactory;
+		this.letterContainer = letterContainer;
+		this.pendingLettersContainer = pendingLettersContainer;
 		Thread newThread = new Thread(()->{
 								while(true){
 									try {
@@ -82,5 +100,24 @@ public class CommunicatorModel implements ICommunicatorModel {
 	@Override
 	public void doConnectivityCommand(IConnectivityCommand command) throws Exception {
 		command.run(connectivityHandler);
+	}
+
+	@Override
+	public void getTalkStateData(Username username) throws ParseException {
+		if( connectionsContainer.isUserConnected(username)){
+			controller.talkStateChanged( talkStateDataFactory.generate(username, 
+					letterContainer.getLettersOfTalkToUser(username), UserConnectionState.Connected));
+		}
+	}
+
+	@Override
+	public void letterWasWritten(String letterText, Username recipient) throws Exception {
+		if( connectionsContainer.isUserConnected(recipient)){
+			ConnectionId recipientId = connectionsContainer.getConnectionIdOfUser(recipient);
+			Letter toSend = letterFactory.create(new LetterText(letterText), new LetterDate(new Date()), 
+					actorUsernameContainer.getUsername(), LetterSendingType.Sent);
+			messagesSender.sendLetterTalk(toSend, recipientId);
+			pendingLettersContainer.addPendingLetter(recipient, toSend);
+		}
 	}
 }

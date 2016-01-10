@@ -18,7 +18,7 @@ public class FakeServerRunner extends FakeInternetEntity {
 	}
 	
 	public void assertHasRecievedIntrodutionRequestWith(Username username, URL clientUrl) throws Exception {
-		assertRecievedMessageWithText( new IntroductoryRequest(username, clientUrl).getMessageText() );
+		assertRecievedMessageWithExactText( new IntroductoryRequest(username, clientUrl).getMessageText() );
 	}
 	
 	public void sendUsernameOkResponseWith(Username username, URL clientUrl) throws Exception {
@@ -29,7 +29,7 @@ public class FakeServerRunner extends FakeInternetEntity {
 	}
 	
 	public void assertHasRecievedRequestForUsersAdresses() throws Exception {
-		assertRecievedMessageWithText( new AllUsersAddressesRequest().getMessageText() );
+		assertRecievedMessageWithExactText( new AllUsersAddressesRequest().getMessageText() );
 	}
 
 	public void sendAllUsersAddressesResponse(Map<Username, URL>  allUsersAddressesMap) throws Exception {

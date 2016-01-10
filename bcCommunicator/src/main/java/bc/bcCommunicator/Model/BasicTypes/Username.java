@@ -15,7 +15,8 @@ public class Username implements Comparable<Username>{
 	    boolean result = false;
 	    if (other instanceof Username) {
 	        Username that = (Username) other;
-	        result = (this.getName() == that.getName());
+	        
+	        result = (this.getName().equals(that.getName()));
 	    }
 	    return result;
 	}
@@ -24,4 +25,11 @@ public class Username implements Comparable<Username>{
 	public int compareTo(Username o) {
 		return o.name.compareTo(this.name);
 	}
+	
+
+    @Override
+    public int hashCode() {
+    	return name.hashCode();
+    }
+
 }

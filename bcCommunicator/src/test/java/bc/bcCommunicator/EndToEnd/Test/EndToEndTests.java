@@ -21,7 +21,9 @@ import bc.bcCommunicator.EndToEnd.Help.FakeInternetEntity;
 import bc.bcCommunicator.EndToEnd.Help.FakeServerRunner;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Messages.AllUsersAddresses;
+import bc.bcCommunicator.Model.Messages.Letter.LetterText;
 import bc.bcCommunicator.Model.Messages.Talk.IntroductoryTalk;
+import bc.bcCommunicator.Views.LetterState;
 import bc.bcCommunicator.Views.UserConnectionState;
 import bc.commonTestUtilities.FreePortGetter;
 
@@ -220,6 +222,111 @@ public class EndToEndTests {
 		
 		client.assertUserHasConnectionState( fakeUserUsername, UserConnectionState.Connected );
 	}
+	
+	private void doStartupStuff() throws Exception{
+		client.insertUsername(username); 
+		URL url = new URL("http://127.0.0.1:"+SERVER_PORT);
+		client.connectToServer(url);
+		
+		Thread.sleep(100);
+		server.assertHasRecievedIntrodutionRequestWith(username, clientUrl );
+		server.sendUsernameOkResponseWith(username, clientUrl);	
+		server.sendAllUsersAddressesResponse(getUsernamesWithAddresses());		
+	}
+	
+	@Test
+	public void afterClientClicksOnUserRowNewWindowAppears() throws Exception {
+		doStartupStuff();
+		
+		Username clickedUser = getUsernamesWithAddresses().keySet().iterator().next();
+		client.clickOnUserTableRow( clickedUser );
+		client.assertHasTalkWindowForUser(clickedUser);
+	}
+	
+	@Test
+	public void afterOpeningTalkWindowAppropiateTalkStateDataIsPresent() throws Exception{
+		doStartupStuff();
+		FakeUserRunner userToTalkTo = users.get(0);
+		client.clickOnUserTableRow( userToTalkTo.getUsername() );		
+		
+		client.assertTalkWindowHasUserConnectionState(userToTalkTo.getUsername(), UserConnectionState.Connected );
+		client.assertTalkWindowHasUsernameSet(userToTalkTo.getUsername());
+		client.assertTalkWindowHasLetterStateSet(userToTalkTo.getUsername(), LetterState.No_Letter);
+	}
+	
+	@Test
+	public void afterRecievingLetterWhileTalkScreenIsClosedNewLetterMessageIsDisplayedOnTable() throws Exception {
+		doStartupStuff();
+		FakeUserRunner userToTalkTo = users.get(0);
+		//client.clickOnUserTableRow( userToTalkTo.getUsername() );	
+		
+		LetterText letterText = new LetterText("Hello everyone this is message");
+		userToTalkTo.sendLetterTalk( letterText );
+		client.userTalkHasNewMessageInTable( userToTalkTo.getUsername());
+	}
+	
+	@Test
+	public void afterRecievingLetterWhileTalkScreenIsOpenTheLetterContentsAreWrittenToScreen() throws Exception {
+		doStartupStuff();
+		FakeUserRunner userToTalkTo = users.get(0);
+		client.clickOnUserTableRow( userToTalkTo.getUsername() );	
+		
+		LetterText letterText = new LetterText("Hello everyone this is message");
+		userToTalkTo.sendLetterTalk( letterText );
+		client.talkWindowsHasLetter( userToTalkTo.getUsername(), letterText);
+	}	
+	
+	@Test
+	public void afterOpeningTalkWindowWritingLetterAndClickingSendTheLetterIsSentToFakeUser() throws Exception{
+		doStartupStuff();
+		FakeUserRunner userToTalkTo = users.get(0);
+		client.clickOnUserTableRow( userToTalkTo.getUsername() );	
+		
+		LetterText letterText = new LetterText("Some letter text");
+		client.writeLetterTextToInputField( userToTalkTo.getUsername(), letterText);
+		client.clickSendButton( userToTalkTo.getUsername());
+		
+		userToTalkTo.ignoreRecievedMessage();
+		userToTalkTo.assertRecievedLetterTalkWithText( userToTalkTo.getUsername(), letterText);
+	}
+	
+	@Test
+	public void afterUserSendsLetterAndTalkViewIsClokseAfterOpeningItWillBeVisible() throws Exception{
+		doStartupStuff();
+		FakeUserRunner userToTalkTo = users.get(0);		
+		
+		LetterText letterText =  new LetterText("LETTER TEXT LOL");
+		userToTalkTo.sendLetterTalk(letterText);
+		
+		client.clickOnUserTableRow( userToTalkTo.getUsername() );
+		client.talkWindowsHasLetter( userToTalkTo.getUsername(), letterText);
+	}
+	
+	@Test
+	public void afterClientSendsLetterAndItIsSuccesfullLetterIsPutInTalkViewAndLetterSendingStatusIsChanged() throws Exception{
+		doStartupStuff();
+		FakeUserRunner userToTalkTo = users.get(0);
+		client.clickOnUserTableRow( userToTalkTo.getUsername() );	
+		
+		LetterText letterText = new LetterText("Some letter text");
+		client.writeLetterTextToInputField( userToTalkTo.getUsername(), letterText);
+		client.clickSendButton( userToTalkTo.getUsername());
+		
+		client.talkWindowsHasLetter(userToTalkTo.getUsername(), letterText);
+		client.assertTalkWindowHasLetterStateSet(userToTalkTo.getUsername(), LetterState.Letter_Sent);
+	}
+
+//	@Test
+//	public void clientWritesLetterToUserAndUserRecievesIt() throws Exception {
+//		doStartupStuff();
+//		
+//		FakeUserRunner userToTalkTo = users.get(0);
+//		client.clickOnUserTableRow( userToTalkTo.getUsername() );
+//		LetterText text = new LetterText("Some text");
+//		client.writeToUser(userToTalkTo.getUsername(), text);
+//		
+//		userToTalkTo.assertRecievedLetterTalkWithText(LetterText);
+//	}
 	
 	//NAPISZ TEST JAK DOSTAJESZ INTRODUCTORY TALK ZE SIE POJAWIA NA EKRANIE NOWY UZYTK
 	

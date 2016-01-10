@@ -2,6 +2,10 @@ package bc.bcCommunicator.Model;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.jmock.Expectations;
@@ -12,6 +16,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import Controller.ICommunicatorController;
+import Controller.ITalkStateDataFactory;
+import Controller.TalkStateData;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Internet.IInternetMessager;
 import bc.bcCommunicator.Model.Internet.IInternetMessagerCommand;
@@ -19,7 +25,13 @@ import bc.bcCommunicator.Model.Internet.IInternetMessagerCommandProvider;
 import bc.bcCommunicator.Model.Messages.IMessage;
 import bc.bcCommunicator.Model.Messages.IModelMessageProvider;
 import bc.bcCommunicator.Model.Messages.Handling.IRecievedMessagesHandler;
+import bc.bcCommunicator.Model.Messages.Letter.ILetterFactory;
+import bc.bcCommunicator.Model.Messages.Letter.Letter;
+import bc.bcCommunicator.Model.Messages.Letter.LetterDate;
+import bc.bcCommunicator.Model.Messages.Letter.LetterSendingType;
+import bc.bcCommunicator.Model.Messages.Letter.LetterText;
 import bc.bcCommunicator.Model.Messages.Request.IRequest;
+import bc.bcCommunicator.Views.UserConnectionState;
 import bc.internetMessageProxy.ConnectionId;
 
 public class CommunicatorModelTest {
@@ -36,13 +48,20 @@ public class CommunicatorModelTest {
 	private final IActorUsernameContainer actorUsernameContainer = context.mock(IActorUsernameContainer.class);
 	private final IRecievedMessagesHandler recievedHandler = context.mock(IRecievedMessagesHandler.class);
 	private final IConnectivityHandler connectivityHandler = context.mock(IConnectivityHandler.class);
+	private final ILetterContainer letterContainer = context.mock(ILetterContainer.class);
+	private final IPendingLettersContainer pendingLettersContainer = context.mock(IPendingLettersContainer.class);
 	
 	private final IModelMessagesSender messagesSender = context.mock(IModelMessagesSender.class);
+	private final ITalkStateDataFactory talkStateDataFactory = context.mock(ITalkStateDataFactory.class);
+	private final ILetterFactory letterFactory = context.mock(ILetterFactory.class);
 	
 	@Before
 	public void setUp() throws MalformedURLException{
 		clientUrl = new URL("http://localhost:5555");
-		model = new CommunicatorModel(messager, commandProvider, clientUrl, messageProvider, connectionsContainer, usernameContainer, recievedHandler, messagesSender, actorUsernameContainer, connectivityHandler, controller );
+		model = new CommunicatorModel(messager, commandProvider, clientUrl, messageProvider, 
+				connectionsContainer, usernameContainer, recievedHandler, messagesSender,
+				actorUsernameContainer, connectivityHandler, controller, talkStateDataFactory, 
+				letterFactory, letterContainer, pendingLettersContainer );
 	}
 	
 	@Test
@@ -110,5 +129,42 @@ public class CommunicatorModelTest {
 		context.assertIsSatisfied();
 	}
 	
+	@Test
+	public void afterBeginAskedForTalkStateDataModelFetchesThatDataAndPassesItToController() throws ParseException{
+		Username username = new Username("SomeName");
+		List<Letter> lettersList = new ArrayList<Letter>();
+		TalkStateData stateData = new TalkStateData(username, lettersList, UserConnectionState.Connected);
+		context.checking( new Expectations(){{
+			oneOf(letterContainer).getLettersOfTalkToUser(username); will(returnValue(lettersList));
+			oneOf(connectionsContainer).isUserConnected(username); will(returnValue(true));
+			oneOf(talkStateDataFactory).generate(username, lettersList, UserConnectionState.Connected); will(returnValue(stateData));
+			oneOf(controller).talkStateChanged(stateData);
+		}});
+		
+		model.getTalkStateData(username);
+		context.assertIsSatisfied();
+	}
+	
+	@Test
+	public void afterLetterIsWrittenAndConnectionWithUserIsOkLetterTalkIsSent() throws Exception{
+		String letterText = "SomeLetterText";
+		Username recipient = new Username("SomeUsername");
+		Username clientUsername = new Username("clientUsername");
+		ConnectionId recipientConnectionId = new ConnectionId(99);
+		Letter createdLetter = new Letter(new LetterText(letterText), new LetterDate(new Date()),  recipient, LetterSendingType.Sent);
+		context.checking(new Expectations(){{
+			oneOf(actorUsernameContainer).getUsername(); will(returnValue(clientUsername));
+			oneOf(letterFactory).create(with(new LetterText(letterText)), with(any(LetterDate.class)), 
+					with(clientUsername), with(LetterSendingType.Sent));
+				will(returnValue(createdLetter));
+			oneOf(connectionsContainer).isUserConnected(recipient); will(returnValue(true));
+			oneOf(connectionsContainer).getConnectionIdOfUser(recipient); will(returnValue(recipientConnectionId));
+			oneOf(messagesSender).sendLetterTalk(createdLetter, recipientConnectionId);
+			oneOf(pendingLettersContainer).addPendingLetter(recipient, createdLetter);
+		}});
+		
+		model.letterWasWritten(letterText, recipient);
+		context.assertIsSatisfied();
+	}
 
 }

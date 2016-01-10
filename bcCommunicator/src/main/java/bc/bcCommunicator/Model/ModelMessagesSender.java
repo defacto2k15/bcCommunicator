@@ -8,6 +8,7 @@ import bc.bcCommunicator.Model.Internet.IInternetMessager;
 import bc.bcCommunicator.Model.Internet.IInternetMessagerCommandProvider;
 import bc.bcCommunicator.Model.Messages.AllUsersAddresses;
 import bc.bcCommunicator.Model.Messages.IModelMessageProvider;
+import bc.bcCommunicator.Model.Messages.Letter.Letter;
 import bc.bcCommunicator.Model.Messages.Request.IRequest;
 import bc.bcCommunicator.Model.Messages.Talk.ITalk;
 import bc.internetMessageProxy.ConnectionId;
@@ -48,6 +49,12 @@ public class ModelMessagesSender implements IModelMessagesSender{
 	public void sendIntroductoryTalkToUser(ConnectionId connection, Username actorUsername, URL ourUrl) throws Exception {
 		ITalk talk = messageProvider.getIntroductoryTalk(actorUsername, ourUrl);
 		messager.addCommand( commandProvider.getSendMessageCommand( connection , talk));
+	}
+
+	@Override
+	public void sendLetterTalk(Letter createdLetter, ConnectionId recipientConnectionId) throws Exception {
+		ITalk talk = messageProvider.getLetterTalk( createdLetter.date, createdLetter.text, createdLetter.sender );
+		messager.addCommand( commandProvider.getSendMessageCommand(recipientConnectionId, talk));
 	}
 
 

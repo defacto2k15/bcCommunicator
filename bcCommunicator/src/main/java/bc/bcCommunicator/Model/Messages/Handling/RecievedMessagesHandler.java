@@ -7,19 +7,24 @@ import bc.bcCommunicator.Model.Messages.Response.IAllUsersAddressesResponse;
 import bc.bcCommunicator.Model.Messages.Response.IUsernameOkResponse;
 import bc.bcCommunicator.Model.Messages.Response.UsernameOkResponse;
 import bc.bcCommunicator.Model.Messages.Talk.IIntroductoryTalk;
+import bc.bcCommunicator.Model.Messages.Talk.ILetterTalk;
+import bc.bcCommunicator.Model.Messages.Talk.LetterTalk;
 import bc.internetMessageProxy.ConnectionId;
 
 public class RecievedMessagesHandler extends AbstractMessageHandler implements IRecievedMessagesHandler {
 	UsernameOkResponseHandler usernameOkResponseHandler;
 	AllUsersAddressesResponseHandler allUsersAddressesResponseHandler;
 	private IntroductoryTalkHandler introductoryTalkHandler;
+	private LetterTalkMessageHandler letterTalkHandler;
 	
 	public RecievedMessagesHandler(UsernameOkResponseHandler usernameOkResponseHandler,
 			AllUsersAddressesResponseHandler allUsersAddressesResponseHandler, 
-			IntroductoryTalkHandler introductoryTalkHandler){
+			IntroductoryTalkHandler introductoryTalkHandler,
+			LetterTalkMessageHandler letterTalkHandler){
 		this.usernameOkResponseHandler = usernameOkResponseHandler;
 		this.allUsersAddressesResponseHandler = allUsersAddressesResponseHandler;
 		this.introductoryTalkHandler = introductoryTalkHandler;
+		this.letterTalkHandler = letterTalkHandler;
 	}
 	
 	@Override
@@ -48,6 +53,10 @@ public class RecievedMessagesHandler extends AbstractMessageHandler implements I
 	
 	public void handle( IIntroductoryTalk introductoryTalk, ConnectionId id) throws Exception{
 		introductoryTalkHandler.handle(introductoryTalk, id);
+	}
+	
+	public void handle( ILetterTalk talk, ConnectionId id) throws Exception{
+		letterTalkHandler.handle(talk, id);
 	}
 
 }
