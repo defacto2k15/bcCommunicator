@@ -6,8 +6,8 @@ import java.util.Date;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import Controller.ICommunicatorController;
-import Controller.ITalkStateDataFactory;
+import bc.bcCommunicator.Controller.ICommunicatorController;
+import bc.bcCommunicator.Controller.ITalkStateDataFactory;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Internet.IInternetMessager;
 import bc.bcCommunicator.Model.Internet.IInternetMessagerCommandProvider;

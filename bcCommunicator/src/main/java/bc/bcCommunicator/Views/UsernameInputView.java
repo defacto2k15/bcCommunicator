@@ -8,8 +8,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import Controller.ICommunicatorController;
 import bc.bcCommunicator.WindowNames;
+import bc.bcCommunicator.Controller.ICommunicatorController;
 import bc.bcCommunicator.Model.IConnectionsContainer;
 
 public class UsernameInputView extends JPanel implements IUsernameInputView{

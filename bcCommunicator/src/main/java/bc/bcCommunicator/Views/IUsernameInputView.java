@@ -1,6 +1,6 @@
 package bc.bcCommunicator.Views;
 
-import Controller.ICommunicatorController;
+import bc.bcCommunicator.Controller.ICommunicatorController;
 
 public interface IUsernameInputView {
 

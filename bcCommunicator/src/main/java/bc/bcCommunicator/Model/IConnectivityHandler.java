@@ -2,7 +2,7 @@ package bc.bcCommunicator.Model;
 
 import java.net.URL;
 
-import Controller.ICommunicatorController;
+import bc.bcCommunicator.Controller.ICommunicatorController;
 import bc.internetMessageProxy.ConnectionId;
 
 public interface IConnectivityHandler {

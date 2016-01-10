@@ -2,12 +2,12 @@ package bc.bcCommunicator;
 
 import java.net.URL;
 
-import Controller.CommunicatorController;
-import Controller.CommunicatorControllerContainer;
-import Controller.ICommunicatorController;
-import Controller.TalkStateData;
-import Controller.TalkWindowFactory;
-import Controller.TalkWindowsContainer;
+import bc.bcCommunicator.Controller.CommunicatorController;
+import bc.bcCommunicator.Controller.CommunicatorControllerContainer;
+import bc.bcCommunicator.Controller.ICommunicatorController;
+import bc.bcCommunicator.Controller.TalkStateData;
+import bc.bcCommunicator.Controller.TalkWindowFactory;
+import bc.bcCommunicator.Controller.TalkWindowsContainer;
 import bc.bcCommunicator.Model.ActorUsernameContainer;
 import bc.bcCommunicator.Model.CommunicatorModel;
 import bc.bcCommunicator.Model.CommunicatorModelCommandsProvider;

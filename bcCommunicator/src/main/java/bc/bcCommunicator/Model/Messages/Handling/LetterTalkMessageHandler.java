@@ -1,6 +1,6 @@
 package bc.bcCommunicator.Model.Messages.Handling;
 
-import Controller.ICommunicatorController;
+import bc.bcCommunicator.Controller.ICommunicatorController;
 import bc.bcCommunicator.Model.IActorUsernameContainer;
 import bc.bcCommunicator.Model.ILetterContainer;
 import bc.bcCommunicator.Model.Messages.Letter.Letter;

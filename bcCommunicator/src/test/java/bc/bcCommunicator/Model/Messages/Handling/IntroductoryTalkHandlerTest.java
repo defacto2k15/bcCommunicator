@@ -10,7 +10,7 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Before;
 import org.junit.Test;
 
-import Controller.ICommunicatorController;
+import bc.bcCommunicator.Controller.ICommunicatorController;
 import bc.bcCommunicator.Model.IConnectionsContainer;
 import bc.bcCommunicator.Model.IOtherUsersDataContainer;
 import bc.bcCommunicator.Model.BasicTypes.Username;

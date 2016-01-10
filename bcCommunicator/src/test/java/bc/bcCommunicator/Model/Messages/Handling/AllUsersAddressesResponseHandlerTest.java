@@ -21,7 +21,7 @@ import org.junit.Test;
 
 import static org.hamcrest.Matchers.hasItems;
 
-import Controller.ICommunicatorController;
+import bc.bcCommunicator.Controller.ICommunicatorController;
 import bc.bcCommunicator.Model.IModelMessagesSender;
 import bc.bcCommunicator.Model.IOtherUsersDataContainer;
 import bc.bcCommunicator.Model.BasicTypes.Username;

@@ -15,11 +15,6 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import Controller.CommunicatorController;
-import Controller.ICommunicatorController;
-import Controller.ITalkWindowsContainer;
-import Controller.ITalkWindowsFactory;
-import Controller.TalkStateData;
 import bc.bcCommunicator.EndToEnd.Help.ConstantSampleInstances;
 import bc.bcCommunicator.Model.ICommunicatorModel;
 import bc.bcCommunicator.Model.ICommunicatorModelCommand;

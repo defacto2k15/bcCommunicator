@@ -9,8 +9,8 @@ import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 
-import Controller.ICommunicatorController;
 import bc.bcCommunicator.WindowNames;
+import bc.bcCommunicator.Controller.ICommunicatorController;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 
 public class UsersTableView extends JPanel implements IUsersTableView{

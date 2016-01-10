@@ -23,8 +23,8 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.MatteBorder;
 
-import Controller.ICommunicatorController;
 import bc.bcCommunicator.WindowNames;
+import bc.bcCommunicator.Controller.ICommunicatorController;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 
 public class TalkWindowView  extends JFrame implements ITalkWindow, WindowListener {
