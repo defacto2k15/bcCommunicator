@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.Optional;
 
 import bc.bcCommunicator.Model.ICommunicatorModel;
+import bc.bcCommunicator.Model.IConnectivityHandler;
 import bc.internetMessageProxy.ConnectionId;
 
 public interface IInternetMessager {
@@ -13,8 +14,6 @@ public interface IInternetMessager {
 	void connectToServer(URL serverAddress) throws Exception;
 
 	void connectionLost(ConnectionId id);
-
-	void setModel(ICommunicatorModel model);
 
 	void sendMessage(ConnectionId id, String messageText);
 

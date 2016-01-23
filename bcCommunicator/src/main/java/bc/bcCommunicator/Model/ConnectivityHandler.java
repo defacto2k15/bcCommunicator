@@ -6,6 +6,7 @@ import bc.bcCommunicator.Controller.ICommunicatorController;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Internet.IInternetMessager;
 import bc.bcCommunicator.Model.Internet.IInternetMessagerCommandProvider;
+import bc.bcCommunicator.Model.Messages.IMessage;
 import bc.bcCommunicator.Model.Messages.IModelMessageProvider;
 import bc.bcCommunicator.Model.Messages.Handling.IRecievedMessagesHandler;
 import bc.bcCommunicator.Model.Messages.Letter.Letter;
@@ -20,12 +21,14 @@ public class ConnectivityHandler implements IConnectivityHandler {
 	private IModelMessagesSender messagesSender;
 	private IPendingLettersContainer pendingLettersContainer;
 	private ILetterContainer letterContainer;
+	private IRecievedMessagesHandler recievedHander;
 	
 
 	public ConnectivityHandler(ICommunicatorController controller, URL ourUrl,
 			IConnectionsContainer connectionsContainer, IOtherUsersDataContainer usernameContainer,
 			IActorUsernameContainer actorUsernameContainer, IModelMessagesSender messagesSender,
-			IPendingLettersContainer pendingLettersContainer,  ILetterContainer letterContainer) {
+			IPendingLettersContainer pendingLettersContainer,  ILetterContainer letterContainer,
+			IRecievedMessagesHandler recievedHander) {
 		this.ourUrl = ourUrl;
 		this.connectionsContainer = connectionsContainer;
 		this.usernameContainer = usernameContainer;
@@ -34,6 +37,7 @@ public class ConnectivityHandler implements IConnectivityHandler {
 		this.controller = controller;
 		this.pendingLettersContainer = pendingLettersContainer;
 		this.letterContainer = letterContainer;
+		this.recievedHander = recievedHander;
 	}
 
 
@@ -100,5 +104,11 @@ public class ConnectivityHandler implements IConnectivityHandler {
 			Username username =  connectionsContainer.getUsernameForConnectionId(id);
 			controller.letterSendingFailed(username);
 		}
+	}
+
+
+	@Override
+	public void messageWasRecieved(IMessage recievedMessage, ConnectionId id) {
+		recievedHander.handle(recievedMessage, id);
 	}
 }

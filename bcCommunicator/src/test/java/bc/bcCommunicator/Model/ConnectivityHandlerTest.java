@@ -15,6 +15,8 @@ import org.junit.Test;
 import bc.bcCommunicator.Controller.ICommunicatorController;
 import bc.bcCommunicator.EndToEnd.Help.ConstantSampleInstances;
 import bc.bcCommunicator.Model.BasicTypes.Username;
+import bc.bcCommunicator.Model.Messages.IMessage;
+import bc.bcCommunicator.Model.Messages.Handling.IRecievedMessagesHandler;
 import bc.bcCommunicator.Model.Messages.Letter.Letter;
 import bc.bcCommunicator.Model.Messages.Request.IRequest;
 import bc.internetMessageProxy.ConnectionId;
@@ -32,12 +34,13 @@ public class ConnectivityHandlerTest {
 	private IModelMessagesSender messagesSender = context.mock( IModelMessagesSender.class);
 	private IPendingLettersContainer pendingLettersContainer = context.mock(IPendingLettersContainer.class);
 	private  ILetterContainer letterContainer = context.mock(ILetterContainer.class);
+	private IRecievedMessagesHandler recievedMessagesHandler = context.mock(IRecievedMessagesHandler.class);
 	
 	@Before
 	public void setUp() throws MalformedURLException{
 		clientUrl = new URL("http://localhost:5555");
 		handler = new ConnectivityHandler( controller, clientUrl, connectionsContainer, usernameContainer,
-				actorUsernameContainer, messagesSender, pendingLettersContainer, letterContainer);
+				actorUsernameContainer, messagesSender, pendingLettersContainer, letterContainer, recievedMessagesHandler);
 	}
 	
 	@Test
@@ -219,6 +222,18 @@ public class ConnectivityHandlerTest {
 		}});
 	
 		handler.messageSendingFailed(userConnectionId);
+		context.assertIsSatisfied();
+	}
+	
+	
+	@Test
+	public void whenMessageIsRecievedItIsPassedToHandler(){
+		IMessage message = context.mock(IMessage.class);
+		ConnectionId id = new ConnectionId(99);
+		context.checking(new Expectations(){{
+			oneOf(recievedMessagesHandler).handle( message, id );
+		}});
+		handler.messageWasRecieved(message, id);
 		context.assertIsSatisfied();
 	}
 

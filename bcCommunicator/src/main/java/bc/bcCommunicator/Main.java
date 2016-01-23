@@ -1,5 +1,8 @@
 package bc.bcCommunicator;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.net.URL;
 
 import bc.bcCommunicator.Controller.CommunicatorController;
@@ -16,6 +19,7 @@ import bc.bcCommunicator.Model.ConnectivityHandler;
 import bc.bcCommunicator.Model.ICommunicatorModel;
 import bc.bcCommunicator.Model.ICommunicatorModelCommandsProvider;
 import bc.bcCommunicator.Model.IConnectionsContainer;
+import bc.bcCommunicator.Model.IConnectivityHandler;
 import bc.bcCommunicator.Model.IModelMessagesSender;
 import bc.bcCommunicator.Model.IPendingLettersContainer;
 import bc.bcCommunicator.Model.LetterContainer;
@@ -38,6 +42,9 @@ import bc.bcCommunicator.Model.Messages.Handling.LetterTalkMessageHandler;
 import bc.bcCommunicator.Model.Messages.Handling.RecievedMessagesHandler;
 import bc.bcCommunicator.Model.Messages.Handling.UsernameOkResponseHandler;
 import bc.bcCommunicator.Model.Messages.Letter.Letter;
+import bc.bcCommunicator.Proxying.BoxingProxy;
+import bc.bcCommunicator.Proxying.DefaultInterfaceProxyToAnotherThread;
+import bc.bcCommunicator.Proxying.ProxyToOtherThread;
 import bc.bcCommunicator.Views.LetterView;
 import bc.bcCommunicator.Views.MainWindow;
 import bc.bcCommunicator.Views.ServerConnectionStatusView;
@@ -66,13 +73,20 @@ public class Main {
 	}
 	
 	public Main( URL clientUrl){
-		CommunicatorControllerContainer boxedController = new CommunicatorControllerContainer();
+		ProxyToOtherThread proxy = new ProxyToOtherThread();
+		
+		//CommunicatorControllerContainer boxedController = new CommunicatorControllerContainer();
+		BoxingProxy<ICommunicatorController> controllerProxy = new BoxingProxy<>();
+		ICommunicatorController boxedController = createProxiedObject(ICommunicatorController.class, controllerProxy); 
+		
+		BoxingProxy<IConnectivityHandler> connectivityHandlerProxy = new BoxingProxy<>();
+		IConnectivityHandler boxedConnectivityHandler = createProxiedObject(IConnectivityHandler.class, connectivityHandlerProxy);
 		
 		IInternetMessagerCommandProvider messagerCommandsProvider = new InternetMessagerCommandProvider();
 		ICommunicatorModelCommandsProvider modelCommandsProvider = new CommunicatorModelCommandsProvider();
-		IInternetMessager messager = new InternetMessager(messagerCommandsProvider, modelCommandsProvider,
+		IInternetMessager messager = new InternetMessager(messagerCommandsProvider,
 				new RecievedMessageCreator( new MessageFieldsExtractor( new MessageFieldsValuesCreator()),
-						new MessageFromTypeCreator()));
+						new MessageFromTypeCreator()), boxedConnectivityHandler);
 		
 		UsernameInputView usernameInputView = new UsernameInputView();
 		
@@ -87,19 +101,31 @@ public class Main {
 		IInternetMessagerCommandProvider commandProvider = new InternetMessagerCommandProvider();
 		IModelMessagesSender messagesSender = new ModelMessagesSender(actorUsernameContainer, connectionsContainer, commandProvider, messagesProvider, messager, clientUrl);
 		AllUsersAddressesResponseHandler allUsersResponseHandler = new AllUsersAddressesResponseHandler(usernameContainer, commandProvider, messager, clientUrl, boxedController);
-		ConnectivityHandler connectivityHandler = new ConnectivityHandler(boxedController, clientUrl, connectionsContainer, usernameContainer, actorUsernameContainer, messagesSender, pendingLettersContainer, letterContainer);
 		
 		IntroductoryTalkHandler introductoryTalkHandler =  new IntroductoryTalkHandler(boxedController, usernameContainer, connectionsContainer);
 		LetterTalkMessageHandler letterTalkHandler = new LetterTalkMessageHandler(letterContainer, boxedController);
 		
-		ICommunicatorModel model 
-			= new CommunicatorModel(messager, commandProvider, clientUrl,
-					messagesProvider, connectionsContainer, usernameContainer, 
-					new RecievedMessagesHandler(new UsernameOkResponseHandler(actorUsernameContainer, usernameInputView, messagesSender), 
-												allUsersResponseHandler,
-												introductoryTalkHandler, letterTalkHandler)
-									, messagesSender, actorUsernameContainer, connectivityHandler, boxedController, TalkStateData::new, Letter::new, letterContainer, pendingLettersContainer);
+		ConnectivityHandler concreteConnectivityHandler = new ConnectivityHandler(boxedController, clientUrl, 
+				connectionsContainer, usernameContainer, actorUsernameContainer, messagesSender, 
+				pendingLettersContainer, letterContainer, new RecievedMessagesHandler(new UsernameOkResponseHandler(actorUsernameContainer, usernameInputView, messagesSender), 
+						allUsersResponseHandler,
+						introductoryTalkHandler, letterTalkHandler));
+		proxy.addObjectToProxy((IConnectivityHandler)concreteConnectivityHandler);
+		IConnectivityHandler connectivityHandler = 
+				(IConnectivityHandler)Proxy.newProxyInstance(
+				IConnectivityHandler.class.getClassLoader(),
+                new Class[] { IConnectivityHandler.class },
+                proxy);
 		
+		CommunicatorModel concreteModel = 
+						new CommunicatorModel(messager, commandProvider, clientUrl,
+						messagesProvider, connectionsContainer, usernameContainer	
+										, messagesSender, actorUsernameContainer,
+											boxedController, TalkStateData::new, Letter::new,
+											letterContainer, pendingLettersContainer);
+		proxy.addObjectToProxy((ICommunicatorModel)concreteModel);
+		ICommunicatorModel model = createProxiedObject(ICommunicatorModel.class, proxy );
+
 		UsersTableView usersTableView = new UsersTableView(boxedController);		
 		ServerConnectionStatusView connectionStatusView = new ServerConnectionStatusView();
 		ICommunicatorController controller
@@ -107,12 +133,18 @@ public class Main {
 								new TalkWindowsContainer(), new TalkWindowFactory(), LetterView::new);
 
 		controller.setViewHandlers();
-		messager.setModel(model);
-		boxedController.setRealController(controller);
+		controllerProxy.setTarget(controller);
+		connectivityHandlerProxy.setTarget(connectivityHandler);
 		
 		MainWindow window = new MainWindow(connectionStatusView, usernameInputView, usersTableView);		
-		// USTAW HANDLERA ALL usernames and addresses tak aby wywyłał odpowiednią wiadomość do controllera (setBulk..),
-		// a potem stworz test co to testuje
 	}
+	
+	private <T> T createProxiedObject(Class<T> cls, InvocationHandler handler ){
+		return (T)Proxy.newProxyInstance(
+				cls.getClassLoader(),
+                new Class[] { cls },
+                handler);
+	}
+
 
 }

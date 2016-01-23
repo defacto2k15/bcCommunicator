@@ -3,6 +3,7 @@ package bc.bcCommunicator.Model;
 import java.net.URL;
 
 import bc.bcCommunicator.Controller.ICommunicatorController;
+import bc.bcCommunicator.Model.Messages.IMessage;
 import bc.internetMessageProxy.ConnectionId;
 
 public interface IConnectivityHandler {
@@ -13,4 +14,5 @@ public interface IConnectivityHandler {
 	void userConnectionWasSuccesfull(URL sucessfullUrl, ConnectionId result) throws Exception;
 	void messageSentSuccesfully(ConnectionId id) throws Exception;
 	public void messageSendingFailed(ConnectionId id);
+	void messageWasRecieved( IMessage recievedMessage, ConnectionId id);
 }

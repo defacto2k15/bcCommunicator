@@ -47,7 +47,7 @@ public class CommunicatorControllerTest {
 	private final ICommunicatorModel communicatorModel = context.mock(ICommunicatorModel.class);
 	private final ICommunicatorModelCommandsProvider commandsProvider =
 				context.mock(ICommunicatorModelCommandsProvider.class);
-	private final ICommunicatorModelCommand command = context.mock(ICommunicatorModelCommand.class);
+
 	private final IUsersTableView usersTableView = context.mock(IUsersTableView.class);
 	private final ITalkWindowsContainer talkWindowsContainer = context.mock(ITalkWindowsContainer.class);
 	private final ITalkWindowsFactory talkWindowsFactory = context.mock(ITalkWindowsFactory.class);
@@ -63,9 +63,7 @@ public class CommunicatorControllerTest {
 		
 		context.checking(new Expectations(){{
 			oneOf(connectionView).getServerAddress(); will(returnValue(serverAddressString));
-			oneOf(commandsProvider).getConnectServerCommand(with(new URL(serverAddressString)));
-							will(returnValue(command));
-			oneOf(communicatorModel).addCommand(command);				
+			oneOf(communicatorModel).connectToServer(new URL(serverAddressString));
 		}});
 		controller.serverConnectionAcceptanceButtonWasClicked();
 		
@@ -94,7 +92,7 @@ public class CommunicatorControllerTest {
 	}
 	
 	@Test
-	public void whenUsernameInputButtonIsClickedAndNoInputIsInTextfieldLabelIsApropiatelySet(){
+	public void whenUsernameInputButtonIsClickedAndNoInputIsInTextfieldLabelIsApropiatelySet() throws Exception{
 		String emptyUsernameText = "";
 		context.checking(new Expectations(){{
 			oneOf(usernameView).getUsernameText(); will(returnValue(emptyUsernameText));
@@ -105,12 +103,11 @@ public class CommunicatorControllerTest {
 	}
 	
 	@Test
-	public void whenUsernameIsSubmitedAnIdtIsOkControllerPassesUsernameToModel(){
+	public void whenUsernameIsSubmitedAnIdtIsOkControllerPassesUsernameToModel() throws Exception{
 		String usernameText = "SomeText";
 		context.checking(new Expectations(){{
 			oneOf(usernameView).getUsernameText(); will(returnValue(usernameText));
-			oneOf(commandsProvider).getUsernameSubmittedCommand(with(equal(new Username(usernameText)))); will(returnValue(command));
-			oneOf(communicatorModel).addCommand(command);
+			oneOf(communicatorModel).usernameSubmitted(new Username(usernameText));
 		}});
 		controller.usernameInputSubmitButtonWasClicked();
 		context.assertIsSatisfied();
@@ -185,12 +182,11 @@ public class CommunicatorControllerTest {
 	}
 	
 	@Test
-	public void whenUsersTableRowIsClickedWeCheckIfTalkWindowIsOpenAndIfNotWeAskModelForTalkStateData(){
+	public void whenUsersTableRowIsClickedWeCheckIfTalkWindowIsOpenAndIfNotWeAskModelForTalkStateData() throws ParseException{
 		Username username = new Username("Some name");
 		context.checking( new Expectations(){{
 			oneOf(talkWindowsContainer).isWindowOpenForUser(username); will(returnValue(false));
-			oneOf(commandsProvider).getGetTalkStateDataCommand(username); will(returnValue(command));
-			oneOf(communicatorModel).addCommand(command);
+			oneOf(communicatorModel).getTalkStateData(username);
 		}});
 		
 		controller.rowInUserTableWasClicked(username);
@@ -253,14 +249,13 @@ public class CommunicatorControllerTest {
 	
 	
 	@Test
-	public void afterLetterIsWrittenModelIsNotifiedAndStateInTalkWindowIsChanged(){
+	public void afterLetterIsWrittenModelIsNotifiedAndStateInTalkWindowIsChanged() throws Exception{
 		String letterText = "SomeLetterText";
 		Username recipient = new Username("SomeName");
 		ITalkWindow window = context.mock(ITalkWindow.class);
 		
 		context.checking(new Expectations(){{
-			oneOf(commandsProvider).getLetterWasWrittenCommand(letterText, recipient); will(returnValue(command));
-			oneOf(communicatorModel).addCommand(command);
+			oneOf(communicatorModel).letterWasWritten(letterText, recipient);
 			oneOf(talkWindowsContainer).getUserWindow(recipient); will(returnValue(window));
 			oneOf(window).setLetterState(LetterState.Letter_Sending);
 		}});

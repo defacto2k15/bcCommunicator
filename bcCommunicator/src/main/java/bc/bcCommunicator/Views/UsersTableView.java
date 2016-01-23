@@ -1,5 +1,6 @@
 package bc.bcCommunicator.Views;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,7 +34,11 @@ public class UsersTableView extends JPanel implements IUsersTableView{
 		        int row = usersTable.rowAtPoint(evt.getPoint());
 		        int col = usersTable.columnAtPoint(evt.getPoint());
 		        if (row >= 0 && col >= 0) {
-		        	controller.rowInUserTableWasClicked( rows.get(row).username);
+		        	try {
+						controller.rowInUserTableWasClicked( rows.get(row).username);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
 		        }
 		    }
 		});

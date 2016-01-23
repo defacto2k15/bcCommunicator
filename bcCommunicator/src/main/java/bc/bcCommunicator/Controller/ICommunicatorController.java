@@ -20,7 +20,7 @@ public interface ICommunicatorController {
 
 	void setViewHandlers();
 	
-	void usernameInputSubmitButtonWasClicked();
+	void usernameInputSubmitButtonWasClicked() throws Exception;
 
 	void setBulkUsers(List<Username> usernames);
 
@@ -30,13 +30,13 @@ public interface ICommunicatorController {
 
 	void newUserConnected(Username username);
 
-	void rowInUserTableWasClicked(Username username);
+	void rowInUserTableWasClicked(Username username) throws ParseException;
 
 	void talkStateChanged(TalkStateData stateData) throws ParseException;
 
 	void recievedNewLetter(Letter letter) throws ParseException;
 
-	void letterWasWritten(Username username, String text);
+	void letterWasWritten(Username username, String text) throws Exception;
 
 	void letterWasSent(Letter letter) throws ParseException;
 

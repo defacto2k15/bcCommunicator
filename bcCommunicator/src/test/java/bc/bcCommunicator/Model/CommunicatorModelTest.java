@@ -47,8 +47,7 @@ public class CommunicatorModelTest {
 	private final IConnectionsContainer connectionsContainer = context.mock(IConnectionsContainer.class);
 	private final IOtherUsersDataContainer usernameContainer = context.mock(IOtherUsersDataContainer.class);
 	private final IActorUsernameContainer actorUsernameContainer = context.mock(IActorUsernameContainer.class);
-	private final IRecievedMessagesHandler recievedHandler = context.mock(IRecievedMessagesHandler.class);
-	private final IConnectivityHandler connectivityHandler = context.mock(IConnectivityHandler.class);
+	//private final IRecievedMessagesHandler recievedHandler = context.mock(IRecievedMessagesHandler.class);
 	private final ILetterContainer letterContainer = context.mock(ILetterContainer.class);
 	private final IPendingLettersContainer pendingLettersContainer = context.mock(IPendingLettersContainer.class);
 	
@@ -60,8 +59,8 @@ public class CommunicatorModelTest {
 	public void setUp() throws MalformedURLException{
 		clientUrl = new URL("http://localhost:5555");
 		model = new CommunicatorModel(messager, commandProvider, clientUrl, messageProvider, 
-				connectionsContainer, usernameContainer, recievedHandler, messagesSender,
-				actorUsernameContainer, connectivityHandler, controller, talkStateDataFactory, 
+				connectionsContainer, usernameContainer, messagesSender,
+				actorUsernameContainer, controller, talkStateDataFactory, 
 				letterFactory, letterContainer, pendingLettersContainer );
 	}
 	
@@ -108,27 +107,7 @@ public class CommunicatorModelTest {
 		model.usernameSubmitted(username);
 		context.assertIsSatisfied();
 	}		
-	
-	@Test
-	public void whenMessageIsRecievedItIsPassedToHandler(){
-		IMessage message = context.mock(IMessage.class);
-		ConnectionId id = new ConnectionId(99);
-		context.checking(new Expectations(){{
-			oneOf(recievedHandler).handle( message, id );
-		}});
-		model.messageWasRecieved(message, id);
-		context.assertIsSatisfied();
-	}
-	
-	@Test
-	public void ConnectivityCommandsAreAppropiatelyCalled() throws Exception{
-		IConnectivityCommand command = context.mock(IConnectivityCommand.class);
-		context.checking(new Expectations(){{
-			oneOf(command).run(connectivityHandler);
-		}});
-		model.doConnectivityCommand(command);
-		context.assertIsSatisfied();
-	}
+
 	
 	@Test
 	public void afterBeginAskedForTalkStateDataModelFetchesThatDataAndPassesItToController() throws ParseException{

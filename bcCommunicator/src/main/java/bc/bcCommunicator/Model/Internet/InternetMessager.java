@@ -8,6 +8,7 @@ import java.util.concurrent.BlockingQueue;
 
 import bc.bcCommunicator.Model.ICommunicatorModel;
 import bc.bcCommunicator.Model.ICommunicatorModelCommandsProvider;
+import bc.bcCommunicator.Model.IConnectivityHandler;
 import bc.bcCommunicator.Model.Messages.IMessage;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.IRecievedMessageCreator;
 import bc.internetMessageProxy.ConnectionId;
@@ -18,18 +19,14 @@ import bc.internetMessageProxy.RecievedMessage;
 public class InternetMessager implements IInternetMessager {
 	private final BlockingQueue<IInternetMessagerCommand> commands = new ArrayBlockingQueue<IInternetMessagerCommand>(20); 
 	private final IInternetMessageProxy proxy;
-	private ICommunicatorModelCommandsProvider modelCommandsProvider;
-	private ICommunicatorModel model;
-	private IRecievedMessageCreator recievedMessageCreator;
+	private IConnectivityHandler connectivityHandler;
 	
 	public InternetMessager(final IInternetMessagerCommandProvider messagerCommandsProvider, 
-			final ICommunicatorModelCommandsProvider modelCommandsProvider,
-			IRecievedMessageCreator recievedMessageCreator) {
+			IRecievedMessageCreator recievedMessageCreator, IConnectivityHandler connectivityHandler) {
+		this.connectivityHandler = connectivityHandler;
 		proxy=new InternetMessageProxy((ConnectionId id)->{
 			this.addCommand(messagerCommandsProvider.getConnectionLostCommand(id));
 		});
-		this.modelCommandsProvider=modelCommandsProvider;
-		this.recievedMessageCreator = recievedMessageCreator;
 		
 		Thread newThread = new Thread(()->{
 								while(true){
@@ -54,7 +51,7 @@ public class InternetMessager implements IInternetMessager {
 					try {
 						IMessage recievedMessage = null;
 						recievedMessage = recievedMessageCreator.createMessage( message.getMessage());
-						model.addCommand(modelCommandsProvider.getMessageRecievedCommand( recievedMessage, message.getConnectionId()));
+						connectivityHandler.messageWasRecieved(recievedMessage, message.getConnectionId());
 					} catch (Exception e) {
 						System.err.println("E102");
 						e.printStackTrace();
@@ -63,11 +60,6 @@ public class InternetMessager implements IInternetMessager {
 				}
 		});
 		listeningThread.start();
-	}
-	
-	@Override
-	public void setModel(ICommunicatorModel model){
-		this.model = model;
 	}
 
 	public void addCommand(IInternetMessagerCommand command) {
@@ -81,31 +73,36 @@ public class InternetMessager implements IInternetMessager {
 		try {
 			result = proxy.startConnection(serverAddress);
 		} catch (IOException e) {
-			model.addCommand(modelCommandsProvider.getServerConnectionFailedCommand());
+			connectivityHandler.serverConnectionFailed();
 			return;
 		}
 		
 		if( result.isPresent() ){
-			model.addCommand(modelCommandsProvider.getServerConnectionWasSuccesfullCommand(result.get()));
+			connectivityHandler.serverConnectionWasSuccesfull(result.get());
 		} else {
-			model.addCommand(modelCommandsProvider.getServerConnectionFailedCommand());
+			connectivityHandler.serverConnectionFailed();
 		}
 		//System.err.println("X374 connect to server at model ended");
 	}
 
 	@Override
 	public void connectionLost(ConnectionId id) {
-		System.out.println("Lost connection t messagger "+id);
-		model.addCommand(modelCommandsProvider.getConnectionLostCommand(id));
+		System.out.println("M102: Lost connection t messagger "+id);
+		connectivityHandler.connectionLost(id);
 	}
 	
 	@Override
 	public void sendMessage(ConnectionId id, String messageText){
 		boolean sendWasSuccesfull = proxy.sendMessage(id, messageText);
 		if( sendWasSuccesfull){
-			model.addCommand(modelCommandsProvider.getMessageWasSentSuccesfullyCommand(id));
+			try {
+				connectivityHandler.messageSentSuccesfully(id);
+			} catch (Exception e) {
+				System.err.println("E402");
+				e.printStackTrace();
+			}
 		}else{
-			model.addCommand(modelCommandsProvider.getMessageSendingFailedCommand(id));
+			connectivityHandler.messageSendingFailed(id);
 		}
 	}
 
@@ -115,14 +112,19 @@ public class InternetMessager implements IInternetMessager {
 		try {
 			result = proxy.startConnection(userAddress);
 		} catch (IOException e) {
-			model.addCommand(modelCommandsProvider.getUserConnectionFailed(userAddress));
+			connectivityHandler.userConnectionFailed(userAddress);
 			return;
 		}
 		
 		if( result.isPresent() ){
-			model.addCommand(modelCommandsProvider.getUserConectionWasSuccesfullCommand( userAddress, result.get()));
+			try {
+				connectivityHandler.userConnectionWasSuccesfull(userAddress, result.get());
+			} catch (Exception e) {
+				System.err.println("E402");
+				e.printStackTrace();
+			}
 		} else {
-			model.addCommand(modelCommandsProvider.getUserConnectionFailed(userAddress));
+			connectivityHandler.userConnectionFailed(userAddress);
 		}		
 	}
 

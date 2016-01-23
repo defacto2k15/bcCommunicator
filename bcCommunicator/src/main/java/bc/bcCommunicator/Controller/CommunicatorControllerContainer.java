@@ -36,7 +36,12 @@ public class CommunicatorControllerContainer implements ICommunicatorController 
 
 	@Override
 	public void usernameInputSubmitButtonWasClicked() {
-		realController.usernameInputSubmitButtonWasClicked();
+		try {
+			realController.usernameInputSubmitButtonWasClicked();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -61,7 +66,12 @@ public class CommunicatorControllerContainer implements ICommunicatorController 
 
 	@Override
 	public void rowInUserTableWasClicked(Username username) {
-		realController.rowInUserTableWasClicked(username);
+		try {
+			realController.rowInUserTableWasClicked(username);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -76,7 +86,12 @@ public class CommunicatorControllerContainer implements ICommunicatorController 
 
 	@Override
 	public void letterWasWritten(Username username, String text) {
-		realController.letterWasWritten(username, text);
+		try {
+			realController.letterWasWritten(username, text);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

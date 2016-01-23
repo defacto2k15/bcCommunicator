@@ -101,7 +101,11 @@ public class TalkWindowView  extends JFrame implements ITalkWindow, WindowListen
 			public void actionPerformed(ActionEvent e) {
 				String text = letterTextInputField.getText();
 				if( text.isEmpty() == false ){
-					controller.letterWasWritten(username, text);
+					try {
+						controller.letterWasWritten(username, text);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
 				}
 			}
 		});

@@ -35,7 +35,6 @@ public class CommunicatorModel implements ICommunicatorModel {
 	private IActorUsernameContainer actorUsernameContainer;
 	private IRecievedMessagesHandler recievedHander;
 	private IModelMessagesSender messagesSender;
-	private IConnectivityHandler connectivityHandler;
 	private ITalkStateDataFactory talkStateDataFactory;
 	private ILetterFactory letterFactory;
 	private ILetterContainer letterContainer;
@@ -43,9 +42,9 @@ public class CommunicatorModel implements ICommunicatorModel {
 
 	public CommunicatorModel(IInternetMessager messager, IInternetMessagerCommandProvider commandProvider, URL clientUrl, 
 			IModelMessageProvider messageProvider, IConnectionsContainer connectionsContainer, IOtherUsersDataContainer usernameContainer
-			, IRecievedMessagesHandler recievedHandler, IModelMessagesSender messagesSender
+			, IModelMessagesSender messagesSender
 			, IActorUsernameContainer actorUsernameContainer
-			, IConnectivityHandler connectivityHandler, ICommunicatorController controller
+			, ICommunicatorController controller
 			, ITalkStateDataFactory talkStateDataFactory, ILetterFactory letterFactory, ILetterContainer letterContainer, IPendingLettersContainer pendingLettersContainer) {
 		this.messager = messager;
 		this.commandProvider = commandProvider;
@@ -53,30 +52,13 @@ public class CommunicatorModel implements ICommunicatorModel {
 		this.messageProvider = messageProvider;
 		this.connectionsContainer = connectionsContainer;
 		this.usernameContainer = usernameContainer;
-		this.recievedHander = recievedHandler;
 		this.messagesSender = messagesSender;
 		this.actorUsernameContainer = actorUsernameContainer;
-		this.connectivityHandler = connectivityHandler;
 		this.controller = controller;
 		this.talkStateDataFactory = talkStateDataFactory;
 		this.letterFactory = letterFactory;
 		this.letterContainer = letterContainer;
 		this.pendingLettersContainer = pendingLettersContainer;
-		Thread newThread = new Thread(()->{
-								while(true){
-									try {
-										commands.take().execute(this);
-									} catch (Exception e) {
-										e.printStackTrace();
-									}
-								}
-							});
-		newThread.setDaemon(true);
-		newThread.start();	
-	}
-
-	public void addCommand(ICommunicatorModelCommand command) {
-		commands.add(command);
 	}
 
 	public void connectToServer(URL serverAddress) {
@@ -90,16 +72,6 @@ public class CommunicatorModel implements ICommunicatorModel {
 		if( connectionsContainer.isServerConnected() ){
 			messagesSender.sendIntroductoryRequest();
 		}
-	}
-
-	@Override
-	public void messageWasRecieved(IMessage recievedMessage, ConnectionId connectionId) {
-		recievedHander.handle(recievedMessage, connectionId);
-	}
-
-	@Override
-	public void doConnectivityCommand(IConnectivityCommand command) throws Exception {
-		command.run(connectivityHandler);
 	}
 
 	@Override

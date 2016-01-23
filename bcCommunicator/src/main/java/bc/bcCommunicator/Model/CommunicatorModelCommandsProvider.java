@@ -18,7 +18,7 @@ public class CommunicatorModelCommandsProvider implements ICommunicatorModelComm
 	@Override
 	public ICommunicatorModelCommand getServerConnectionWasSuccesfullCommand(ConnectionId connectionId) throws Exception {
 		return (ICommunicatorModel model)->{ try {
-			model.doConnectivityCommand( (IConnectivityHandler handler)->{ handler.serverConnectionWasSuccesfull(connectionId);});
+			//model.doConnectivityCommand( (IConnectivityHandler handler)->{ handler.serverConnectionWasSuccesfull(connectionId);});
 		} catch (Exception e) {
 			System.err.println("E301");
 			e.printStackTrace();
@@ -29,7 +29,7 @@ public class CommunicatorModelCommandsProvider implements ICommunicatorModelComm
 	public ICommunicatorModelCommand getServerConnectionFailedCommand() {
 		return (ICommunicatorModel model)->{
 			try {
-				model.doConnectivityCommand((IConnectivityHandler handler)->{ handler.serverConnectionFailed();});
+				//model.doConnectivityCommand((IConnectivityHandler handler)->{ handler.serverConnectionFailed();});
 			} catch (Exception e) {
 				System.err.println("E302");
 				e.printStackTrace();
@@ -41,7 +41,7 @@ public class CommunicatorModelCommandsProvider implements ICommunicatorModelComm
 	public ICommunicatorModelCommand getConnectionLostCommand(ConnectionId id) {
 		return (ICommunicatorModel model)->{ 
 			try {
-				model.doConnectivityCommand( (IConnectivityHandler handler) -> {handler.connectionLost(id);});
+				//model.doConnectivityCommand( (IConnectivityHandler handler) -> {handler.connectionLost(id);});
 			} catch (Exception e) {
 				System.err.println("E303");
 				e.printStackTrace();
@@ -61,14 +61,15 @@ public class CommunicatorModelCommandsProvider implements ICommunicatorModelComm
 
 	@Override
 	public ICommunicatorModelCommand getMessageRecievedCommand(IMessage recievedMessage, ConnectionId connectionId) {
-		return( ICommunicatorModel model)->{ model.messageWasRecieved(recievedMessage, connectionId ); };
+		//return( ICommunicatorModel model)->{ model.messageWasRecieved(recievedMessage, connectionId ); };
+		return null;
 	}
 
 	@Override
 	public ICommunicatorModelCommand getUserConnectionFailed(URL failedUrl) {
 		return ( ICommunicatorModel model)-> {
 			try {
-				model.doConnectivityCommand( (IConnectivityHandler handler)->{ handler.userConnectionFailed(failedUrl);});
+				//model.doConnectivityCommand( (IConnectivityHandler handler)->{ handler.userConnectionFailed(failedUrl);});
 			} catch (Exception e) {
 				System.err.println("E305");
 				e.printStackTrace();
@@ -79,9 +80,9 @@ public class CommunicatorModelCommandsProvider implements ICommunicatorModelComm
 	@Override
 	public ICommunicatorModelCommand getUserConectionWasSuccesfullCommand( URL sucessfullUrl, ConnectionId result) {
 		return (  ICommunicatorModel model )->{ try {
-			model.doConnectivityCommand((IConnectivityHandler handler)->{ 
-					handler.userConnectionWasSuccesfull(sucessfullUrl, result);
-				});
+			//model.doConnectivityCommand((IConnectivityHandler handler)->{ 
+			//		handler.userConnectionWasSuccesfull(sucessfullUrl, result);
+			//	});
 		} catch (Exception e) {
 			System.err.println("E306");
 			e.printStackTrace();
@@ -112,7 +113,7 @@ public class CommunicatorModelCommandsProvider implements ICommunicatorModelComm
 	public ICommunicatorModelCommand getMessageWasSentSuccesfullyCommand(ConnectionId id) {
 		return ( ICommunicatorModel model)-> {
 			try {
-				model.doConnectivityCommand( (IConnectivityHandler handler)->{ handler.messageSentSuccesfully(id);});
+				//model.doConnectivityCommand( (IConnectivityHandler handler)->{ handler.messageSentSuccesfully(id);});
 			} catch (Exception e) {
 				System.err.println("E315");
 				e.printStackTrace();
@@ -124,7 +125,7 @@ public class CommunicatorModelCommandsProvider implements ICommunicatorModelComm
 	public ICommunicatorModelCommand getMessageSendingFailedCommand(ConnectionId id) {
 		return ( ICommunicatorModel model)-> {
 			try {
-				model.doConnectivityCommand( (IConnectivityHandler handler)->{ handler.messageSendingFailed(id);});
+				//model.doConnectivityCommand( (IConnectivityHandler handler)->{ handler.messageSendingFailed(id);});
 			} catch (Exception e) {
 				System.err.println("E318");
 				e.printStackTrace();

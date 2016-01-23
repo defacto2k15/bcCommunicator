@@ -27,7 +27,7 @@ import bc.bcCommunicator.Views.UsersTableView;
 
 public class CommunicatorController implements ICommunicatorController {
 	private IServerConnectionStatusView connectionStatusView;
-	private ICommunicatorModelCommandsProvider commandsProvider;
+	private ICommunicatorModelCommandsProvider commandsProvider; // todo delete
 	private ICommunicatorModel model;
 	private IUsernameInputView usernameInputView;
 	private IUsersTableView usersTableView;
@@ -54,7 +54,12 @@ public class CommunicatorController implements ICommunicatorController {
 		this.connectionStatusView.setServerConnectionAcceptanceButtonWasClickedHandler(
 				()->{this.serverConnectionAcceptanceButtonWasClicked();});	
 		this.usernameInputView.setUsernameSubmitButtonWasClickedHandler(
-				()->{this.usernameInputSubmitButtonWasClicked();});
+				()->{try {
+					this.usernameInputSubmitButtonWasClicked();
+				} catch (Exception e) {
+					System.err.println("E540");
+					e.printStackTrace();
+				}});
 	}
 
 	@Override
@@ -67,7 +72,7 @@ public class CommunicatorController implements ICommunicatorController {
 			connectionStatusView.setServerConnectionStatus(ServerConnectionStatus.ErrorMalformedUrl);
 			return;
 		}
-		model.addCommand(commandsProvider.getConnectServerCommand(serverAddress));
+		model.connectToServer(serverAddress);
 	}
 
 	@Override
@@ -82,12 +87,12 @@ public class CommunicatorController implements ICommunicatorController {
 	}
 
 	@Override
-	public void usernameInputSubmitButtonWasClicked() {
+	public void usernameInputSubmitButtonWasClicked() throws Exception {
 		String usernameText = usernameInputView.getUsernameText();
 		if(usernameText.equals("")){
 			usernameInputView.setUsernameInputStatus(UsernameInputStatus.UsernameEmpty);
 		} else {
-			model.addCommand(commandsProvider.getUsernameSubmittedCommand(new Username(usernameText)));
+			model.usernameSubmitted(new Username(usernameText));
 		}
 	}
 
@@ -122,11 +127,11 @@ public class CommunicatorController implements ICommunicatorController {
 	}
 
 	@Override
-	public void rowInUserTableWasClicked(Username username) {
+	public void rowInUserTableWasClicked(Username username) throws ParseException {
 		if (talkWindowsContainer.isWindowOpenForUser(username) ){
 			talkWindowsContainer.getUserWindow(username).requetsToBeActiveFrame();
 		} else {
-			model.addCommand( commandsProvider.getGetTalkStateDataCommand(username));
+			model.getTalkStateData(username);
 		}
 	}
 
@@ -154,8 +159,8 @@ public class CommunicatorController implements ICommunicatorController {
 	}
 
 	@Override
-	public void letterWasWritten(Username username, String text) {
-		model.addCommand( commandsProvider.getLetterWasWrittenCommand(text, username));
+	public void letterWasWritten(Username username, String text) throws Exception {
+		model.letterWasWritten(text, username);
 		talkWindowsContainer.getUserWindow(username).setLetterState(LetterState.Letter_Sending);
 	}
 	
