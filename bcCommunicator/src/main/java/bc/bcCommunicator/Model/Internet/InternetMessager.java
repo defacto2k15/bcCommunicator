@@ -17,28 +17,13 @@ import bc.internetMessageProxy.InternetMessageProxy;
 import bc.internetMessageProxy.RecievedMessage;
 
 public class InternetMessager implements IInternetMessager {
-	private final BlockingQueue<IInternetMessagerCommand> commands = new ArrayBlockingQueue<IInternetMessagerCommand>(20); 
 	private final IInternetMessageProxy proxy;
 	private IConnectivityHandler connectivityHandler;
 	
 	public InternetMessager(final IInternetMessagerCommandProvider messagerCommandsProvider, 
 			IRecievedMessageCreator recievedMessageCreator, IConnectivityHandler connectivityHandler) {
 		this.connectivityHandler = connectivityHandler;
-		proxy=new InternetMessageProxy((ConnectionId id)->{
-			this.addCommand(messagerCommandsProvider.getConnectionLostCommand(id));
-		});
-		
-		Thread newThread = new Thread(()->{
-								while(true){
-									try {
-										commands.take().execute(this);
-									} catch (Exception e) {
-										e.printStackTrace();
-									}
-								}
-							});
-		newThread.setDaemon(true);
-		newThread.start();
+		proxy=new InternetMessageProxy((ConnectionId id)->{this.connectionLost(id);});
 		
 		Thread listeningThread = new Thread( ()->{
 				while(true){
@@ -62,10 +47,6 @@ public class InternetMessager implements IInternetMessager {
 		listeningThread.start();
 	}
 
-	public void addCommand(IInternetMessagerCommand command) {
-		commands.add(command);
-	}
-
 	@Override
 	public void connectToServer(URL serverAddress) throws Exception {
 		System.out.println("X644 "+serverAddress);
@@ -82,7 +63,6 @@ public class InternetMessager implements IInternetMessager {
 		} else {
 			connectivityHandler.serverConnectionFailed();
 		}
-		//System.err.println("X374 connect to server at model ended");
 	}
 
 	@Override

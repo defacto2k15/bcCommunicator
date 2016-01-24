@@ -36,25 +36,25 @@ public class ModelMessagesSender implements IModelMessagesSender{
 	@Override
 	public void sendIntroductoryRequest() throws Exception {
 		IRequest request = messageProvider.getIntroductoryRequest(usernameContainer.getUsername(), clientUrl);
-		messager.addCommand(commandProvider.getSendMessageCommand(connectionsContainer.getServerConnectionId(), request));
+		messager.sendMessage(connectionsContainer.getServerConnectionId(), request.getMessageText());
 	}
 
 	@Override
 	public void sendAllUsersAddressesRequest() throws Exception {
 		IRequest request = messageProvider.getAllUsersAddressesRequest();
-		messager.addCommand(commandProvider.getSendMessageCommand(connectionsContainer.getServerConnectionId(), request));			
+		messager.sendMessage(connectionsContainer.getServerConnectionId(), request.getMessageText());			
 	}
 
 	@Override
 	public void sendIntroductoryTalkToUser(ConnectionId connection, Username actorUsername, URL ourUrl) throws Exception {
 		ITalk talk = messageProvider.getIntroductoryTalk(actorUsername, ourUrl);
-		messager.addCommand( commandProvider.getSendMessageCommand( connection , talk));
+		messager.sendMessage( connection , talk.getMessageText());
 	}
 
 	@Override
 	public void sendLetterTalk(Letter createdLetter, ConnectionId recipientConnectionId) throws Exception {
 		ITalk talk = messageProvider.getLetterTalk( createdLetter.date, createdLetter.text, createdLetter.sender, createdLetter.recipient );
-		messager.addCommand( commandProvider.getSendMessageCommand(recipientConnectionId, talk));
+		messager.sendMessage(recipientConnectionId, talk.getMessageText());
 	}
 
 

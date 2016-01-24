@@ -5,6 +5,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.net.URL;
 
+import javax.swing.SwingUtilities;
+
 import bc.bcCommunicator.Controller.CommunicatorController;
 import bc.bcCommunicator.Controller.CommunicatorControllerContainer;
 import bc.bcCommunicator.Controller.ICommunicatorController;
@@ -43,8 +45,9 @@ import bc.bcCommunicator.Model.Messages.Handling.RecievedMessagesHandler;
 import bc.bcCommunicator.Model.Messages.Handling.UsernameOkResponseHandler;
 import bc.bcCommunicator.Model.Messages.Letter.Letter;
 import bc.bcCommunicator.Proxying.BoxingProxy;
-import bc.bcCommunicator.Proxying.DefaultInterfaceProxyToAnotherThread;
+import bc.bcCommunicator.Proxying.NewThreadProxyToOtherThread;
 import bc.bcCommunicator.Proxying.ProxyToOtherThread;
+import bc.bcCommunicator.Proxying.ProxyToSwingThread;
 import bc.bcCommunicator.Views.LetterView;
 import bc.bcCommunicator.Views.MainWindow;
 import bc.bcCommunicator.Views.ServerConnectionStatusView;
@@ -73,7 +76,7 @@ public class Main {
 	}
 	
 	public Main( URL clientUrl){
-		ProxyToOtherThread proxy = new ProxyToOtherThread();
+		ProxyToOtherThread proxy = new NewThreadProxyToOtherThread();
 		
 		//CommunicatorControllerContainer boxedController = new CommunicatorControllerContainer();
 		BoxingProxy<ICommunicatorController> controllerProxy = new BoxingProxy<>();
@@ -84,9 +87,14 @@ public class Main {
 		
 		IInternetMessagerCommandProvider messagerCommandsProvider = new InternetMessagerCommandProvider();
 		ICommunicatorModelCommandsProvider modelCommandsProvider = new CommunicatorModelCommandsProvider();
-		IInternetMessager messager = new InternetMessager(messagerCommandsProvider,
+		
+		ProxyToOtherThread messagerProxy = new NewThreadProxyToOtherThread();
+	
+		IInternetMessager concreteMessager = new InternetMessager(messagerCommandsProvider,
 				new RecievedMessageCreator( new MessageFieldsExtractor( new MessageFieldsValuesCreator()),
 						new MessageFromTypeCreator()), boxedConnectivityHandler);
+		messagerProxy.addObjectToProxy(concreteMessager);
+		IInternetMessager messager = createProxiedObject(IInternetMessager.class, messagerProxy);
 		
 		UsernameInputView usernameInputView = new UsernameInputView();
 		
@@ -128,9 +136,13 @@ public class Main {
 
 		UsersTableView usersTableView = new UsersTableView(boxedController);		
 		ServerConnectionStatusView connectionStatusView = new ServerConnectionStatusView();
-		ICommunicatorController controller
+
+		ProxyToOtherThread swingProxy = new ProxyToSwingThread();
+		ICommunicatorController concreteController
 			= new CommunicatorController(connectionStatusView, model, modelCommandsProvider, usernameInputView, usersTableView,
 								new TalkWindowsContainer(), new TalkWindowFactory(), LetterView::new);
+		ICommunicatorController controller = createProxiedObject( ICommunicatorController.class, swingProxy);
+		swingProxy.addObjectToProxy(concreteController);
 
 		controller.setViewHandlers();
 		controllerProxy.setTarget(controller);

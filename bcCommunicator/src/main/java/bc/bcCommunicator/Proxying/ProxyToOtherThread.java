@@ -9,29 +9,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.function.Consumer;
 
 
-public class ProxyToOtherThread implements InvocationHandler {
-	private BlockingQueue<MethodArgsPair> commandQueue = new ArrayBlockingQueue<>(30);
-	private List<MethodsObjectPair> objectsToCallMap = new ArrayList<>();
+public abstract class ProxyToOtherThread implements InvocationHandler {
+	protected BlockingQueue<MethodArgsPair> commandQueue = new ArrayBlockingQueue<>(30);
+	protected List<MethodsObjectPair> objectsToCallMap = new ArrayList<>();
 	
 	public ProxyToOtherThread(){
-		Thread newThread = new Thread(()->{
-			while(true){
-				try {
-					MethodArgsPair pair = commandQueue.take();
-					Object target = objectsToCallMap.stream().filter( 
-							p -> p.methods.contains(pair.method)).map( p -> p.concreteObject).findFirst().get();
-					pair.method.invoke(target, pair.args);
-				} catch (Exception e) {
-					System.err.println("E751");
-					e.printStackTrace();
-				}
-			}
-		});
-		newThread.setDaemon(true);
-		newThread.start();	
+		threadingMethod();
 	}
+	
+	abstract void threadingMethod();
 
 	public <T> void addObjectToProxy( Object object){
 		MethodsObjectPair pair = new MethodsObjectPair(object);

@@ -62,7 +62,12 @@ public class CommunicatorModel implements ICommunicatorModel {
 	}
 
 	public void connectToServer(URL serverAddress) {
-		messager.addCommand(commandProvider.getConnectToServerCommand(serverAddress));
+		try {
+			messager.connectToServer(serverAddress);
+		} catch (Exception e) {
+			System.err.println("E540");
+			e.printStackTrace();
+		}
 	}
 
 

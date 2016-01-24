@@ -47,11 +47,11 @@ public class AllUsersAddressesResponseHandler extends AbstractMessageHandler{
 		controller.setBulkUsers(usernames);
 		
 		for( URL key : allUserAddresses.getAllUsersAddresses().values()){
-			messager.addCommand(commandProvider.getConnectToUserCommand(key));
+			messager.connectToUser(key);
 		}
 		
 		int clientPort = clientUrl.getPort();
-		messager.addCommand( commandProvider.getListenOnPortCommand(clientPort));
+		messager.listenOnPort(clientPort);
 	}
 
 }

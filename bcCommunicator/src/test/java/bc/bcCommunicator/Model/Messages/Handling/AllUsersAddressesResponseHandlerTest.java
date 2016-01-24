@@ -117,8 +117,7 @@ public class AllUsersAddressesResponseHandlerTest {
 			ignoring(controller);
 			allowing(response).getAllUsersAddresses(); will(returnValue(allUsersAddresses));
 			for( URL oneAddress : usernameAddressMap.values() ){
-				oneOf(commandProvider).getConnectToUserCommand(oneAddress); will(returnValue(command));
-				oneOf(messager).addCommand(command);
+				oneOf(messager).connectToUser(oneAddress);
 			}
 			
 			allowing(commandProvider);
@@ -136,8 +135,7 @@ public class AllUsersAddressesResponseHandlerTest {
 			ignoring(controller);
 			allowing(response).getAllUsersAddresses(); will(returnValue(allUsersAddresses));
 			
-			oneOf(commandProvider).getListenOnPortCommand(clientPort); will(returnValue(startListeningCommand));
-			oneOf(messager).addCommand(startListeningCommand);
+			oneOf(messager).listenOnPort(clientPort);
 			
 			allowing(commandProvider);
 			allowing(messager);

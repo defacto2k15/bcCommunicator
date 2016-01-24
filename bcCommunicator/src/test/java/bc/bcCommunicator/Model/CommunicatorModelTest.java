@@ -65,11 +65,10 @@ public class CommunicatorModelTest {
 	}
 	
 	@Test
-	public void modelPassesConnectionToServerRequestToInternetMessager() throws MalformedURLException{
+	public void modelPassesConnectionToServerRequestToInternetMessager() throws Exception{
 		final URL serverAddress = new URL("http://localhost:9090");
 		context.checking(new Expectations(){{
-			oneOf(commandProvider).getConnectToServerCommand(serverAddress); will(returnValue(command));
-			oneOf(messager).addCommand(command);
+			oneOf(messager).connectToServer(serverAddress);
 		}});
 		
 		model.connectToServer(serverAddress);

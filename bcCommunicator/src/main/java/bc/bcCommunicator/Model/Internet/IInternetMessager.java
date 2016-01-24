@@ -9,8 +9,6 @@ import bc.internetMessageProxy.ConnectionId;
 
 public interface IInternetMessager {
 
-	void addCommand(IInternetMessagerCommand command);
-
 	void connectToServer(URL serverAddress) throws Exception;
 
 	void connectionLost(ConnectionId id);
