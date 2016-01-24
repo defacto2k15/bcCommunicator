@@ -5,8 +5,8 @@ import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.IMessageIniti
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.IMessageFieldValue;
 
 public enum RequestMessageType implements IMessageType {
-	IntroductoryRequestType("IntroductoryRequest", IntroductoryRequest::new),
-	AllUsersAddressesRequestType( "AllUsersAddressesRequest", AllUsersAddressesRequest::new);
+	IntroductoryRequestType("IntroductoryRequestType", IntroductoryRequest::new),
+	AllUsersAddressesRequestType( "AllUsersAddressesRequestType", AllUsersAddressesRequest::new);
 	
 	private String typeName;
 	private IMessageInitializedFromFields fromFieldsConstructor;

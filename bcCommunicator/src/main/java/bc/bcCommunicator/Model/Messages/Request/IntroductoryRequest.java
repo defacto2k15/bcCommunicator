@@ -7,8 +7,10 @@ import java.net.URL;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Messages.MessageField;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.IFieldsContainer;
+import bc.bcCommunicator.Model.Messages.Handling.AbstractMessageHandler;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.UrlMessageFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.UsernameMessageFieldValue;
+import bc.internetMessageProxy.ConnectionId;
 
 public class IntroductoryRequest extends AbstractRequest implements IIntroductoryRequest{
 	public IntroductoryRequest(Username username, URL clientUrl ) throws Exception{
@@ -34,6 +36,10 @@ public class IntroductoryRequest extends AbstractRequest implements IIntroductor
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public void chooseHandler( AbstractMessageHandler handler, ConnectionId id) throws Exception{
+		handler.handle(this, id);
 	}
 
 }

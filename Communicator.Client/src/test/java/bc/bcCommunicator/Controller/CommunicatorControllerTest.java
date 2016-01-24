@@ -15,6 +15,7 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import bc.bcCommunicator.EndToEnd.Help.ConstantSampleInstances;
 import bc.bcCommunicator.Model.ICommunicatorModel;
 import bc.bcCommunicator.Model.ICommunicatorModelCommand;
 import bc.bcCommunicator.Model.ICommunicatorModelCommandsProvider;
@@ -37,7 +38,6 @@ import bc.bcCommunicator.Views.TalkState;
 import bc.bcCommunicator.Views.UserConnectionState;
 import bc.bcCommunicator.Views.UsernameInputStatus;
 import bc.internetMessageProxy.ConnectionId;
-import bcCommunicator.Help.ConstantSampleInstances;
 
 @RunWith(JMock.class)
 public class CommunicatorControllerTest {

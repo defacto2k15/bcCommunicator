@@ -12,7 +12,7 @@ public class UsersContainer {
 	private List<UserData> usersList = new ArrayList<>();
 
 	public void removeUserWithConnectionId(ConnectionId id) {
-		List<UserData> usersWithThisId = usersList.stream().filter( u -> u.getId() == id).collect(Collectors.toList());
+		List<UserData> usersWithThisId = usersList.stream().filter( u -> u.getId().equals( id)).collect(Collectors.toList());
 		if( usersWithThisId.size() != 1){
 			throw new IllegalStateException("There should be one user with id "+id+" but there is "+usersWithThisId.size());
 		}
@@ -20,7 +20,7 @@ public class UsersContainer {
 	}
 
 	public boolean containsUserWithUsername(Username username) {
-		return usersList.stream().filter( u -> u.getUsername() == username).count() != 0;
+		return usersList.stream().filter( u -> u.getUsername().equals(username)).count() != 0;
 	}
 
 	public void addUser(Username username, URL clientUrl, ConnectionId id) {
@@ -31,7 +31,7 @@ public class UsersContainer {
 	}
 
 	public Username getUserWithConnectionId(ConnectionId id) {
-		List<UserData> usersWithThisId = usersList.stream().filter( u -> u.getId() == id).collect(Collectors.toList());
+		List<UserData> usersWithThisId = usersList.stream().filter( u -> u.getId().equals(id)).collect(Collectors.toList());
 		if( usersWithThisId.size() != 1){
 			throw new IllegalStateException("There should be one user with id "+id+" but there is "+usersWithThisId.size());
 		}	

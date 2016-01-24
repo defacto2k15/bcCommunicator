@@ -13,13 +13,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import bc.bcCommunicator.Controller.ICommunicatorController;
+import bc.bcCommunicator.EndToEnd.Help.ConstantSampleInstances;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Messages.IMessage;
 import bc.bcCommunicator.Model.Messages.Handling.IRecievedMessagesHandler;
 import bc.bcCommunicator.Model.Messages.Letter.Letter;
 import bc.bcCommunicator.Model.Messages.Request.IRequest;
 import bc.internetMessageProxy.ConnectionId;
-import bcCommunicator.Help.ConstantSampleInstances;
 
 public class ConnectivityHandlerTest {
 	private final Mockery context = new JUnit4Mockery();

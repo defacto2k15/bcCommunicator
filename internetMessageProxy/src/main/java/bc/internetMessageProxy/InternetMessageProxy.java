@@ -87,7 +87,7 @@ public class InternetMessageProxy implements IInternetMessageProxy {
 	@Override
 	public RecievedMessage getMessageBlockingWithTimeout() throws Exception {
 		RecievedMessage message = null;
-		message = recievedMessages.poll(10, TimeUnit.SECONDS);
+		message = recievedMessages.poll(10, TimeUnit.SECONDS); 
 
 		if (message == null) {
 			throw new Exception("Message polling timeouted");

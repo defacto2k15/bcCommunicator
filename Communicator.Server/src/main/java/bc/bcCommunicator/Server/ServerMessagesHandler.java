@@ -58,6 +58,7 @@ public class ServerMessagesHandler extends AbstractMessageHandler implements ISe
 			allUsersAddressesMap.remove(user);
 			messager.sendMessage(id, new AllUsersAddressesResponse(new AllUsersAddresses(allUsersAddressesMap)).getMessageText());
 		} catch( Exception e){
+			e.printStackTrace();
 			System.err.println("E005");
 		}
 	}

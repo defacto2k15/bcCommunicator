@@ -44,6 +44,7 @@ public class Main {
 		IInternetMessager messager = new InternetMessager(
 				new RecievedMessageCreator( new MessageFieldsExtractor( new MessageFieldsValuesCreator()),
 						new MessageFromTypeCreator()), server);
+		messager.listenOnPort(portNumber);
 		
 		messageHandlerProxy.setTarget( new ServerMessagesHandler(messager, usersContainer));
 	}

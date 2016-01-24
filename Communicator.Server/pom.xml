@@ -46,4 +46,21 @@
       </plugin>
     </plugins>
    </build>
+ <dependencies>
+ 	<dependency>
+ 		<groupId>bc</groupId>
+ 		<artifactId>Communicator.Client</artifactId>
+ 		<version>0.0.1-SNAPSHOT</version>
+ 	</dependency>
+ 	<dependency>
+ 		<groupId>bc</groupId>
+ 		<artifactId>bcCommunicator</artifactId>
+ 		<version>0.0.1-SNAPSHOT</version>
+ 	</dependency>
+ 	<dependency>
+ 		<groupId>bc</groupId>
+ 		<artifactId>commonTestUtilities</artifactId>
+ 		<version>0.0.1-SNAPSHOT</version>
+ 	</dependency>
+ </dependencies>
 </project>

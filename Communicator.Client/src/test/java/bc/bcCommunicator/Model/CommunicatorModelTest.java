@@ -18,6 +18,7 @@ import org.junit.Test;
 import bc.bcCommunicator.Controller.ICommunicatorController;
 import bc.bcCommunicator.Controller.ITalkStateDataFactory;
 import bc.bcCommunicator.Controller.TalkStateData;
+import bc.bcCommunicator.EndToEnd.Help.ConstantSampleInstances;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Internet.IInternetMessager;
 import bc.bcCommunicator.Model.Internet.IInternetMessagerCommand;
@@ -33,7 +34,6 @@ import bc.bcCommunicator.Model.Messages.Letter.LetterText;
 import bc.bcCommunicator.Model.Messages.Request.IRequest;
 import bc.bcCommunicator.Views.UserConnectionState;
 import bc.internetMessageProxy.ConnectionId;
-import bcCommunicator.Help.ConstantSampleInstances;
 
 public class CommunicatorModelTest {
 	private URL clientUrl;

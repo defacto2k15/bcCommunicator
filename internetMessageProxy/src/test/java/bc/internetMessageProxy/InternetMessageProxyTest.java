@@ -15,7 +15,7 @@ import javax.sound.midi.Receiver;
 import org.junit.Before;
 import org.junit.Test;
 
-import bc.commonTestUtilities.FreePortGetter;
+import bc.help.MyFreePortGetter;
 import bc.internetMessageSender.FakeObjects.FakeMessageReciever;
 import bc.internetMessageSender.FakeObjects.FakeMessageSender;
 
@@ -27,12 +27,12 @@ public class InternetMessageProxyTest {
 	@Before
 	public void setUpFreePortNumber() throws IOException, InterruptedException{
 		Thread.sleep(1000);
-		FreePortGetter getter = new FreePortGetter();
+		MyFreePortGetter getter = new MyFreePortGetter();
 		freePortNumber = getFreePortNumber();
 	}
 	
 	int getFreePortNumber() throws IOException{
-		FreePortGetter getter = new FreePortGetter();
+		MyFreePortGetter getter = new MyFreePortGetter();
 		return getter.getFreePortNumber();		
 	}
 	

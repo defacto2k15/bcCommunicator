@@ -6,9 +6,11 @@ import java.util.Map;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Messages.AllUsersAddresses;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.IFieldsContainer;
+import bc.bcCommunicator.Model.Messages.Handling.AbstractMessageHandler;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.AllUsersAddressesFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.UrlMessageFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.UsernameMessageFieldValue;
+import bc.internetMessageProxy.ConnectionId;
 
 public class AllUsersAddressesRequest extends AbstractRequest implements IAllUsersAddressesRequest{
 	public AllUsersAddressesRequest( /*AllUsersAddresses allUsersAddresses*/ ) throws Exception{
@@ -18,5 +20,9 @@ public class AllUsersAddressesRequest extends AbstractRequest implements IAllUse
 	
 	public AllUsersAddressesRequest( IFieldsContainer container) throws Exception{
 		//this( container.getFieldValue(AllUsersAddressesFieldValue.class).getUsersAddresses() );
+	}
+	
+	public void chooseHandler( AbstractMessageHandler handler, ConnectionId id) throws Exception{
+		handler.handle(this, id);
 	}
 }

@@ -16,34 +16,34 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import bc.bcCommunicator.EndToEnd.Help.CommunicatorClientRunner;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Messages.AllUsersAddresses;
 import bc.bcCommunicator.Model.Messages.Letter.LetterText;
 import bc.bcCommunicator.Model.Messages.Talk.IntroductoryTalk;
 import bc.bcCommunicator.Views.LetterState;
 import bc.bcCommunicator.Views.UserConnectionState;
+import bc.commonTestUtilities.FakeInternetEntity;
+import bc.commonTestUtilities.FakeServerRunner;
+import bc.commonTestUtilities.FakeUserRunner;
 import bc.commonTestUtilities.FreePortGetter;
-import bcCommunicator.Help.CommunicatorClientRunner;
-import bcCommunicator.Help.FakeInternetEntity;
-import bcCommunicator.Help.FakeServerRunner;
-import bcCommunicator.Help.FakeUserRunner;
 
 public class EndToEndTests {
-	private int SERVER_PORT;
-	private int CLIENT_PORT;
-	private FakeServerRunner server;
-	private final CommunicatorClientRunner client = new CommunicatorClientRunner();
+	private static int SERVER_PORT;
+	private static int CLIENT_PORT;
+	private static FakeServerRunner server;
+	private final static CommunicatorClientRunner client = new CommunicatorClientRunner();
 	private final Username username = new Username("USER_NME");
-	private URL clientUrl;
+	private static URL clientUrl;
 	//private AllUsersAddresses allUsersAddresses;
-	private List<FakeUserRunner> users = new ArrayList<>();
-	private final int CLIENT_COUNT = 3;
+	private static List<FakeUserRunner> users = new ArrayList<>();
+	private final static int CLIENT_COUNT = 3;
 	
-	FreePortGetter getter = new FreePortGetter();
+	static FreePortGetter getter = new FreePortGetter();
 	
 
 	@Before
-	public void setUp() throws Exception {
+	public  void setUp() throws Exception {
 		
 		SERVER_PORT = getter.getFreePortNumber();
 		CLIENT_PORT = getter.getFreePortNumber();
