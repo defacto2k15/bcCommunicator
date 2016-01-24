@@ -15,13 +15,33 @@ import bc.bcCommunicator.Model.Messages.Handling.AbstractMessageHandler;
 import bc.bcCommunicator.Model.Messages.Response.IAllUsersAddressesResponse;
 import bc.internetMessageProxy.ConnectionId;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AllUsersAddressesResponseHandler.
+ */
 public class AllUsersAddressesResponseHandler extends AbstractMessageHandler{
+	
+	/** The users container. */
 	IOtherUsersDataContainer usersContainer;
+	
+	/** The controller. */
 	private ICommunicatorController controller;
+	
+	/** The messager. */
 	private IInternetMessager messager;
+	
+	/** The client url. */
 	private URL clientUrl;
 	
 	
+	/**
+	 * Instantiates a new all users addresses response handler.
+	 *
+	 * @param container the container
+	 * @param messager the messager
+	 * @param clientUrl the client url
+	 * @param controller the controller
+	 */
 	public AllUsersAddressesResponseHandler(IOtherUsersDataContainer container, 
 			IInternetMessager messager, URL clientUrl,  ICommunicatorController controller) {
 				this.usersContainer = container;
@@ -31,6 +51,9 @@ public class AllUsersAddressesResponseHandler extends AbstractMessageHandler{
 				
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Model.Messages.Handling.AbstractMessageHandler#handle(bc.bcCommunicator.Model.Messages.Response.IAllUsersAddressesResponse, bc.internetMessageProxy.ConnectionId)
+	 */
 	public void handle( IAllUsersAddressesResponse usernameOkResponse, ConnectionId id) throws Exception{
 		assert(controller != null);
 		List<Username > usernames = new ArrayList<>();

@@ -1,4 +1,14 @@
-bc.bcCommunicator
+bc.Communicator.Server.Test
+bc.bcCommunicator.Client
+bc.bcCommunicator.Client.Controller
+bc.bcCommunicator.Client.EndToEnd.Help
+bc.bcCommunicator.Client.EndToEnd.Test
+bc.bcCommunicator.Client.Help
+bc.bcCommunicator.Client.Model
+bc.bcCommunicator.Client.Model.Messages
+bc.bcCommunicator.Client.Model.Messages.Handling
+bc.bcCommunicator.Client.Model.Messages.Recieving
+bc.bcCommunicator.Client.Views
 bc.bcCommunicator.Model.BasicTypes
 bc.bcCommunicator.Model.Internet
 bc.bcCommunicator.Model.Internet.ServerRequest
@@ -12,4 +22,6 @@ bc.bcCommunicator.Model.Messages.Response
 bc.bcCommunicator.Model.Messages.Talk
 bc.bcCommunicator.Proxying
 bc.bcCommunicator.Server
+bc.help
 bc.internetMessageProxy
+bc.internetMessageSender.FakeObjects

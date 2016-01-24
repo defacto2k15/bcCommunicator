@@ -31,6 +31,7 @@
 /home/defacto/ProgrammingProjects/EclipseWorkspace/bcCommunicator/src/main/java/bc/bcCommunicator/Model/Messages/Handling/AbstractMessageHandler.java
 /home/defacto/ProgrammingProjects/EclipseWorkspace/bcCommunicator/src/main/java/bc/bcCommunicator/Model/Messages/Response/IUsernameOkResponse.java
 /home/defacto/ProgrammingProjects/EclipseWorkspace/bcCommunicator/src/main/java/bc/bcCommunicator/Model/Messages/Response/AbstractResponse.java
+/home/defacto/ProgrammingProjects/EclipseWorkspace/bcCommunicator/src/main/java/bc/bcCommunicator/Proxying/DefaultInterfaceProxyToAnotherThread.java
 /home/defacto/ProgrammingProjects/EclipseWorkspace/bcCommunicator/src/main/java/bc/bcCommunicator/Model/Messages/Letter/LetterText.java
 /home/defacto/ProgrammingProjects/EclipseWorkspace/bcCommunicator/src/main/java/bc/bcCommunicator/Model/Messages/MessageFieldValues/UsernameMessageFieldValue.java
 /home/defacto/ProgrammingProjects/EclipseWorkspace/bcCommunicator/src/main/java/bc/bcCommunicator/Proxying/NewThreadProxyToOtherThread.java
@@ -41,6 +42,7 @@
 /home/defacto/ProgrammingProjects/EclipseWorkspace/bcCommunicator/src/main/java/bc/bcCommunicator/Model/Messages/IMessageType.java
 /home/defacto/ProgrammingProjects/EclipseWorkspace/bcCommunicator/src/main/java/bc/bcCommunicator/Model/Messages/MessageFieldValues/AllUsersAddressesFieldValue.java
 /home/defacto/ProgrammingProjects/EclipseWorkspace/bcCommunicator/src/main/java/bc/bcCommunicator/Model/Messages/ModelMessageProvider.java
+/home/defacto/ProgrammingProjects/EclipseWorkspace/bcCommunicator/src/main/java/bc/bcCommunicator/Proxying/AbstractInterfaceProxyToAnotherThread.java
 /home/defacto/ProgrammingProjects/EclipseWorkspace/bcCommunicator/src/main/java/bc/bcCommunicator/Model/Messages/IMessage.java
 /home/defacto/ProgrammingProjects/EclipseWorkspace/bcCommunicator/src/main/java/bc/bcCommunicator/Model/Messages/Response/IResponse.java
 /home/defacto/ProgrammingProjects/EclipseWorkspace/bcCommunicator/src/main/java/bc/bcCommunicator/Model/Messages/CreatingFromRecievedString/IFieldsContainer.java
@@ -48,6 +50,7 @@
 /home/defacto/ProgrammingProjects/EclipseWorkspace/bcCommunicator/src/main/java/bc/bcCommunicator/Model/Internet/ServerRequest/ServerRequestBuilder.java
 /home/defacto/ProgrammingProjects/EclipseWorkspace/bcCommunicator/src/main/java/bc/bcCommunicator/Model/Messages/CreatingFromRecievedString/IMessageFieldValueConstructor.java
 /home/defacto/ProgrammingProjects/EclipseWorkspace/bcCommunicator/src/main/java/bc/bcCommunicator/Model/Internet/IInternetMessager.java
+/home/defacto/ProgrammingProjects/EclipseWorkspace/bcCommunicator/src/main/java/bc/bcCommunicator/Proxying/InterfaceProxyToSwingThread.java
 /home/defacto/ProgrammingProjects/EclipseWorkspace/bcCommunicator/src/main/java/bc/bcCommunicator/Model/Messages/Request/IAllUsersAddressesRequest.java
 /home/defacto/ProgrammingProjects/EclipseWorkspace/bcCommunicator/src/main/java/bc/bcCommunicator/Model/Messages/Letter/LetterSendingType.java
 /home/defacto/ProgrammingProjects/EclipseWorkspace/bcCommunicator/src/main/java/bc/bcCommunicator/Model/Messages/Response/ResponseMessageType.java

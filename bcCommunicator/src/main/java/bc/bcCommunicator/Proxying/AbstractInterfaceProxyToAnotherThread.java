@@ -8,10 +8,25 @@ import java.util.concurrent.BlockingQueue;
 import java.util.function.Consumer;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AbstractInterfaceProxyToAnotherThread.
+ *
+ * @param <TProxiedInterface> the generic type
+ */
 public abstract class AbstractInterfaceProxyToAnotherThread<TProxiedInterface> implements InvocationHandler{
+	
+	/** The command queue. */
 	protected BlockingQueue<MethodArgsPair> commandQueue = new ArrayBlockingQueue<>(30);
+	
+	/** The target. */
 	protected TProxiedInterface target;
 	
+	/**
+	 * Instantiates a new abstract interface proxy to another thread.
+	 *
+	 * @param target the target
+	 */
 	public AbstractInterfaceProxyToAnotherThread(TProxiedInterface target) {
 		this.target = target;
 		
@@ -24,9 +39,17 @@ public abstract class AbstractInterfaceProxyToAnotherThread<TProxiedInterface> i
 		newThread.start();	
 	}
 	
+	/**
+	 * Gets the method called by spining thread.
+	 *
+	 * @return the method called by spining thread
+	 */
 	abstract Runnable getMethodCalledBySpiningThread();
 
 
+	/* (non-Javadoc)
+	 * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
+	 */
 	@Override
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 		if( method.getReturnType() != void.class){

@@ -1,6 +1,14 @@
 package bc.bcCommunicator.Proxying;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class NewThreadProxyToOtherThread.
+ */
 public class NewThreadProxyToOtherThread extends ProxyToOtherThread {
+	
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Proxying.ProxyToOtherThread#threadingMethod()
+	 */
 	@Override
 	void threadingMethod() {
 		Thread newThread = new Thread( ()->{

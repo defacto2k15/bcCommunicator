@@ -16,17 +16,39 @@ import org.w3c.dom.Element;
 
 import bc.bcCommunicator.Model.BasicTypes.Username;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AllUsersAddresses.
+ */
 public class AllUsersAddresses {
+	
+	/** The all users addresses. */
 	private Map<Username, URL> allUsersAddresses;
 
+	/**
+	 * Instantiates a new all users addresses.
+	 *
+	 * @param allUsersAddresses the all users addresses
+	 */
 	public AllUsersAddresses( Map<Username, URL> allUsersAddresses ){
 		this.allUsersAddresses = allUsersAddresses;
 	}
 	
+	/**
+	 * Gets the all users addresses.
+	 *
+	 * @return the all users addresses
+	 */
 	public Map<Username, URL> getAllUsersAddresses(){
 		return allUsersAddresses;
 	}
 	
+	/**
+	 * Parses the to xml.
+	 *
+	 * @return the string
+	 * @throws Exception the exception
+	 */
 	public String parseToXml() throws Exception{
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();

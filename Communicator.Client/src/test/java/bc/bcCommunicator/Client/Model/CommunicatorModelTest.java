@@ -36,24 +36,60 @@ import bc.bcCommunicator.Model.Messages.Letter.LetterText;
 import bc.bcCommunicator.Model.Messages.Request.IRequest;
 import bc.internetMessageProxy.ConnectionId;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CommunicatorModelTest.
+ */
 public class CommunicatorModelTest {
+	
+	/** The client url. */
 	private URL clientUrl;
+	
+	/** The context. */
 	private final Mockery context = new JUnit4Mockery();
+	
+	/** The messager. */
 	private final IInternetMessager messager = context.mock(IInternetMessager.class);
+	
+	/** The model. */
 	private ICommunicatorModel model;
+	
+	/** The controller. */
 	private final ICommunicatorController controller = context.mock(ICommunicatorController.class);
+	
+	/** The message provider. */
 	private final IModelMessageProvider messageProvider = context.mock(IModelMessageProvider.class);
+	
+	/** The connections container. */
 	private final IConnectionsContainer connectionsContainer = context.mock(IConnectionsContainer.class);
+	
+	/** The username container. */
 	private final IOtherUsersDataContainer usernameContainer = context.mock(IOtherUsersDataContainer.class);
+	
+	/** The actor username container. */
 	private final IActorUsernameContainer actorUsernameContainer = context.mock(IActorUsernameContainer.class);
+	
+	/** The letter container. */
 	//private final IRecievedMessagesHandler recievedHandler = context.mock(IRecievedMessagesHandler.class);
 	private final ILetterContainer letterContainer = context.mock(ILetterContainer.class);
+	
+	/** The pending letters container. */
 	private final IPendingLettersContainer pendingLettersContainer = context.mock(IPendingLettersContainer.class);
 	
+	/** The messages sender. */
 	private final IModelMessagesSender messagesSender = context.mock(IModelMessagesSender.class);
+	
+	/** The talk state data factory. */
 	private final ITalkStateDataFactory talkStateDataFactory = context.mock(ITalkStateDataFactory.class);
+	
+	/** The letter factory. */
 	private final ILetterFactory letterFactory = context.mock(ILetterFactory.class);
 	
+	/**
+	 * Sets the up.
+	 *
+	 * @throws MalformedURLException the malformed url exception
+	 */
 	@Before
 	public void setUp() throws MalformedURLException{
 		clientUrl = new URL("http://localhost:5555");
@@ -63,6 +99,11 @@ public class CommunicatorModelTest {
 				letterFactory, letterContainer, pendingLettersContainer );
 	}
 	
+	/**
+	 * Model passes connection to server request to internet messager.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void modelPassesConnectionToServerRequestToInternetMessager() throws Exception{
 		final URL serverAddress = new URL("http://localhost:9090");
@@ -75,6 +116,11 @@ public class CommunicatorModelTest {
 	}
 	
 	
+	/**
+	 * After username is submitted it is passed to username container.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void afterUsernameIsSubmittedItIsPassedToUsernameContainer() throws Exception{
 		Username username = new Username("Name");
@@ -90,6 +136,11 @@ public class CommunicatorModelTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * After username is submitted and connection to server was established introductory message is sent.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void afterUsernameIsSubmittedAndConnectionToServerWasEstablishedIntroductoryMessageIsSent() throws Exception{
 		Username username = new Username("Name");
@@ -106,6 +157,11 @@ public class CommunicatorModelTest {
 	}		
 
 	
+	/**
+	 * After begin asked for talk state data model fetches that data and passes it to controller.
+	 *
+	 * @throws ParseException the parse exception
+	 */
 	@Test
 	public void afterBeginAskedForTalkStateDataModelFetchesThatDataAndPassesItToController() throws ParseException{
 		Username username = new Username("SomeName");
@@ -122,6 +178,11 @@ public class CommunicatorModelTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * After letter is written and connection with user is ok letter talk is sent.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void afterLetterIsWrittenAndConnectionWithUserIsOkLetterTalkIsSent() throws Exception{
 		String letterText = "SomeLetterText";
@@ -144,6 +205,11 @@ public class CommunicatorModelTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * If letter was written but user is not connected this info is passed to controller.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void ifLetterWasWrittenButUserIsNotConnectedThisInfoIsPassedToController() throws Exception{
 		Username recipient = new Username("SomeName");

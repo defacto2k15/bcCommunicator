@@ -5,8 +5,15 @@ import java.net.URL;
 import bc.bcCommunicator.Model.Messages.IMessage;
 import bc.internetMessageProxy.ConnectionId;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class InternetMessagerCommandProvider.
+ */
 public class InternetMessagerCommandProvider implements IInternetMessagerCommandProvider {
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Model.Internet.IInternetMessagerCommandProvider#getConnectToServerCommand(java.net.URL)
+	 */
 	@Override
 	public IInternetMessagerCommand getConnectToServerCommand(URL serverAddress) {
 		return (IInternetMessager messager) -> {
@@ -19,6 +26,9 @@ public class InternetMessagerCommandProvider implements IInternetMessagerCommand
 		};
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Model.Internet.IInternetMessagerCommandProvider#getConnectionLostCommand(bc.internetMessageProxy.ConnectionId)
+	 */
 	@Override
 	public IInternetMessagerCommand getConnectionLostCommand(ConnectionId id) {
 		return (IInternetMessager messager) -> {
@@ -26,6 +36,9 @@ public class InternetMessagerCommandProvider implements IInternetMessagerCommand
 		};
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Model.Internet.IInternetMessagerCommandProvider#getSendMessageCommand(bc.internetMessageProxy.ConnectionId, bc.bcCommunicator.Model.Messages.IMessage)
+	 */
 	@Override
 	public IInternetMessagerCommand getSendMessageCommand(ConnectionId id, IMessage message) {
 		return (IInternetMessager messager) -> {
@@ -37,6 +50,9 @@ public class InternetMessagerCommandProvider implements IInternetMessagerCommand
 		};
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Model.Internet.IInternetMessagerCommandProvider#getConnectToUserCommand(java.net.URL)
+	 */
 	@Override
 	public IInternetMessagerCommand getConnectToUserCommand(URL oneAddress) {
 		return (IInternetMessager messager) -> {
@@ -44,6 +60,9 @@ public class InternetMessagerCommandProvider implements IInternetMessagerCommand
 		};
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Model.Internet.IInternetMessagerCommandProvider#getListenOnPortCommand(int)
+	 */
 	@Override
 	public IInternetMessagerCommand getListenOnPortCommand(int clientPort) {
 		return (IInternetMessager messager) -> { messager.listenOnPort(clientPort); };

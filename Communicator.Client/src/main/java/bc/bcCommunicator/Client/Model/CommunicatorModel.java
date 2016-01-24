@@ -18,21 +18,67 @@ import bc.bcCommunicator.Model.Messages.Letter.LetterSendingType;
 import bc.bcCommunicator.Model.Messages.Letter.LetterText;
 import bc.internetMessageProxy.ConnectionId;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CommunicatorModel.
+ */
 public class CommunicatorModel implements ICommunicatorModel {
+	
+	/** The messager. */
 	private IInternetMessager messager;
+	
+	/** The controller. */
 	private ICommunicatorController controller;
+	
+	/** The our url. */
 	private URL ourUrl;
+	
+	/** The message provider. */
 	private IModelMessageProvider messageProvider;
+	
+	/** The connections container. */
 	private IConnectionsContainer connectionsContainer;
+	
+	/** The username container. */
 	private IOtherUsersDataContainer usernameContainer;
+	
+	/** The actor username container. */
 	private IActorUsernameContainer actorUsernameContainer;
+	
+	/** The recieved hander. */
 	private IRecievedMessagesHandler recievedHander;
+	
+	/** The messages sender. */
 	private IModelMessagesSender messagesSender;
+	
+	/** The talk state data factory. */
 	private ITalkStateDataFactory talkStateDataFactory;
+	
+	/** The letter factory. */
 	private ILetterFactory letterFactory;
+	
+	/** The letter container. */
 	private ILetterContainer letterContainer;
+	
+	/** The pending letters container. */
 	private IPendingLettersContainer pendingLettersContainer;
 
+	/**
+	 * Instantiates a new communicator model.
+	 *
+	 * @param messager the messager
+	 * @param clientUrl the client url
+	 * @param messageProvider the message provider
+	 * @param connectionsContainer the connections container
+	 * @param usernameContainer the username container
+	 * @param messagesSender the messages sender
+	 * @param actorUsernameContainer the actor username container
+	 * @param controller the controller
+	 * @param talkStateDataFactory the talk state data factory
+	 * @param letterFactory the letter factory
+	 * @param letterContainer the letter container
+	 * @param pendingLettersContainer the pending letters container
+	 */
 	public CommunicatorModel(IInternetMessager messager, URL clientUrl, 
 			IModelMessageProvider messageProvider, IConnectionsContainer connectionsContainer, IOtherUsersDataContainer usernameContainer
 			, IModelMessagesSender messagesSender
@@ -53,6 +99,9 @@ public class CommunicatorModel implements ICommunicatorModel {
 		this.pendingLettersContainer = pendingLettersContainer;
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Model.ICommunicatorModel#connectToServer(java.net.URL)
+	 */
 	public void connectToServer(URL serverAddress) {
 		try {
 			messager.connectToServer(serverAddress);
@@ -63,6 +112,9 @@ public class CommunicatorModel implements ICommunicatorModel {
 	}
 
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Model.ICommunicatorModel#usernameSubmitted(bc.bcCommunicator.Model.BasicTypes.Username)
+	 */
 	@Override
 	public void usernameSubmitted(Username username) throws Exception {
 		actorUsernameContainer.setUsername(username);
@@ -71,6 +123,9 @@ public class CommunicatorModel implements ICommunicatorModel {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Model.ICommunicatorModel#getTalkStateData(bc.bcCommunicator.Model.BasicTypes.Username)
+	 */
 	@Override
 	public void getTalkStateData(Username username) throws ParseException {
 		if( connectionsContainer.isUserConnected(username)){
@@ -79,6 +134,9 @@ public class CommunicatorModel implements ICommunicatorModel {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Model.ICommunicatorModel#letterWasWritten(java.lang.String, bc.bcCommunicator.Model.BasicTypes.Username)
+	 */
 	@Override
 	public void letterWasWritten(String letterText, Username recipient) throws Exception {
 		System.out.println("M452 letter was written");

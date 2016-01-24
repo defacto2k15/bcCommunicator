@@ -13,12 +13,32 @@ import javax.swing.border.MatteBorder;
 
 import bc.bcCommunicator.Client.WindowNames;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class LetterView.
+ */
 public class LetterView extends ILetterView{
+	
+	/** The sender name. */
 	private JLabel senderName;
+	
+	/** The letter text. */
 	private JTextArea letterText;
+	
+	/** The send date. */
 	private JLabel sendDate;
+	
+	/** The letter color. */
 	private Color letterColor;
 	
+	/**
+	 * Instantiates a new letter view.
+	 *
+	 * @param username the username
+	 * @param inLetterText the in letter text
+	 * @param dateText the date text
+	 * @param alignLeft the align left
+	 */
 	public LetterView(String username, String inLetterText, String dateText, boolean alignLeft) {
 		setLayout(new GridBagLayout());
 
@@ -50,6 +70,12 @@ public class LetterView extends ILetterView{
 		setPreferredSize(d); 
 	}
 
+	/**
+	 * Adds the send date.
+	 *
+	 * @param dateText the date text
+	 * @param paddingBorder the padding border
+	 */
 	private void addSendDate(String dateText, Border paddingBorder) {
 		sendDate = new JLabel();
 		sendDate.setName(WindowNames.LETTER_SEND_DATE_NAME);
@@ -69,6 +95,13 @@ public class LetterView extends ILetterView{
 		add(sendDate, c);
 	}
 
+	/**
+	 * Adds the letter text.
+	 *
+	 * @param componentName the component name
+	 * @param inLetterText the in letter text
+	 * @param paddingBorder the padding border
+	 */
 	private void addLetterText(String componentName, String inLetterText,  Border paddingBorder) {
 		letterText = new JTextArea();
 		letterText.setName(componentName);
@@ -92,6 +125,12 @@ public class LetterView extends ILetterView{
 		
 	}
 
+	/**
+	 * Adds the sender name.
+	 *
+	 * @param username the username
+	 * @param paddingBorder the padding border
+	 */
 	private void addSenderName(String username, Border paddingBorder) {
 		senderName = new JLabel();
 		senderName.setName(WindowNames.LETTER_SENDER_NAME);

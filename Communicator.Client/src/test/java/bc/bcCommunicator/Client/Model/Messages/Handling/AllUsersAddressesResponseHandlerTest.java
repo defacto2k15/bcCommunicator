@@ -23,22 +23,53 @@ import bc.bcCommunicator.Model.Messages.AllUsersAddresses;
 import bc.bcCommunicator.Model.Messages.Response.IAllUsersAddressesResponse;
 import bc.internetMessageProxy.ConnectionId;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AllUsersAddressesResponseHandlerTest.
+ */
 public class AllUsersAddressesResponseHandlerTest {
+	
+	/** The context. */
 	private final Mockery context = new JUnit4Mockery();
+	
+	/** The container. */
 	private final IOtherUsersDataContainer container = context.mock(IOtherUsersDataContainer.class);
+	
+	/** The controller. */
 	private final ICommunicatorController controller = context.mock(ICommunicatorController.class);
+	
+	/** The messager. */
 	private final IInternetMessager messager = context.mock(IInternetMessager.class);
 	
+	/** The username address map. */
 	Map<Username, URL> usernameAddressMap = new HashMap<>();
+	
+	/** The all users. */
 	Set<Username> allUsers = new TreeSet<>();
+	
+	/** The all users addresses. */
 	AllUsersAddresses allUsersAddresses;
+	
+	/** The response. */
 	private final IAllUsersAddressesResponse response = context.mock(IAllUsersAddressesResponse.class);
+	
+	/** The id. */
 	private final ConnectionId id = new ConnectionId(99);
+	
+	/** The client url. */
 	URL clientUrl;
+	
+	/** The client port. */
 	int clientPort;
 	
+	/** The handler. */
 	AllUsersAddressesResponseHandler handler;
 	
+	/**
+	 * Sets the up.
+	 *
+	 * @throws MalformedURLException the malformed url exception
+	 */
 	@Before
 	public void setUp() throws MalformedURLException{
 		Username user1 = new Username("User1");
@@ -62,6 +93,11 @@ public class AllUsersAddressesResponseHandlerTest {
 	}
 	
 
+	/**
+	 * Correctly fills username container with data.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void correctlyFillsUsernameContainerWithData() throws Exception {
 		context.checking(new Expectations(){{
@@ -78,6 +114,11 @@ public class AllUsersAddressesResponseHandlerTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * Correctly passes users data to controller.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void correctlyPassesUsersDataToController() throws Exception {
 		context.checking(new Expectations(){{
@@ -93,6 +134,11 @@ public class AllUsersAddressesResponseHandlerTest {
 	}
 	
 	
+	/**
+	 * It is ordered to messager to connect to users.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void ItIsOrderedToMessagerToConnectToUsers() throws Exception {
 		context.checking(new Expectations(){{
@@ -109,6 +155,11 @@ public class AllUsersAddressesResponseHandlerTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * It is ordered to messager to start listening on port.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void ItIsOrderedToMessagerToStartListeningOnPort() throws Exception {
 		context.checking(new Expectations(){{

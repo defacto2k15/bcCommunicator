@@ -24,17 +24,45 @@ import bc.bcCommunicator.Client.WindowNames;
 import bc.bcCommunicator.Client.Controller.ICommunicatorController;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TalkWindowView.
+ */
 public class TalkWindowView  extends JFrame implements ITalkWindow, WindowListener {
+	
+	/** The talk user username label. */
 	JLabel talkUserUsernameLabel;
+	
+	/** The talk user connection state label. */
 	JLabel talkUserConnectionStateLabel;
+	
+	/** The letter state label. */
 	JLabel letterStateLabel;
+	
+	/** The letter text input field. */
 	JTextArea letterTextInputField;
+	
+	/** The letter list. */
 	ScrollablePaneView letterList;
+	
+	/** The send letter button. */
 	JButton sendLetterButton;
+	
+	/** The controller. */
 	private ICommunicatorController controller;
+	
+	/** The username. */
 	private Username username;
+	
+	/** The closing listener. */
 	private ITalkWindowViewClosingListener closingListener;
 	
+	/**
+	 * Instantiates a new talk window view.
+	 *
+	 * @param username the username
+	 * @param controller the controller
+	 */
 	public TalkWindowView( Username username, ICommunicatorController controller){
 		super(WindowNames.TALK_WINDOW_PREFIX+username.getName());
 		
@@ -114,27 +142,53 @@ public class TalkWindowView  extends JFrame implements ITalkWindow, WindowListen
 		setUsername(new Username("?"));
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Views.ITalkWindow#setConnectionState(bc.bcCommunicator.Client.Views.UserConnectionState)
+	 */
 	@Override
 	public void setConnectionState(UserConnectionState connected) {
 		talkUserConnectionStateLabel.setText(connected.getStateDescription());
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Views.ITalkWindow#setUsername(bc.bcCommunicator.Model.BasicTypes.Username)
+	 */
 	@Override
 	public void setUsername(Username username) {
 		talkUserUsernameLabel.setText("Talk with: "+username.getName());
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Views.ITalkWindow#setLetterState(bc.bcCommunicator.Client.Views.LetterState)
+	 */
 	@Override
 	public void setLetterState(LetterState state) {
 		letterStateLabel.setText(state.getMessage());
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Views.ITalkWindow#addLetterView(bc.bcCommunicator.Client.Views.ILetterView)
+	 */
 	@Override
 	public void addLetterView(ILetterView letterView) {
 		letterList.addLetter(letterView);
 	}
 	
-	 private static void addComponent(Container container, Component component, int gridx, int gridy,
+	 /**
+ 	 * Adds the component.
+ 	 *
+ 	 * @param container the container
+ 	 * @param component the component
+ 	 * @param gridx the gridx
+ 	 * @param gridy the gridy
+ 	 * @param gridwidth the gridwidth
+ 	 * @param gridheight the gridheight
+ 	 * @param weightx the weightx
+ 	 * @param weighty the weighty
+ 	 * @param anchor the anchor
+ 	 * @param fill the fill
+ 	 */
+ 	private static void addComponent(Container container, Component component, int gridx, int gridy,
 		      int gridwidth, int gridheight, double weightx, double weighty, int anchor, int fill) {
 		  Insets insets = new Insets(0, 0, 0, 0);
 		    GridBagConstraints gbc = new GridBagConstraints(gridx, gridy, gridwidth, gridheight, weightx, weighty,
@@ -142,47 +196,77 @@ public class TalkWindowView  extends JFrame implements ITalkWindow, WindowListen
 		    container.add(component, gbc);
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Views.ITalkWindow#emptyInputField()
+	 */
 	@Override
 	public void emptyInputField() {
 		letterTextInputField.setText("");
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Views.ITalkWindow#setClosingListener(bc.bcCommunicator.Client.Views.ITalkWindowViewClosingListener)
+	 */
 	@Override
 	public void setClosingListener(ITalkWindowViewClosingListener closingListener) {
 		this.closingListener = closingListener; 
 	}
 	
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Views.ITalkWindow#requetsToBeActiveFrame()
+	 */
 	@Override
 	public void requetsToBeActiveFrame() {
 		requestFocus();
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.awt.event.WindowListener#windowClosed(java.awt.event.WindowEvent)
+	 */
 	@Override
 	public void windowClosed(WindowEvent e) {
 		closingListener.windowIsClosing(this);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.WindowListener#windowOpened(java.awt.event.WindowEvent)
+	 */
 	@Override
 	public void windowOpened(WindowEvent e) {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.WindowListener#windowClosing(java.awt.event.WindowEvent)
+	 */
 	@Override
 	public void windowClosing(WindowEvent e) {
 	}
 
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.WindowListener#windowIconified(java.awt.event.WindowEvent)
+	 */
 	@Override
 	public void windowIconified(WindowEvent e) {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.WindowListener#windowDeiconified(java.awt.event.WindowEvent)
+	 */
 	@Override
 	public void windowDeiconified(WindowEvent e) {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.WindowListener#windowActivated(java.awt.event.WindowEvent)
+	 */
 	@Override
 	public void windowActivated(WindowEvent e) {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.WindowListener#windowDeactivated(java.awt.event.WindowEvent)
+	 */
 	@Override
 	public void windowDeactivated(WindowEvent e) {
 	}

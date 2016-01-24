@@ -16,7 +16,21 @@ import bc.bcCommunicator.Model.Messages.MessageFieldValues.RecipientFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.UsernameMessageFieldValue;
 import bc.internetMessageProxy.ConnectionId;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class LetterTalk.
+ */
 public class LetterTalk extends AbstractTalk implements ILetterTalk {
+	
+	/**
+	 * Instantiates a new letter talk.
+	 *
+	 * @param date the date
+	 * @param letterText the letter text
+	 * @param sender the sender
+	 * @param reciever the reciever
+	 * @throws Exception the exception
+	 */
 	public LetterTalk(LetterDate date, LetterText letterText, Username sender, Username reciever) throws Exception {
 		addField(TalkMessageType.LetterTalkType);
 		addField(date);
@@ -25,6 +39,12 @@ public class LetterTalk extends AbstractTalk implements ILetterTalk {
 		addField(reciever, true);
 	}
 	
+	/**
+	 * Instantiates a new letter talk.
+	 *
+	 * @param container the container
+	 * @throws Exception the exception
+	 */
 	public LetterTalk( IFieldsContainer container) throws Exception{
 		this(container.getFieldValue(LetterDateMessageFieldValue.class).getDate(),
 				container.getFieldValue(LetterTextMessageFieldValue.class).getLetterText(),
@@ -33,6 +53,9 @@ public class LetterTalk extends AbstractTalk implements ILetterTalk {
 	}
 	
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Model.Messages.Talk.ILetterTalk#getLetter()
+	 */
 	@Override
 	public Letter getLetter() throws ParseException {
 		return new Letter(
@@ -44,6 +67,9 @@ public class LetterTalk extends AbstractTalk implements ILetterTalk {
 	}
 	
 	
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Model.Messages.AbstractMessage#chooseHandler(bc.bcCommunicator.Model.Messages.Handling.AbstractMessageHandler, bc.internetMessageProxy.ConnectionId)
+	 */
 	@Override
 	public void chooseHandler( AbstractMessageHandler handler, ConnectionId id) throws Exception{
 		handler.handle(this, id);

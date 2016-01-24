@@ -17,11 +17,27 @@ import javax.swing.border.MatteBorder;
 
 import bc.bcCommunicator.Client.WindowNames;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ServerConnectionStatusView.
+ */
 public class ServerConnectionStatusView extends JPanel implements IServerConnectionStatusView {
+	
+	/** The connection status. */
 	private ServerConnectionStatus connectionStatus = ServerConnectionStatus.NotConnected;
+	
+	/** The server connection status label. */
 	private final JLabel serverConnectionStatusLabel = new JLabel(connectionStatus.getText(), SwingConstants.CENTER);
+	
+	/** The server connection input field. */
 	private final JTextField serverConnectionInputField = new JTextField(10);
+	
+	/** The server connection acceptance button. */
 	private final JButton serverConnectionAcceptanceButton = new JButton();
+	
+	/**
+	 * Instantiates a new server connection status view.
+	 */
 	public ServerConnectionStatusView(){
 
 		serverConnectionStatusLabel.setName(WindowNames.SERVER_CONNECTION_STATUS_LABEL);
@@ -51,22 +67,41 @@ public class ServerConnectionStatusView extends JPanel implements IServerConnect
 		
 		disableViev();
 	}
+	
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Views.IServerConnectionStatusView#getServerAddress()
+	 */
 	public String getServerAddress() {
 		return serverConnectionInputField.getText();
 	}
 	
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Views.IServerConnectionStatusView#setServerConnectionStatus(bc.bcCommunicator.Client.Views.ServerConnectionStatus)
+	 */
 	public void setServerConnectionStatus(ServerConnectionStatus status){
 		serverConnectionStatusLabel.setText(status.getText());
 	}
+	
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Views.IServerConnectionStatusView#setServerConnectionAcceptanceButtonWasClickedHandler(java.lang.Runnable)
+	 */
 	@Override
 	public void setServerConnectionAcceptanceButtonWasClickedHandler(Runnable procedure) {
 		serverConnectionAcceptanceButton.addActionListener((ActionEvent e)->{ procedure.run();});
 	}
+	
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Views.IServerConnectionStatusView#disableViev()
+	 */
 	@Override
 	public void disableViev() {
 		serverConnectionInputField.setEditable(false);
 		serverConnectionAcceptanceButton.setEnabled(false);
 	}
+	
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Views.IServerConnectionStatusView#enableView()
+	 */
 	@Override
 	public void enableView() {
 		serverConnectionInputField.setEditable(true);

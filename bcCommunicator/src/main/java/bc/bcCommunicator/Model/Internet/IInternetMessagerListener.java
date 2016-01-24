@@ -5,8 +5,11 @@ import java.net.URL;
 import bc.bcCommunicator.Model.Messages.IMessage;
 import bc.internetMessageProxy.ConnectionId;
 
+// TODO: Auto-generated Javadoc
 /**
- *  Class which methods will be called by IInternetMessager when some events occur
+ *  Class which methods will be called by IInternetMessager when some events occur.
+ *
+ * @see IInternetMessagerEvent
  */
 public interface IInternetMessagerListener {
 
@@ -19,7 +22,7 @@ public interface IInternetMessagerListener {
 	void messageWasRecieved(IMessage recievedMessage, ConnectionId connectionId);
 
 	/**
-	 * Server connection failed, maybe server is down, maybe internet connection is down
+	 * Server connection failed, maybe server is down, maybe internet connection is down.
 	 */
 	void serverConnectionFailed();
 
@@ -27,6 +30,7 @@ public interface IInternetMessagerListener {
 	 * Server connection was succesfull.
 	 *
 	 * @param connectionId the connection id of newly created connection
+	 * @throws Exception the exception
 	 */
 	void serverConnectionWasSuccesfull(ConnectionId connectionId) throws Exception;
 
@@ -41,6 +45,7 @@ public interface IInternetMessagerListener {
 	 * Message sent succesfully.
 	 *
 	 * @param id the id of connection that we sent message through
+	 * @throws Exception the exception
 	 */
 	void messageSentSuccesfully(ConnectionId id) throws Exception;
 
@@ -63,6 +68,7 @@ public interface IInternetMessagerListener {
 	 *
 	 * @param userAddress the  address  to which we succeded to connect to
 	 * @param connectionId the connection id of newly created connection
+	 * @throws Exception the exception
 	 */
 	void userConnectionWasSuccesfull(URL userAddress, ConnectionId connectionId) throws Exception;
 

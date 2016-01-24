@@ -21,15 +21,44 @@ import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Messages.Letter.Letter;
 import bc.bcCommunicator.Model.Messages.Letter.LetterSendingType;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CommunicatorController.
+ */
 public class CommunicatorController implements ICommunicatorController {
+	
+	/** The connection status view. */
 	private IServerConnectionStatusView connectionStatusView;
+	
+	/** The model. */
 	private ICommunicatorModel model;
+	
+	/** The username input view. */
 	private IUsernameInputView usernameInputView;
+	
+	/** The users table view. */
 	private IUsersTableView usersTableView;
+	
+	/** The talk windows container. */
 	private ITalkWindowsContainer talkWindowsContainer;
+	
+	/** The windows factory. */
 	private ITalkWindowsFactory windowsFactory;
+	
+	/** The letter view factory. */
 	private ILetterViewFactory letterViewFactory;
 
+	/**
+	 * Instantiates a new communicator controller.
+	 *
+	 * @param connectionStatusView the connection status view
+	 * @param model the model
+	 * @param usernameInputView the username input view
+	 * @param usersTableView the users table view
+	 * @param talkWindowsContainer the talk windows container
+	 * @param windowsFactory the windows factory
+	 * @param letterViewFactory the letter view factory
+	 */
 	public CommunicatorController(IServerConnectionStatusView connectionStatusView, 
 			ICommunicatorModel model,  
 			IUsernameInputView usernameInputView, IUsersTableView usersTableView, ITalkWindowsContainer talkWindowsContainer,
@@ -43,6 +72,9 @@ public class CommunicatorController implements ICommunicatorController {
 		this.letterViewFactory = letterViewFactory;
 	}
 	
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Controller.ICommunicatorController#setViewHandlers()
+	 */
 	@Override
 	public void setViewHandlers(){
 		this.connectionStatusView.setServerConnectionAcceptanceButtonWasClickedHandler(
@@ -56,6 +88,9 @@ public class CommunicatorController implements ICommunicatorController {
 				}});
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Controller.ICommunicatorController#serverConnectionAcceptanceButtonWasClicked()
+	 */
 	@Override
 	public void serverConnectionAcceptanceButtonWasClicked() {
 		String serverAddressText = connectionStatusView.getServerAddress();
@@ -69,6 +104,9 @@ public class CommunicatorController implements ICommunicatorController {
 		model.connectToServer(serverAddress);
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Controller.ICommunicatorController#serverConnectionWasSuccesfull()
+	 */
 	@Override
 	public void serverConnectionWasSuccesfull() {
 		connectionStatusView.setServerConnectionStatus(ServerConnectionStatus.Connected);
@@ -76,6 +114,9 @@ public class CommunicatorController implements ICommunicatorController {
 		usernameInputView.disableView();
 	}
 	
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Controller.ICommunicatorController#serverConnectionFailed()
+	 */
 	@Override
 	public void serverConnectionFailed() {
 		connectionStatusView.setServerConnectionStatus(ServerConnectionStatus.ConnectionFailed);
@@ -83,6 +124,9 @@ public class CommunicatorController implements ICommunicatorController {
 		connectionStatusView.enableView();
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Controller.ICommunicatorController#usernameInputSubmitButtonWasClicked()
+	 */
 	@Override
 	public void usernameInputSubmitButtonWasClicked() throws Exception {
 		String usernameText = usernameInputView.getUsernameText();
@@ -95,6 +139,9 @@ public class CommunicatorController implements ICommunicatorController {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Controller.ICommunicatorController#setBulkUsers(java.util.List)
+	 */
 	@Override
 	public void setBulkUsers(List<Username> usernames) {
 		usersTableView.clearTable();
@@ -103,12 +150,18 @@ public class CommunicatorController implements ICommunicatorController {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Controller.ICommunicatorController#userWasConnected(bc.bcCommunicator.Model.BasicTypes.Username)
+	 */
 	@Override
 	public void userWasConnected(Username username) {
 		usersTableView.changeStateOfUser(username, UserConnectionState.Connected);
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Controller.ICommunicatorController#userConnectionLost(bc.bcCommunicator.Model.BasicTypes.Username)
+	 */
 	@Override
 	public void userConnectionLost(Username username) {
 		usersTableView.changeStateOfUser(username, UserConnectionState.ConnectionLost);
@@ -117,6 +170,9 @@ public class CommunicatorController implements ICommunicatorController {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Controller.ICommunicatorController#newUserConnected(bc.bcCommunicator.Model.BasicTypes.Username)
+	 */
 	@Override
 	public void newUserConnected(Username username) {	
 		usersTableView.addLineToTable(username, UserConnectionState.Connected, TalkState.NoNewMessages);
@@ -125,6 +181,9 @@ public class CommunicatorController implements ICommunicatorController {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Controller.ICommunicatorController#rowInUserTableWasClicked(bc.bcCommunicator.Model.BasicTypes.Username)
+	 */
 	@Override
 	public void rowInUserTableWasClicked(Username username) throws ParseException {
 		if (talkWindowsContainer.isWindowOpenForUser(username) ){
@@ -132,10 +191,14 @@ public class CommunicatorController implements ICommunicatorController {
 			talkWindow.requetsToBeActiveFrame();
 			usersTableView.changeStateOfUser(username, TalkState.NoNewMessages);
 		} else {
+			usersTableView.changeStateOfUser(username, TalkState.NoNewMessages);
 			model.getTalkStateData(username);
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Controller.ICommunicatorController#talkStateChanged(bc.bcCommunicator.Client.Controller.TalkStateData)
+	 */
 	@Override
 	public void talkStateChanged(TalkStateData stateData) throws ParseException {
 		if (talkWindowsContainer.isWindowOpenForUser(stateData.username) == false){
@@ -150,6 +213,9 @@ public class CommunicatorController implements ICommunicatorController {
 		}		
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Controller.ICommunicatorController#recievedNewLetter(bc.bcCommunicator.Model.Messages.Letter.Letter)
+	 */
 	@Override
 	public void recievedNewLetter(Letter letter) throws ParseException {
 		if( talkWindowsContainer.isWindowOpenForUser(letter.getOtherUserInTalk()) == false){
@@ -159,18 +225,31 @@ public class CommunicatorController implements ICommunicatorController {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Controller.ICommunicatorController#letterWasWritten(bc.bcCommunicator.Model.BasicTypes.Username, java.lang.String)
+	 */
 	@Override
 	public void letterWasWritten(Username username, String text) throws Exception {
 		model.letterWasWritten(text, username);
 		talkWindowsContainer.getUserWindow(username).setLetterState(LetterState.Letter_Sending);
 	}
 	
+	/**
+	 * Adds the letter to view.
+	 *
+	 * @param userTalkingTo the user talking to
+	 * @param letter the letter
+	 * @throws ParseException the parse exception
+	 */
 	private void addLetterToView( Username userTalkingTo,  Letter letter ) throws ParseException{
 		ILetterView letterView = letterViewFactory.getLetterView(letter.sender.getName(), 
 				letter.text.getTextValue(), letter.date.getDateAsString(), letter.type == LetterSendingType.Recieved);
 		talkWindowsContainer.getUserWindow(userTalkingTo).addLetterView(letterView);			
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Controller.ICommunicatorController#letterWasSent(bc.bcCommunicator.Model.Messages.Letter.Letter)
+	 */
 	@Override
 	public void letterWasSent(Letter letter) throws ParseException {
 		if( talkWindowsContainer.isWindowOpenForUser(letter.getOtherUserInTalk())){
@@ -181,6 +260,9 @@ public class CommunicatorController implements ICommunicatorController {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Controller.ICommunicatorController#letterSendingFailed(bc.bcCommunicator.Model.BasicTypes.Username)
+	 */
 	@Override
 	public void letterSendingFailed(Username username) {
 		if( talkWindowsContainer.isWindowOpenForUser(username) ){
@@ -188,11 +270,17 @@ public class CommunicatorController implements ICommunicatorController {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Controller.ICommunicatorController#usernameWasOk()
+	 */
 	@Override
 	public void usernameWasOk(){
 		usernameInputView.setUsernameInputStatus(UsernameInputStatus.UsernameOk);
 	}
 	
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Controller.ICommunicatorController#usernameWasBad()
+	 */
 	@Override
 	public void usernameWasBad(){
 		usernameInputView.setUsernameInputStatus(UsernameInputStatus.UsernameBad);

@@ -14,6 +14,7 @@ bc/bcCommunicator/Model/Messages/CreatingFromRecievedString/IMessageInitializedF
 bc/bcCommunicator/Model/Messages/Talk/ILetterTalk.class
 bc/bcCommunicator/Model/Internet/IInternetMessager.class
 bc/bcCommunicator/Model/Internet/ServerRequest/ServerRequestProvider.class
+bc/bcCommunicator/Proxying/InterfaceProxyToSwingThread.class
 bc/bcCommunicator/Model/Messages/Response/ResponseMessageType.class
 bc/bcCommunicator/Model/Internet/ServerRequest/IServerRequest.class
 bc/bcCommunicator/Model/Messages/Response/AllUsersAddressesResponse.class
@@ -57,6 +58,8 @@ bc/bcCommunicator/Model/Messages/Talk/IntroductoryTalk.class
 bc/bcCommunicator/Model/Messages/Request/IIntroductoryRequest.class
 bc/bcCommunicator/Model/Messages/Talk/IIntroductoryTalk.class
 bc/bcCommunicator/Proxying/ProxyToSwingThread.class
+bc/bcCommunicator/Proxying/AbstractInterfaceProxyToAnotherThread.class
+bc/bcCommunicator/Proxying/DefaultInterfaceProxyToAnotherThread.class
 bc/bcCommunicator/Model/Messages/CreatingFromRecievedString/IRecievedMessageCreator.class
 bc/bcCommunicator/Model/Messages/CreatingFromRecievedString/IMessageFieldsValuesCreator.class
 bc/bcCommunicator/Model/Messages/CreatingFromRecievedString/MessageFieldsExtractor.class

@@ -13,7 +13,17 @@ import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.RecievedMessa
 import bc.bcCommunicator.Proxying.BoxingProxy;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Main.
+ */
 public class Main {
+	
+	/**
+	 * The main method.
+	 *
+	 * @param inputs the arguments
+	 */
 	public static void main(String[] inputs){
 		if( inputs.length == 0){
 			try{
@@ -30,6 +40,11 @@ public class Main {
 		}
 	}
 	
+	/**
+	 * Instantiates a new main.
+	 *
+	 * @param portNumber the port number
+	 */
 	public Main( int portNumber){
 		BoxingProxy<IServerMessagesHandler> messageHandlerProxy = new BoxingProxy<>();
 		IServerMessagesHandler boxedMessageHandler = createProxiedObject(IServerMessagesHandler.class, messageHandlerProxy);
@@ -46,6 +61,14 @@ public class Main {
 		messageHandlerProxy.setTarget( new ServerMessagesHandler(messager, usersContainer));
 	}
 	
+	/**
+	 * Creates the proxied object.
+	 *
+	 * @param <T> the generic type
+	 * @param cls the cls
+	 * @param handler the handler
+	 * @return the t
+	 */
 	private <T> T createProxiedObject(Class<T> cls, InvocationHandler handler ){
 		return (T)Proxy.newProxyInstance(
 				cls.getClassLoader(),

@@ -13,12 +13,29 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class InternetMessageProxy.
+ */
 public class InternetMessageProxy implements IInternetMessageProxy {
+	
+	/** The recieved messages. */
 	private BlockingQueue<RecievedMessage> recievedMessages = new ArrayBlockingQueue<RecievedMessage>(100);
+	
+	/** The connections count. */
 	static int connectionsCount = 0;
+	
+	/** The connections. */
 	private List<Connection> connections = new ArrayList<Connection>();
+	
+	/** The on socket close function. */
 	private Consumer<ConnectionId> onSocketCloseFunction;
 
+	/**
+	 * Instantiates a new internet message proxy.
+	 *
+	 * @param onSocketCloseFunction the on socket close function
+	 */
 	public InternetMessageProxy(Consumer<ConnectionId> onSocketCloseFunction) {
 		this.onSocketCloseFunction = onSocketCloseFunction;
 		new Thread(() -> {
@@ -46,6 +63,9 @@ public class InternetMessageProxy implements IInternetMessageProxy {
 		}).start();
 	}
 
+	/**
+	 * Instantiates a new internet message proxy.
+	 */
 	public InternetMessageProxy() {
 		this((new Consumer<ConnectionId>() {
 			@Override
@@ -74,6 +94,9 @@ public class InternetMessageProxy implements IInternetMessageProxy {
 		return connectionToFind.get().sendMessage(message);
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.internetMessageProxy.IInternetMessageProxy#getMessageBlocking()
+	 */
 	@Override
 	public RecievedMessage getMessageBlocking() throws Exception {
 		RecievedMessage message = null;
@@ -84,6 +107,9 @@ public class InternetMessageProxy implements IInternetMessageProxy {
 		return message;
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.internetMessageProxy.IInternetMessageProxy#getMessageBlockingWithTimeout()
+	 */
 	@Override
 	public RecievedMessage getMessageBlockingWithTimeout() throws Exception {
 		RecievedMessage message = null;
@@ -138,6 +164,9 @@ public class InternetMessageProxy implements IInternetMessageProxy {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.internetMessageProxy.IInternetMessageProxy#startConnection(java.net.URL)
+	 */
 	@Override
 	public Optional<ConnectionId> startConnection(URL url) throws UnknownHostException, IOException {
 		ConnectionId newId = new ConnectionId(connectionsCount++);

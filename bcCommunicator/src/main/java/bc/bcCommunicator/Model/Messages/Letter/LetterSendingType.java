@@ -1,5 +1,13 @@
 package bc.bcCommunicator.Model.Messages.Letter;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Enum LetterSendingType.
+ */
 public enum LetterSendingType {
-	Sent, Recieved
+	
+	/** The Sent. */
+	Sent, 
+ /** The Recieved. */
+ Recieved
 }

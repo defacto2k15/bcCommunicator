@@ -1,9 +1,12 @@
 package bc.bcCommunicator.Model.BasicTypes;
 
+// TODO: Auto-generated Javadoc
 /**
- * The Class Username, encapsulates the username string with equality methods
+ * The Class Username, encapsulates the username string with equality methods.
  */
 public class Username implements Comparable<Username>{
+	
+	/** The name. */
 	private String name;
 	
 	/**

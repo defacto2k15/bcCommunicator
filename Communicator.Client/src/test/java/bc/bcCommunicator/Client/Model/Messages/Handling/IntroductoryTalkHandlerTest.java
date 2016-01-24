@@ -15,17 +15,38 @@ import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Messages.Talk.IIntroductoryTalk;
 import bc.internetMessageProxy.ConnectionId;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class IntroductoryTalkHandlerTest.
+ */
 public class IntroductoryTalkHandlerTest {
+	
+	/** The context. */
 	private Mockery context = new JUnit4Mockery();
+	
+	/** The controller. */
 	private ICommunicatorController controller = context.mock(ICommunicatorController.class);
+	
+	/** The users data container. */
 	private IOtherUsersDataContainer usersDataContainer = context.mock(IOtherUsersDataContainer.class);
+	
+	/** The connections container. */
 	private IConnectionsContainer connectionsContainer = context.mock(IConnectionsContainer.class);
 	
+	/** The handler. */
 	private IntroductoryTalkHandler handler = new IntroductoryTalkHandler(controller, usersDataContainer, connectionsContainer);
 	
+	/** The in talk. */
 	IIntroductoryTalk inTalk = context.mock(IIntroductoryTalk.class);
+	
+	/** The new user connection id. */
 	ConnectionId newUserConnectionId = new ConnectionId(88);
 	
+	/**
+	 * When introductory talk is sent and username is new controller is told to add user.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void whenIntroductoryTalkIsSentAndUsernameIsNewControllerIsToldToAddUser() throws Exception {	
 		Username username = new Username("SomeUsername");
@@ -43,6 +64,11 @@ public class IntroductoryTalkHandlerTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * New connection is added to connections container.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void newConnectionIsAddedToConnectionsContainer() throws Exception {
 		Username username = new Username("SomeUsername");
@@ -60,6 +86,11 @@ public class IntroductoryTalkHandlerTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * When username is new address of user is saved in container.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void WhenUsernameIsNewAddressOfUserIsSavedInContainer() throws Exception {
 		Username username = new Username("SomeUsername");
@@ -79,6 +110,11 @@ public class IntroductoryTalkHandlerTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * When user is reconnecting we notify controller and users data container is updated.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void whenUserIsReconnectingWeNotifyControllerAndUsersDataContainerIsUpdated() throws Exception {
 		Username username = new Username("SomeUsername");

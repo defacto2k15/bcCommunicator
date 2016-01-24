@@ -14,7 +14,17 @@ import javax.swing.border.MatteBorder;
 import bc.bcCommunicator.Client.WindowNames;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ScrollablePaneView.
+ */
 public class ScrollablePaneView extends JPanel implements IScrollblePaneView  {
+	
+	/**
+	 * The main method.
+	 *
+	 * @param a the arguments
+	 */
 	public static void main(String[] a){
 	      JFrame frame = new JFrame("Test");
           frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -29,9 +39,17 @@ public class ScrollablePaneView extends JPanel implements IScrollblePaneView  {
 	}
 	
 	
+    /** The main list. */
     private JPanel mainList;
+    
+    /** The letter list panel. */
     private JPanel letterListPanel;
 
+    /**
+     * Instantiates a new scrollable pane view.
+     *
+     * @param rootWindowName the root window name
+     */
     public ScrollablePaneView(String rootWindowName) {
     	setPreferredSize(new Dimension(400, 500));
     	setLayout(new BorderLayout());
@@ -61,11 +79,17 @@ public class ScrollablePaneView extends JPanel implements IScrollblePaneView  {
 
     }
 
+    /* (non-Javadoc)
+     * @see javax.swing.JComponent#getPreferredSize()
+     */
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(200, 200);
     }
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Views.IScrollblePaneView#addLetter(bc.bcCommunicator.Client.Views.ILetterView)
+	 */
 	@Override
 	public void addLetter(ILetterView letterView) {
 		//JLabel letterView = new JLabel();

@@ -34,22 +34,47 @@ import bc.bcCommunicator.Client.Views.UsernameInputStatus;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Messages.Letter.Letter;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CommunicatorControllerTest.
+ */
 @RunWith(JMock.class)
 public class CommunicatorControllerTest {
+	
+	/** The context. */
 	private final Mockery context = new JUnit4Mockery();
+	
+	/** The connection view. */
 	private final IServerConnectionStatusView connectionView = context.mock(IServerConnectionStatusView.class);
+	
+	/** The username view. */
 	private final IUsernameInputView usernameView = context.mock(IUsernameInputView.class);
+	
+	/** The communicator model. */
 	private final ICommunicatorModel communicatorModel = context.mock(ICommunicatorModel.class);
 
+	/** The users table view. */
 	private final IUsersTableView usersTableView = context.mock(IUsersTableView.class);
+	
+	/** The talk windows container. */
 	private final ITalkWindowsContainer talkWindowsContainer = context.mock(ITalkWindowsContainer.class);
+	
+	/** The talk windows factory. */
 	private final ITalkWindowsFactory talkWindowsFactory = context.mock(ITalkWindowsFactory.class);
+	
+	/** The letter view factory. */
 	private final ILetterViewFactory letterViewFactory = context.mock(ILetterViewFactory.class);
 
+	/** The controller. */
 	private final ICommunicatorController controller 
 					= new CommunicatorController(connectionView, communicatorModel, usernameView, 
 							usersTableView, talkWindowsContainer, talkWindowsFactory, letterViewFactory);
 	
+	/**
+	 * On start connection button clicked will pass command to model.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void onStartConnectionButtonClickedWillPassCommandToModel() throws Exception{
 		final String serverAddressString="http://localhost:9090";
@@ -63,6 +88,11 @@ public class CommunicatorControllerTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * When passed server address is badlabel in view will reflect this.
+	 *
+	 * @throws MalformedURLException the malformed url exception
+	 */
 	@Test
 	public void whenPassedServerAddressIsBadlabelInViewWillReflectThis() throws MalformedURLException{
 		final String badServerAddressString="BAD_ADDRESS";
@@ -75,6 +105,9 @@ public class CommunicatorControllerTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * When server connection failed server connection status is set.
+	 */
 	@Test
 	public void whenServerConnectionFailedServerConnectionStatusIsSet(){
 		context.checking(new Expectations(){{
@@ -86,6 +119,11 @@ public class CommunicatorControllerTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * When username input button is clicked and no input is in textfield label is apropiately set.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void whenUsernameInputButtonIsClickedAndNoInputIsInTextfieldLabelIsApropiatelySet() throws Exception{
 		String emptyUsernameText = "";
@@ -97,6 +135,11 @@ public class CommunicatorControllerTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * When username is submited an idt is ok controller passes username to model.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void whenUsernameIsSubmitedAnIdtIsOkControllerPassesUsernameToModel() throws Exception{
 		String usernameText = "SomeText";
@@ -110,6 +153,9 @@ public class CommunicatorControllerTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * When users are bulk set view is cleared and usernames are set again.
+	 */
 	@Test
 	public void whenUsersAreBulkSetViewIsClearedAndUsernamesAreSetAgain(){
 		List<Username> usernames = new ArrayList<Username>();
@@ -128,6 +174,9 @@ public class CommunicatorControllerTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * When user was connected controller tells user table to set appropiate user connection status.
+	 */
 	@Test
 	public void whenUserWasConnectedControllerTellsUserTableToSetAppropiateUserConnectionStatus(){
 		Username username = new Username("Some name");
@@ -138,6 +187,9 @@ public class CommunicatorControllerTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * When connected user is lost in user table appropiate status is set.
+	 */
 	@Test
 	public void whenConnectedUserIsLostInUserTableAppropiateStatusIsSet(){
 		Username username = new Username("Some name");
@@ -149,6 +201,9 @@ public class CommunicatorControllerTest {
 		context.assertIsSatisfied();	
 	}
 	
+	/**
+	 * When connected user is lost and talk window is open appropiate status is set.
+	 */
 	@Test
 	public void whenConnectedUserIsLostAndTalkWindowIsOpenAppropiateStatusIsSet(){
 		ITalkWindow talkWindow = context.mock(ITalkWindow.class);
@@ -163,6 +218,9 @@ public class CommunicatorControllerTest {
 		context.assertIsSatisfied();	
 	}
 	
+	/**
+	 * When new user is added appropiate line is added to table and if talk window is opened we update state.
+	 */
 	@Test
 	public void whenNewUserIsAddedAppropiateLineIsAddedToTableAndIfTalkWindowIsOpenedWeUpdateState(){
 		Username username = new Username("Some name");
@@ -178,18 +236,29 @@ public class CommunicatorControllerTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * When users table row is clicked we check if talk window is open and if not we ask model for talk state data.
+	 *
+	 * @throws ParseException the parse exception
+	 */
 	@Test
 	public void whenUsersTableRowIsClickedWeCheckIfTalkWindowIsOpenAndIfNotWeAskModelForTalkStateData() throws ParseException{
 		Username username = new Username("Some name");
 		context.checking( new Expectations(){{
 			oneOf(talkWindowsContainer).isWindowOpenForUser(username); will(returnValue(false));
 			oneOf(communicatorModel).getTalkStateData(username);
+			oneOf(usersTableView).changeStateOfUser(username, TalkState.NoNewMessages);
 		}});
 		
 		controller.rowInUserTableWasClicked(username);
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * When talk state changed and talk window is not present it is generated.
+	 *
+	 * @throws ParseException the parse exception
+	 */
 	@Test
 	public void whenTalkStateChangedAndTalkWindowIsNotPresentItIsGenerated() throws ParseException{
 		ITalkWindow window = context.mock(ITalkWindow.class);
@@ -219,6 +288,11 @@ public class CommunicatorControllerTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * After letter sent if talk window is not open row in talk table is changed to insidate new message shown.
+	 *
+	 * @throws ParseException the parse exception
+	 */
 	@Test
 	public void afterLetterSentIfTalkWindowIsNotOpenRowInTalkTableIsChangedToInsidateNewMessageShown() throws ParseException{
 		Letter letter = ConstantSampleInstances.getSampleLetter();
@@ -231,6 +305,11 @@ public class CommunicatorControllerTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * After letter send if talk window is open new letter view is added.
+	 *
+	 * @throws ParseException the parse exception
+	 */
 	@Test
 	public void afterLetterSendIfTalkWindowIsOpenNewLetterViewIsAdded() throws ParseException{
 		
@@ -245,6 +324,11 @@ public class CommunicatorControllerTest {
 	}
 	
 	
+	/**
+	 * After letter is written model is notified and state in talk window is changed.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void afterLetterIsWrittenModelIsNotifiedAndStateInTalkWindowIsChanged() throws Exception{
 		String letterText = "SomeLetterText";
@@ -261,6 +345,11 @@ public class CommunicatorControllerTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * After letter was sent we add it to talk window and set letter state label in there.
+	 *
+	 * @throws ParseException the parse exception
+	 */
 	@Test
 	public void afterLetterWasSentWeAddItToTalkWindowAndSetLetterStateLabelInThere() throws ParseException{
 		Letter letter = ConstantSampleInstances.getSampleLetter();
@@ -278,6 +367,14 @@ public class CommunicatorControllerTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * Check that new letter view is created.
+	 *
+	 * @param userTalkingTo the user talking to
+	 * @param letter the letter
+	 * @param alignLeft the align left
+	 * @throws ParseException the parse exception
+	 */
 	private void checkThatNewLetterViewIsCreated( Username userTalkingTo,  Letter letter, boolean alignLeft) throws ParseException{
 		ILetterView view = new ILetterView() {
 		};			
@@ -293,6 +390,11 @@ public class CommunicatorControllerTest {
 		/* contex.assertIsSatisfied NOT WYMAGANE */
 	}
 	
+	/**
+	 * When letter sending failed we change state in talk window.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void whenLetterSendingFailedWeChangeStateInTalkWindow() throws Exception {
 		Username username = new Username("SomeName");

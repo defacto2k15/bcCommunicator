@@ -25,21 +25,50 @@ import bc.bcCommunicator.Model.Messages.Letter.Letter;
 import bc.bcCommunicator.Model.Messages.Request.IRequest;
 import bc.internetMessageProxy.ConnectionId;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ConnectivityHandlerTest.
+ */
 public class ConnectivityHandlerTest {
+	
+	/** The context. */
 	private final Mockery context = new JUnit4Mockery();
 	
+	/** The client url. */
 	private URL clientUrl;
+	
+	/** The handler. */
 	ConnectivityHandler handler;
 
+	/** The controller. */
 	private ICommunicatorController controller = context.mock(ICommunicatorController.class);
+	
+	/** The connections container. */
 	private IConnectionsContainer connectionsContainer = context.mock( IConnectionsContainer.class);
+	
+	/** The username container. */
 	private IOtherUsersDataContainer usernameContainer = context.mock( IOtherUsersDataContainer.class);
+	
+	/** The actor username container. */
 	private IActorUsernameContainer actorUsernameContainer = context.mock( IActorUsernameContainer.class);
+	
+	/** The messages sender. */
 	private IModelMessagesSender messagesSender = context.mock( IModelMessagesSender.class);
+	
+	/** The pending letters container. */
 	private IPendingLettersContainer pendingLettersContainer = context.mock(IPendingLettersContainer.class);
+	
+	/** The letter container. */
 	private  ILetterContainer letterContainer = context.mock(ILetterContainer.class);
+	
+	/** The recieved messages handler. */
 	private IRecievedMessagesHandler recievedMessagesHandler = context.mock(IRecievedMessagesHandler.class);
 	
+	/**
+	 * Sets the up.
+	 *
+	 * @throws MalformedURLException the malformed url exception
+	 */
 	@Before
 	public void setUp() throws MalformedURLException{
 		clientUrl = new URL("http://localhost:5555");
@@ -47,6 +76,11 @@ public class ConnectivityHandlerTest {
 				actorUsernameContainer, messagesSender, pendingLettersContainer, letterContainer, recievedMessagesHandler);
 	}
 	
+	/**
+	 * Handler notifies controller about server connection status view change after connection with server is istablished.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void handlerNotifiesControllerAboutServerConnectionStatusViewChangeAfterConnectionWithServerIsIstablished() throws Exception{
 		context.checking(new Expectations(){{
@@ -58,6 +92,9 @@ public class ConnectivityHandlerTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * Notifies controller when server conection fails.
+	 */
 	@Test
 	public void notifiesControllerWhenServerConectionFails(){
 		context.checking(new Expectations(){{
@@ -68,6 +105,11 @@ public class ConnectivityHandlerTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * After server is connected connection id is passed to connections container.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void afterServerIsConnectedConnectionIdIsPassedToConnectionsContainer() throws Exception{
 		ConnectionId id = new ConnectionId(99);
@@ -81,6 +123,11 @@ public class ConnectivityHandlerTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * After server is connected if usernme was set introductory request is sent to it.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void afterServerIsConnectedIfUsernmeWasSetIntroductoryRequestIsSentToIt() throws Exception{
 		IRequest request = context.mock(IRequest.class);
@@ -97,6 +144,11 @@ public class ConnectivityHandlerTest {
 		context.assertIsSatisfied();		
 	}
 	
+	/**
+	 * After server is connected if usernme was not set we just notify controller.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void afterServerIsConnectedIfUsernmeWasNotSetWeJustNotifyController() throws Exception{
 		IRequest request = context.mock(IRequest.class);
@@ -112,6 +164,9 @@ public class ConnectivityHandlerTest {
 		context.assertIsSatisfied();		
 	}	
 	
+	/**
+	 * After server connection failed connections container is notified.
+	 */
 	@Test
 	public void afterServerConnectionFailedConnectionsContainerIsNotified(){
 		context.checking(new Expectations(){{
@@ -123,6 +178,11 @@ public class ConnectivityHandlerTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * When connection to user was successfullhandler saves conenction id.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void whenConnectionToUserWasSuccessfullhandlerSavesConenctionId() throws Exception{
 		URL url = new URL("http://www.sth.com");
@@ -142,6 +202,11 @@ public class ConnectivityHandlerTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * When conenction to user was succesfull tell controller to change state of this user in view.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void whenConenctionToUserWasSuccesfullTellControllerToChangeStateOfThisUserInView() throws Exception{
 		URL url = new URL("http://sth.com");
@@ -161,6 +226,11 @@ public class ConnectivityHandlerTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * After connectionhandler sends introductory talk to other user.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void afterConnectionhandlerSendsIntroductoryTalkToOtherUser() throws Exception{
 		ConnectionId id = new ConnectionId(99);
@@ -178,6 +248,11 @@ public class ConnectivityHandlerTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * When we lost connection and the connection was with user controller is notified.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void whenWeLostConnectionAndTheConnectionWasWithUserControllerIsNotified() throws Exception {
 		ConnectionId lostConnectonId = new ConnectionId(99);
@@ -195,6 +270,11 @@ public class ConnectivityHandlerTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * If message was sent to user and pending letter in this user talk is set we say to controller that letter was send.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void ifMessageWasSentToUserAndPendingLetterInThisUserTalkIsSetWeSayToControllerThatLetterWasSend() throws Exception{
 		ConnectionId userConnectionId = new ConnectionId(99);
@@ -214,6 +294,11 @@ public class ConnectivityHandlerTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * When message sending failed we pass this info to controller.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void whenMessageSendingFailedWePassThisInfoToController() throws Exception {
 		ConnectionId userConnectionId = new ConnectionId(99);
@@ -230,6 +315,9 @@ public class ConnectivityHandlerTest {
 	}
 	
 	
+	/**
+	 * When message is recieved it is passed to handler.
+	 */
 	@Test
 	public void whenMessageIsRecievedItIsPassedToHandler(){
 		IMessage message = context.mock(IMessage.class);

@@ -13,15 +13,38 @@ import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Messages.Response.IUsernameOkResponse;
 import bc.internetMessageProxy.ConnectionId;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class UsernameOkResponseHandlerTest.
+ */
 public class UsernameOkResponseHandlerTest {
+	
+	/** The context. */
 	private final Mockery context = new JUnit4Mockery();
+	
+	/** The container. */
 	private IActorUsernameContainer container = context.mock( IActorUsernameContainer.class);
+	
+	/** The controller. */
 	private ICommunicatorController controller = context.mock(ICommunicatorController.class);
+	
+	/** The response. */
 	private IUsernameOkResponse response = context.mock(IUsernameOkResponse.class);
+	
+	/** The id. */
 	private ConnectionId id = new ConnectionId(92);
+	
+	/** The messages sender. */
 	private final IModelMessagesSender messagesSender = context.mock(IModelMessagesSender.class);
+	
+	/** The handler. */
 	private final UsernameOkResponseHandler handler = new UsernameOkResponseHandler(container, messagesSender, controller);
 	
+	/**
+	 * Correctly calls view that username was ok.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void correctlyCallsViewThatUsernameWasOk() throws Exception {
 		context.checking(new Expectations(){{
@@ -33,6 +56,12 @@ public class UsernameOkResponseHandlerTest {
 		context.assertIsSatisfied();
 	}
 	
+	/**
+	 * Gets the s username from response and puts it to container.
+	 *
+	 * @return the s username from response and puts it to container
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void getsUsernameFromResponseAndPutsItToContainer() throws Exception{
 		final Username username = new Username("SomeName");
@@ -45,6 +74,11 @@ public class UsernameOkResponseHandlerTest {
 		context.assertIsSatisfied();		
 	}
 	
+	/**
+	 * Sends all users addresses request.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void sendsAllUsersAddressesRequest() throws Exception{
 		context.checking(new Expectations(){{

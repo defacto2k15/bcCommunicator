@@ -8,14 +8,26 @@ import bc.bcCommunicator.Client.Views.ITalkWindow;
 import bc.bcCommunicator.Client.Views.ITalkWindowViewClosingListener;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TalkWindowsContainer.
+ */
 public class TalkWindowsContainer implements ITalkWindowsContainer, ITalkWindowViewClosingListener {
+	
+	/** The windows map. */
 	Map<String, ITalkWindow> windowsMap = new HashMap<>();
 	
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Controller.ITalkWindowsContainer#isWindowOpenForUser(bc.bcCommunicator.Model.BasicTypes.Username)
+	 */
 	@Override
 	public boolean isWindowOpenForUser(Username username) {
 		return windowsMap.containsKey(username.getName());
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Controller.ITalkWindowsContainer#addWindowForUser(bc.bcCommunicator.Model.BasicTypes.Username, bc.bcCommunicator.Client.Views.ITalkWindow)
+	 */
 	@Override
 	public void addWindowForUser(Username username, ITalkWindow window) {
 		if( windowsMap.containsKey(username)){
@@ -25,6 +37,9 @@ public class TalkWindowsContainer implements ITalkWindowsContainer, ITalkWindowV
 		window.setClosingListener(this);
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Controller.ITalkWindowsContainer#getUserWindow(bc.bcCommunicator.Model.BasicTypes.Username)
+	 */
 	@Override
 	public ITalkWindow getUserWindow(Username username) {
 		if( isWindowOpenForUser(username) == false){
@@ -33,6 +48,9 @@ public class TalkWindowsContainer implements ITalkWindowsContainer, ITalkWindowV
 		return windowsMap.get(username.getName());
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Views.ITalkWindowViewClosingListener#windowIsClosing(bc.bcCommunicator.Client.Views.ITalkWindow)
+	 */
 	@Override
 	public void windowIsClosing(ITalkWindow window) {
 		System.out.println("M720 closing window");

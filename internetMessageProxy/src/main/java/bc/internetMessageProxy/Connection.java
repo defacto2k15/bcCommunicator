@@ -7,13 +7,34 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Connection.
+ */
 class Connection implements Runnable {
+	
+	/** The out. */
 	private PrintWriter out;
+	
+	/** The in. */
 	private BufferedReader in;
+	
+	/** The id. */
 	ConnectionId id;
+	
+	/** The consumer of messages. */
 	private BlockingQueue<RecievedMessage> consumerOfMessages;
+	
+	/** The socket. */
 	private Socket socket; 
 	
+	/**
+	 * Instantiates a new connection.
+	 *
+	 * @param openedSocket the opened socket
+	 * @param consumerOfMessages the consumer of messages
+	 * @param id the id
+	 */
 	Connection(Socket openedSocket, BlockingQueue<RecievedMessage> consumerOfMessages, ConnectionId id){
 		this.consumerOfMessages = consumerOfMessages;
 		this.id = id;
@@ -27,10 +48,20 @@ class Connection implements Runnable {
         socket = openedSocket;
 	}	
 	
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
 	public ConnectionId getId() {
 		return id;
 	}
 
+	/**
+	 * Checks if is socket up.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean IsSocketUp() {
 		try {
 			socket.sendUrgentData(255);
@@ -41,6 +72,9 @@ class Connection implements Runnable {
 		return true;
 	}
 
+	/**
+	 * Close.
+	 */
 	public void close() {
 		try {
 			socket.close();
@@ -51,6 +85,12 @@ class Connection implements Runnable {
 		socket = null;
 	}
 
+	/**
+	 * Send message.
+	 *
+	 * @param message the message
+	 * @return true, if successful
+	 */
 	boolean sendMessage( String message ){		
 		if(socket.isClosed()){
 			return false;
@@ -64,6 +104,9 @@ class Connection implements Runnable {
 		return true;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
 		try {

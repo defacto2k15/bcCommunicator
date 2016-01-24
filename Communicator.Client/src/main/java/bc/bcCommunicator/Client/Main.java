@@ -47,13 +47,14 @@ import bc.bcCommunicator.Proxying.NewThreadProxyToOtherThread;
 import bc.bcCommunicator.Proxying.ProxyToOtherThread;
 import bc.bcCommunicator.Proxying.ProxyToSwingThread;
 
+// TODO: Auto-generated Javadoc
 /**
- * The Class Main of client
+ * The Class Main of client.
  */
 public class Main {
 
 	/**
-	 * The main method of client
+	 * The main method of client.
 	 *
 	 * @param inputs the arguments, we expect on argument: port client have to use, if this argument
 	 * is absent, port is defaulted to 9090
@@ -156,6 +157,14 @@ public class Main {
 		MainWindow window = new MainWindow(connectionStatusView, usernameInputView, usersTableView);
 	}
 
+	/**
+	 * Creates the proxied object.
+	 *
+	 * @param <T> the generic type
+	 * @param cls the cls
+	 * @param handler the handler
+	 * @return the t
+	 */
 	private <T> T createProxiedObject(Class<T> cls, InvocationHandler handler) {
 		return (T) Proxy.newProxyInstance(cls.getClassLoader(), new Class[] { cls }, handler);
 	}

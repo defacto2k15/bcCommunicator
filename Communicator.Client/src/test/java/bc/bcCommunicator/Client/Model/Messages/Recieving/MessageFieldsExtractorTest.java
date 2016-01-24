@@ -14,12 +14,26 @@ import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.MessageFields
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.UrlMessageFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.UsernameMessageFieldValue;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MessageFieldsExtractorTest.
+ */
 public class MessageFieldsExtractorTest {
+	
+	/** The context. */
 	final JUnit4Mockery context  = new JUnit4Mockery();
+	
+	/** The values creator. */
 	final IMessageFieldsValuesCreator valuesCreator = context.mock(IMessageFieldsValuesCreator.class);
 
+	/** The extractor. */
 	final MessageFieldsExtractor extractor = new MessageFieldsExtractor(valuesCreator);
 	
+	/**
+	 * Parsing xml with one field is ok.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void parsingXmlWithOneFieldIsOk() throws Exception {
 		UsernameMessageFieldValue value = new UsernameMessageFieldValue();
@@ -40,6 +54,11 @@ public class MessageFieldsExtractorTest {
 		assertEquals(value, result);
 	}
 	
+	/**
+	 * Parsing xml with username and url is ok.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void parsingXmlWithUsernameAndUrlIsOk() throws Exception{
 		UsernameMessageFieldValue usernameFieldValue = new UsernameMessageFieldValue();

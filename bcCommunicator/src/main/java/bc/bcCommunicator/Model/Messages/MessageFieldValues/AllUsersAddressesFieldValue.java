@@ -19,14 +19,26 @@ import bc.bcCommunicator.Model.Messages.AllUsersAddresses;
 import bc.bcCommunicator.Model.Messages.MessageConstants;
 import bc.bcCommunicator.Model.Messages.MessageField;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AllUsersAddressesFieldValue.
+ */
 public class AllUsersAddressesFieldValue implements IMessageFieldValue {
+	
+	/** The users addresses. */
 	AllUsersAddresses usersAddresses = null;
 	
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Model.Messages.MessageFieldValues.IMessageFieldValue#getCorrespondingField()
+	 */
 	@Override
 	public MessageField getCorrespondingField() {
 		return MessageField.AllUsersAddresses;
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Model.Messages.MessageFieldValues.IMessageFieldValue#createFromString(java.lang.String)
+	 */
 	@Override
 	public IMessageFieldValue createFromString(String text) throws Exception {
 		
@@ -68,6 +80,11 @@ public class AllUsersAddressesFieldValue implements IMessageFieldValue {
 		return newValue;
 	}
 	
+	/**
+	 * Gets the users addresses.
+	 *
+	 * @return the users addresses
+	 */
 	public AllUsersAddresses getUsersAddresses(){
 		return usersAddresses;
 	}

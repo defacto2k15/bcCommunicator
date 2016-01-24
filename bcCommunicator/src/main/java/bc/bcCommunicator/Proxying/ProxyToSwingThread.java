@@ -3,8 +3,15 @@ package bc.bcCommunicator.Proxying;
 import javax.swing.SwingUtilities;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ProxyToSwingThread.
+ */
 public class ProxyToSwingThread extends ProxyToOtherThread {
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Proxying.ProxyToOtherThread#threadingMethod()
+	 */
 	@Override
 	void threadingMethod() {
 		Thread newThread = new Thread( ()->{

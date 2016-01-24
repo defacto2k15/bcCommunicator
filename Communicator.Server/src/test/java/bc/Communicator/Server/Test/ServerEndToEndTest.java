@@ -13,14 +13,35 @@ import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.commonTestUtilities.FakeUserRunner;
 import bc.commonTestUtilities.FreePortGetter;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ServerEndToEndTest.
+ */
 public class ServerEndToEndTest {
+	
+	/** The getter. */
 	FreePortGetter getter = new FreePortGetter();
+	
+	/** The server port number. */
 	int serverPortNumber;
+	
+	/** The server url. */
 	URL serverUrl;
+	
+	/** The users. */
 	private static List<FakeUserRunner> users = new ArrayList<>();
+	
+	/** The Constant CLIENT_COUNT. */
 	private final static int CLIENT_COUNT = 3;
+	
+	/** The server. */
 	ServerRunner server = new ServerRunner();
 	
+	/**
+	 * Sets the up.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@Before
 	public void setUp() throws IOException{
 		serverPortNumber = getter.getFreePortNumber();
@@ -35,6 +56,11 @@ public class ServerEndToEndTest {
 		}
 	}
 	
+	/**
+	 * After introductory message and username is unique username ok response is sent.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void afterIntroductoryMessageAndUsernameIsUniqueUsernameOkResponseIsSent() throws Exception{
 		users.get(0).connectTo(serverUrl);
@@ -42,6 +68,11 @@ public class ServerEndToEndTest {
 		users.get(0).assertRecievedUsernameOkResponse();
 	}
 	
+	/**
+	 * After user have arleady taken username username bad response is sent.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void afterUserHaveArleadyTakenUsernameUsernameBadResponseIsSent() throws Exception {
 		int port = getter.getFreePortNumber();
@@ -58,6 +89,11 @@ public class ServerEndToEndTest {
 		user2.assertRecievedUsernameBadResponse();
 	}
 	
+	/**
+	 * After user have username taken by user before but that user disconnected that username is ok.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void afterUserHaveUsernameTakenByUserBeforeButThatUserDisconnectedThatUsernameIsOk() throws Exception{
 		int port = getter.getFreePortNumber();
@@ -76,6 +112,11 @@ public class ServerEndToEndTest {
 		user2.assertRecievedUsernameOkResponse();		
 	}
 	
+	/**
+	 * All users and addesses work as expected.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void allUsersAndAddessesWorkAsExpected() throws Exception{
 		for( FakeUserRunner runner : users ){
@@ -91,6 +132,11 @@ public class ServerEndToEndTest {
 		users.get(0).assertRecievedAllUsersAddressesResponse( allUsersAddressesMap );
 	}
 	
+	/**
+	 * When some user disconnects it is not present in all users and addresses.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void whenSomeUserDisconnectsItIsNotPresentInAllUsersAndAddresses() throws Exception{
 		for( FakeUserRunner runner : users ){

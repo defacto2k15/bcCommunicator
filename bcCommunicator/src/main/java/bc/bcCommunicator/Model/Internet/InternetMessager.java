@@ -11,11 +11,16 @@ import bc.internetMessageProxy.IInternetMessageProxy;
 import bc.internetMessageProxy.InternetMessageProxy;
 import bc.internetMessageProxy.RecievedMessage;
 
+// TODO: Auto-generated Javadoc
 /**
- * The Class InternetMessager, translates between model and InternedMessageProxy
+ * The Class InternetMessager, translates between model and InternedMessageProxy.
  */
 public class InternetMessager implements IInternetMessager {
+	
+	/** The proxy. */
 	private final IInternetMessageProxy proxy;
+	
+	/** The listener. */
 	private IInternetMessagerListener listener;
 	
 	/**

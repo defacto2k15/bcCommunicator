@@ -4,6 +4,7 @@ import java.net.URL;
 
 import bc.internetMessageProxy.ConnectionId;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface IInternetMessager. it sends messages ( but as strings ), connects and disconects, and generally talk with internetProxy
  */
@@ -13,11 +14,12 @@ public interface IInternetMessager {
 	 * Connect to server.
 	 *
 	 * @param serverAddress the server address
+	 * @throws Exception the exception
 	 */
 	void connectToServer(URL serverAddress) throws Exception;
 
 	/**
-	 * Connection lost, this method is usually called by internetProxy
+	 * Connection lost, this method is usually called by internetProxy.
 	 *
 	 * @param id the id of connection that was lost
 	 */

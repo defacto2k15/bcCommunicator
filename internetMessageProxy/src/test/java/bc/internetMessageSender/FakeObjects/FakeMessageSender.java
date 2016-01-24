@@ -13,23 +13,49 @@ import java.util.concurrent.TimeUnit;
 
 import bc.internetMessageProxy.ConstantMessageParts;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FakeMessageSender.
+ */
 public class FakeMessageSender {
 
+	/** The url. */
 	private URL url;
+	
+	/** The messages to send. */
 	private BlockingQueue<String> messagesToSend = new ArrayBlockingQueue<String>(99);
+	
+	/** The connection. */
 	private OneFakeSendingConnection connection;
 	
+	/**
+	 * Instantiates a new fake message sender.
+	 *
+	 * @param url the url
+	 */
 	public FakeMessageSender(URL url) {
 		this.url = url;
 	}
 
+	/**
+	 * Connect.
+	 */
 	public void connect() {
 		connection = new OneFakeSendingConnection();
 		new Thread( connection ).start();
 	}
 	
+	/**
+	 * The Class OneFakeSendingConnection.
+	 */
 	class OneFakeSendingConnection implements Runnable {
+		
+		/** The socket. */
 		private Socket socket;
+		
+		/* (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
 		@Override
 		public void run() {
 			try (
@@ -67,10 +93,20 @@ public class FakeMessageSender {
 		
 	}
 
+	/**
+	 * Send message.
+	 *
+	 * @param message the message
+	 */
 	public void sendMessage(String message) {
 		messagesToSend.add(message);
 	}
 
+	/**
+	 * Close.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public void close() throws IOException {
 		connection.socket.close();
 		

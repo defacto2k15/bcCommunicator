@@ -8,10 +8,21 @@ import java.util.stream.Collectors;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.internetMessageProxy.ConnectionId;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ConnectionsContainer.
+ */
 public class ConnectionsContainer implements IConnectionsContainer {
+	
+	/** The server connection id. */
 	ConnectionId serverConnectionId;
+	
+	/** The usernames. */
 	Map<Username, ConnectionId> usernames = new HashMap<>();
 	
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Model.IConnectionsContainer#getServerConnectionId()
+	 */
 	@Override
 	public ConnectionId getServerConnectionId() {
 		if(serverConnectionId == null){
@@ -20,21 +31,33 @@ public class ConnectionsContainer implements IConnectionsContainer {
 		return serverConnectionId;
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Model.IConnectionsContainer#setServerConnectionId(bc.internetMessageProxy.ConnectionId)
+	 */
 	@Override
 	public void setServerConnectionId(ConnectionId id) {
 		serverConnectionId = id;
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Model.IConnectionsContainer#removeServerConnectionIdIfExists()
+	 */
 	@Override
 	public void removeServerConnectionIdIfExists() {
 		serverConnectionId = null;
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Model.IConnectionsContainer#isServerConnected()
+	 */
 	@Override
 	public boolean isServerConnected() {
 		return serverConnectionId!=null;
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Model.IConnectionsContainer#getConnectionIdOfUser(bc.bcCommunicator.Model.BasicTypes.Username)
+	 */
 	@Override
 	public ConnectionId getConnectionIdOfUser(Username key) {
 		if( usernames.containsKey(key) == false){
@@ -43,6 +66,9 @@ public class ConnectionsContainer implements IConnectionsContainer {
 		return usernames.get(key);
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Model.IConnectionsContainer#setIdForUser(bc.bcCommunicator.Model.BasicTypes.Username, bc.internetMessageProxy.ConnectionId)
+	 */
 	@Override
 	public void setIdForUser(Username name, ConnectionId id) {
 		System.out.println("M465 settng id name: "+name.getName()+" id "+id.getId());
@@ -52,6 +78,9 @@ public class ConnectionsContainer implements IConnectionsContainer {
 		usernames.put(name, id);
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Model.IConnectionsContainer#getUsernameForConnectionId(bc.internetMessageProxy.ConnectionId)
+	 */
 	@Override
 	public Username getUsernameForConnectionId(ConnectionId id) {
 		List<Username> oneElementList = usernames.entrySet().stream()
@@ -67,16 +96,25 @@ public class ConnectionsContainer implements IConnectionsContainer {
 		return oneElementList.get(0);
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Model.IConnectionsContainer#isUserConnected(bc.bcCommunicator.Model.BasicTypes.Username)
+	 */
 	@Override
 	public boolean isUserConnected(Username username) {
 		return usernames.containsKey(username);
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Model.IConnectionsContainer#isThereUserWithThisConnectionId(bc.internetMessageProxy.ConnectionId)
+	 */
 	@Override
 	public boolean isThereUserWithThisConnectionId(ConnectionId id) {
 		return usernames.containsValue(id);
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Client.Model.IConnectionsContainer#connectionLost(bc.bcCommunicator.Model.BasicTypes.Username)
+	 */
 	@Override
 	public void connectionLost(Username username) {
 		if( usernames.containsKey(username) == false){

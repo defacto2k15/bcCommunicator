@@ -13,14 +13,27 @@ import bc.bcCommunicator.Model.Messages.MessageConstants;
 import bc.bcCommunicator.Model.Messages.MessageField;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.IMessageFieldValue;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MessageFieldsExtractor.
+ */
 public class MessageFieldsExtractor implements IMessageFieldsExtractor{
 
+	/** The creator. */
 	private IMessageFieldsValuesCreator creator;
 
+	/**
+	 * Instantiates a new message fields extractor.
+	 *
+	 * @param creator the creator
+	 */
 	public MessageFieldsExtractor( IMessageFieldsValuesCreator creator ){
 		this.creator = creator;
 	}
 	
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.IMessageFieldsExtractor#getFields(java.lang.String)
+	 */
 	@Override
 	public IFieldsContainer getFields(String text) throws Exception {
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
