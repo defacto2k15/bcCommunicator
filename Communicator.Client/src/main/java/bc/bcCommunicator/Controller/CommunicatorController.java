@@ -7,7 +7,6 @@ import java.util.List;
 
 import bc.bcCommunicator.Model.CommunicatorModel;
 import bc.bcCommunicator.Model.ICommunicatorModel;
-import bc.bcCommunicator.Model.ICommunicatorModelCommandsProvider;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Messages.Handling.IRecievedMessagesHandler;
 import bc.bcCommunicator.Model.Messages.Letter.Letter;
@@ -27,7 +26,6 @@ import bc.bcCommunicator.Views.UsersTableView;
 
 public class CommunicatorController implements ICommunicatorController {
 	private IServerConnectionStatusView connectionStatusView;
-	private ICommunicatorModelCommandsProvider commandsProvider; // todo delete
 	private ICommunicatorModel model;
 	private IUsernameInputView usernameInputView;
 	private IUsersTableView usersTableView;
@@ -36,12 +34,11 @@ public class CommunicatorController implements ICommunicatorController {
 	private ILetterViewFactory letterViewFactory;
 
 	public CommunicatorController(IServerConnectionStatusView connectionStatusView, 
-			ICommunicatorModel model, ICommunicatorModelCommandsProvider commandsProvider, 
+			ICommunicatorModel model,  
 			IUsernameInputView usernameInputView, IUsersTableView usersTableView, ITalkWindowsContainer talkWindowsContainer,
 			ITalkWindowsFactory windowsFactory, ILetterViewFactory letterViewFactory){
 		this.connectionStatusView = connectionStatusView;
 		this.model = model;
-		this.commandsProvider = commandsProvider;
 		this.usernameInputView = usernameInputView;
 		this.usersTableView = usersTableView;
 		this.talkWindowsContainer = talkWindowsContainer;

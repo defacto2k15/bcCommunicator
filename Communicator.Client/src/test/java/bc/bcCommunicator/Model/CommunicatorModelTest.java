@@ -21,8 +21,6 @@ import bc.bcCommunicator.Controller.TalkStateData;
 import bc.bcCommunicator.EndToEnd.Help.ConstantSampleInstances;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Internet.IInternetMessager;
-import bc.bcCommunicator.Model.Internet.IInternetMessagerCommand;
-import bc.bcCommunicator.Model.Internet.IInternetMessagerCommandProvider;
 import bc.bcCommunicator.Model.Messages.IMessage;
 import bc.bcCommunicator.Model.Messages.IModelMessageProvider;
 import bc.bcCommunicator.Model.Messages.Handling.IRecievedMessagesHandler;
@@ -39,10 +37,8 @@ public class CommunicatorModelTest {
 	private URL clientUrl;
 	private final Mockery context = new JUnit4Mockery();
 	private final IInternetMessager messager = context.mock(IInternetMessager.class);
-	private final IInternetMessagerCommandProvider commandProvider = context.mock(IInternetMessagerCommandProvider.class);
 	private ICommunicatorModel model;
 	private final ICommunicatorController controller = context.mock(ICommunicatorController.class);
-	private final IInternetMessagerCommand command = context.mock(IInternetMessagerCommand.class);
 	private final IModelMessageProvider messageProvider = context.mock(IModelMessageProvider.class);
 	private final IConnectionsContainer connectionsContainer = context.mock(IConnectionsContainer.class);
 	private final IOtherUsersDataContainer usernameContainer = context.mock(IOtherUsersDataContainer.class);
@@ -58,7 +54,7 @@ public class CommunicatorModelTest {
 	@Before
 	public void setUp() throws MalformedURLException{
 		clientUrl = new URL("http://localhost:5555");
-		model = new CommunicatorModel(messager, commandProvider, clientUrl, messageProvider, 
+		model = new CommunicatorModel(messager, clientUrl, messageProvider, 
 				connectionsContainer, usernameContainer, messagesSender,
 				actorUsernameContainer, controller, talkStateDataFactory, 
 				letterFactory, letterContainer, pendingLettersContainer );
@@ -83,7 +79,6 @@ public class CommunicatorModelTest {
 			ignoring(connectionsContainer);
 			ignoring(connectionsContainer);
 			ignoring(messageProvider);
-			ignoring(commandProvider);
 			ignoring(messager);
 			oneOf(actorUsernameContainer).setUsername(username);
 		}});

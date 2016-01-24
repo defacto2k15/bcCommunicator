@@ -11,7 +11,6 @@ import bc.bcCommunicator.Model.IModelMessagesSender;
 import bc.bcCommunicator.Model.IOtherUsersDataContainer;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Internet.IInternetMessager;
-import bc.bcCommunicator.Model.Internet.IInternetMessagerCommandProvider;
 import bc.bcCommunicator.Model.Messages.AllUsersAddresses;
 import bc.bcCommunicator.Model.Messages.Response.IAllUsersAddressesResponse;
 import bc.internetMessageProxy.ConnectionId;
@@ -19,15 +18,13 @@ import bc.internetMessageProxy.ConnectionId;
 public class AllUsersAddressesResponseHandler extends AbstractMessageHandler{
 	IOtherUsersDataContainer usersContainer;
 	private ICommunicatorController controller;
-	private IInternetMessagerCommandProvider commandProvider;
 	private IInternetMessager messager;
 	private URL clientUrl;
 	
 	
 	public AllUsersAddressesResponseHandler(IOtherUsersDataContainer container, 
-			IInternetMessagerCommandProvider commandProvider, IInternetMessager messager, URL clientUrl,  ICommunicatorController controller) {
+			IInternetMessager messager, URL clientUrl,  ICommunicatorController controller) {
 				this.usersContainer = container;
-				this.commandProvider = commandProvider;
 				this.messager = messager;
 				this.clientUrl = clientUrl;
 				this.controller = controller;

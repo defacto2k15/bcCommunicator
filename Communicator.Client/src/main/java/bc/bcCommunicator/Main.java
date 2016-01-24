@@ -16,11 +16,9 @@ import bc.bcCommunicator.Controller.TalkWindowFactory;
 import bc.bcCommunicator.Controller.TalkWindowsContainer;
 import bc.bcCommunicator.Model.ActorUsernameContainer;
 import bc.bcCommunicator.Model.CommunicatorModel;
-import bc.bcCommunicator.Model.CommunicatorModelCommandsProvider;
 import bc.bcCommunicator.Model.ConnectionsContainer;
 import bc.bcCommunicator.Model.ConnectivityHandler;
 import bc.bcCommunicator.Model.ICommunicatorModel;
-import bc.bcCommunicator.Model.ICommunicatorModelCommandsProvider;
 import bc.bcCommunicator.Model.IConnectionsContainer;
 import bc.bcCommunicator.Model.IConnectivityHandler;
 import bc.bcCommunicator.Model.IModelMessagesSender;
@@ -29,9 +27,7 @@ import bc.bcCommunicator.Model.LetterContainer;
 import bc.bcCommunicator.Model.ModelMessagesSender;
 import bc.bcCommunicator.Model.OtherUsersDataContainer;
 import bc.bcCommunicator.Model.Internet.IInternetMessager;
-import bc.bcCommunicator.Model.Internet.IInternetMessagerCommandProvider;
 import bc.bcCommunicator.Model.Internet.InternetMessager;
-import bc.bcCommunicator.Model.Internet.InternetMessagerCommandProvider;
 import bc.bcCommunicator.Model.Messages.IModelMessageProvider;
 import bc.bcCommunicator.Model.Messages.ModelMessageProvider;
 import bc.bcCommunicator.Model.Messages.PendingLettersContainer;
@@ -89,8 +85,6 @@ public class Main {
 		IConnectivityHandler boxedConnectivityHandler = createProxiedObject(IConnectivityHandler.class,
 				connectivityHandlerProxy);
 
-		ICommunicatorModelCommandsProvider modelCommandsProvider = new CommunicatorModelCommandsProvider();
-
 		ProxyToOtherThread messagerProxy = new NewThreadProxyToOtherThread();
 
 		IInternetMessager concreteMessager = new InternetMessager(
@@ -110,11 +104,10 @@ public class Main {
 
 		IConnectionsContainer connectionsContainer = new ConnectionsContainer();
 		IModelMessageProvider messagesProvider = new ModelMessageProvider();
-		IInternetMessagerCommandProvider commandProvider = new InternetMessagerCommandProvider();
 		IModelMessagesSender messagesSender = new ModelMessagesSender(actorUsernameContainer, connectionsContainer,
-				commandProvider, messagesProvider, messager, clientUrl);
+				messagesProvider, messager, clientUrl);
 		AllUsersAddressesResponseHandler allUsersResponseHandler = new AllUsersAddressesResponseHandler(
-				usernameContainer, commandProvider, messager, clientUrl, boxedController);
+				usernameContainer, messager, clientUrl, boxedController);
 
 		IntroductoryTalkHandler introductoryTalkHandler = new IntroductoryTalkHandler(boxedController,
 				usernameContainer, connectionsContainer);
@@ -131,7 +124,7 @@ public class Main {
 		IConnectivityHandler connectivityHandler = (IConnectivityHandler) Proxy.newProxyInstance(
 				IConnectivityHandler.class.getClassLoader(), new Class[] { IConnectivityHandler.class }, proxy);
 
-		CommunicatorModel concreteModel = new CommunicatorModel(messager, commandProvider, clientUrl, messagesProvider,
+		CommunicatorModel concreteModel = new CommunicatorModel(messager, clientUrl, messagesProvider,
 				connectionsContainer, usernameContainer, messagesSender, actorUsernameContainer, boxedController,
 				TalkStateData::new, Letter::new, letterContainer, pendingLettersContainer);
 		proxy.addObjectToProxy((ICommunicatorModel) concreteModel);
@@ -142,7 +135,7 @@ public class Main {
 
 		ProxyToOtherThread swingProxy = new ProxyToSwingThread();
 		ICommunicatorController concreteController = new CommunicatorController(connectionStatusView, model,
-				modelCommandsProvider, usernameInputView, usersTableView, new TalkWindowsContainer(),
+				usernameInputView, usersTableView, new TalkWindowsContainer(),
 				new TalkWindowFactory(), LetterView::new);
 		ICommunicatorController controller = createProxiedObject(ICommunicatorController.class, swingProxy);
 		swingProxy.addObjectToProxy(concreteController);

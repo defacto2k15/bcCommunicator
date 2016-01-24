@@ -5,7 +5,6 @@ import java.util.Map;
 
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Internet.IInternetMessager;
-import bc.bcCommunicator.Model.Internet.IInternetMessagerCommandProvider;
 import bc.bcCommunicator.Model.Messages.AllUsersAddresses;
 import bc.bcCommunicator.Model.Messages.IModelMessageProvider;
 import bc.bcCommunicator.Model.Messages.Letter.Letter;
@@ -17,17 +16,15 @@ public class ModelMessagesSender implements IModelMessagesSender{
 
 	private IActorUsernameContainer usernameContainer;
 	private IConnectionsContainer connectionsContainer;
-	private IInternetMessagerCommandProvider commandProvider;
 	private IModelMessageProvider messageProvider;
 	private IInternetMessager messager;
 	private URL clientUrl;
 
 	public ModelMessagesSender( IActorUsernameContainer usernameContainer, IConnectionsContainer connectionsContainer,
-			IInternetMessagerCommandProvider commandProvider, IModelMessageProvider messageProvider,
+			 IModelMessageProvider messageProvider,
 			IInternetMessager messager, URL clientUrl){
 		this.usernameContainer = usernameContainer;
 		this.connectionsContainer = connectionsContainer;
-		this.commandProvider = commandProvider;
 		this.messageProvider = messageProvider;
 		this.messager = messager;
 		this.clientUrl = clientUrl;

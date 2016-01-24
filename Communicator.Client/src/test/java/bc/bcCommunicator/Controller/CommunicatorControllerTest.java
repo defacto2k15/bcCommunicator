@@ -17,8 +17,6 @@ import org.junit.runner.RunWith;
 
 import bc.bcCommunicator.EndToEnd.Help.ConstantSampleInstances;
 import bc.bcCommunicator.Model.ICommunicatorModel;
-import bc.bcCommunicator.Model.ICommunicatorModelCommand;
-import bc.bcCommunicator.Model.ICommunicatorModelCommandsProvider;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Messages.IMessage;
 import bc.bcCommunicator.Model.Messages.Handling.IRecievedMessagesHandler;
@@ -45,8 +43,6 @@ public class CommunicatorControllerTest {
 	private final IServerConnectionStatusView connectionView = context.mock(IServerConnectionStatusView.class);
 	private final IUsernameInputView usernameView = context.mock(IUsernameInputView.class);
 	private final ICommunicatorModel communicatorModel = context.mock(ICommunicatorModel.class);
-	private final ICommunicatorModelCommandsProvider commandsProvider =
-				context.mock(ICommunicatorModelCommandsProvider.class);
 
 	private final IUsersTableView usersTableView = context.mock(IUsersTableView.class);
 	private final ITalkWindowsContainer talkWindowsContainer = context.mock(ITalkWindowsContainer.class);
@@ -54,7 +50,7 @@ public class CommunicatorControllerTest {
 	private final ILetterViewFactory letterViewFactory = context.mock(ILetterViewFactory.class);
 
 	private final ICommunicatorController controller 
-					= new CommunicatorController(connectionView, communicatorModel, commandsProvider, usernameView, 
+					= new CommunicatorController(connectionView, communicatorModel, usernameView, 
 							usersTableView, talkWindowsContainer, talkWindowsFactory, letterViewFactory);
 	
 	@Test

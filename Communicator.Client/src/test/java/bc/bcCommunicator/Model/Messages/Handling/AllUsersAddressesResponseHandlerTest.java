@@ -26,8 +26,6 @@ import bc.bcCommunicator.Model.IModelMessagesSender;
 import bc.bcCommunicator.Model.IOtherUsersDataContainer;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Internet.IInternetMessager;
-import bc.bcCommunicator.Model.Internet.IInternetMessagerCommand;
-import bc.bcCommunicator.Model.Internet.IInternetMessagerCommandProvider;
 import bc.bcCommunicator.Model.Messages.AllUsersAddresses;
 import bc.bcCommunicator.Model.Messages.IModelMessageProvider;
 import bc.bcCommunicator.Model.Messages.Handling.AllUsersAddressesResponseHandler;
@@ -38,7 +36,6 @@ public class AllUsersAddressesResponseHandlerTest {
 	private final Mockery context = new JUnit4Mockery();
 	private final IOtherUsersDataContainer container = context.mock(IOtherUsersDataContainer.class);
 	private final ICommunicatorController controller = context.mock(ICommunicatorController.class);
-	private final IInternetMessagerCommandProvider commandProvider = context.mock(IInternetMessagerCommandProvider.class);
 	private final IInternetMessager messager = context.mock(IInternetMessager.class);
 	
 	Map<Username, URL> usernameAddressMap = new HashMap<>();
@@ -69,7 +66,7 @@ public class AllUsersAddressesResponseHandlerTest {
 		
 		clientPort = 2020;
 		clientUrl = new URL("http://127.0.0.1:"+clientPort);
-		handler = new AllUsersAddressesResponseHandler(container, commandProvider, messager, clientUrl, controller);
+		handler = new AllUsersAddressesResponseHandler(container, messager, clientUrl, controller);
 		
 	}
 	
@@ -79,13 +76,11 @@ public class AllUsersAddressesResponseHandlerTest {
 		context.checking(new Expectations(){{
 			ignoring(controller);
 			ignoring(messager);
-			ignoring(commandProvider);
 			allowing(response).getAllUsersAddresses(); will(returnValue(allUsersAddresses));
 			for( Username oneUsername : usernameAddressMap.keySet() ){
 				oneOf(container).addUserWithAddress(oneUsername, usernameAddressMap.get(oneUsername));
 			}
 			
-			allowing(commandProvider);
 			allowing(messager);
 		}});
 		handler.handle(response, id);
@@ -97,11 +92,9 @@ public class AllUsersAddressesResponseHandlerTest {
 		context.checking(new Expectations(){{
 			ignoring(container);
 			ignoring(messager);
-			ignoring(commandProvider);
 			allowing(response).getAllUsersAddresses(); will(returnValue(allUsersAddresses));
 			oneOf(controller).setBulkUsers(new ArrayList<Username>(allUsers));
 			
-			allowing(commandProvider);
 			allowing(messager);
 		}});
 		handler.handle(response, id);
@@ -111,7 +104,6 @@ public class AllUsersAddressesResponseHandlerTest {
 	
 	@Test
 	public void ItIsOrderedToMessagerToConnectToUsers() throws Exception {
-		IInternetMessagerCommand command = context.mock(IInternetMessagerCommand.class);
 		context.checking(new Expectations(){{
 			ignoring(container);
 			ignoring(controller);
@@ -120,7 +112,6 @@ public class AllUsersAddressesResponseHandlerTest {
 				oneOf(messager).connectToUser(oneAddress);
 			}
 			
-			allowing(commandProvider);
 			allowing(messager);
 		}});		
 		handler.handle(response, id);
@@ -129,7 +120,6 @@ public class AllUsersAddressesResponseHandlerTest {
 	
 	@Test
 	public void ItIsOrderedToMessagerToStartListeningOnPort() throws Exception {
-		IInternetMessagerCommand startListeningCommand = context.mock(IInternetMessagerCommand.class);
 		context.checking(new Expectations(){{
 			ignoring(container);
 			ignoring(controller);
@@ -137,7 +127,6 @@ public class AllUsersAddressesResponseHandlerTest {
 			
 			oneOf(messager).listenOnPort(clientPort);
 			
-			allowing(commandProvider);
 			allowing(messager);
 		}});
 		handler.handle(response, id);

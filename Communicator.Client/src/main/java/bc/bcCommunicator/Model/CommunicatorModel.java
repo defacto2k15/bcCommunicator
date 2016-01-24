@@ -10,7 +10,6 @@ import bc.bcCommunicator.Controller.ICommunicatorController;
 import bc.bcCommunicator.Controller.ITalkStateDataFactory;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Internet.IInternetMessager;
-import bc.bcCommunicator.Model.Internet.IInternetMessagerCommandProvider;
 import bc.bcCommunicator.Model.Messages.IMessage;
 import bc.bcCommunicator.Model.Messages.IModelMessageProvider;
 import bc.bcCommunicator.Model.Messages.Handling.IRecievedMessagesHandler;
@@ -24,9 +23,7 @@ import bc.bcCommunicator.Views.UserConnectionState;
 import bc.internetMessageProxy.ConnectionId;
 
 public class CommunicatorModel implements ICommunicatorModel {
-	private BlockingQueue<ICommunicatorModelCommand> commands = new ArrayBlockingQueue<ICommunicatorModelCommand>(10);
 	private IInternetMessager messager;
-	private IInternetMessagerCommandProvider commandProvider;
 	private ICommunicatorController controller;
 	private URL ourUrl;
 	private IModelMessageProvider messageProvider;
@@ -40,14 +37,13 @@ public class CommunicatorModel implements ICommunicatorModel {
 	private ILetterContainer letterContainer;
 	private IPendingLettersContainer pendingLettersContainer;
 
-	public CommunicatorModel(IInternetMessager messager, IInternetMessagerCommandProvider commandProvider, URL clientUrl, 
+	public CommunicatorModel(IInternetMessager messager, URL clientUrl, 
 			IModelMessageProvider messageProvider, IConnectionsContainer connectionsContainer, IOtherUsersDataContainer usernameContainer
 			, IModelMessagesSender messagesSender
 			, IActorUsernameContainer actorUsernameContainer
 			, ICommunicatorController controller
 			, ITalkStateDataFactory talkStateDataFactory, ILetterFactory letterFactory, ILetterContainer letterContainer, IPendingLettersContainer pendingLettersContainer) {
 		this.messager = messager;
-		this.commandProvider = commandProvider;
 		this.ourUrl = clientUrl;
 		this.messageProvider = messageProvider;
 		this.connectionsContainer = connectionsContainer;
