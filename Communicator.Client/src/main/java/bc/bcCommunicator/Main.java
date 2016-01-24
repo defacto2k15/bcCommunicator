@@ -47,8 +47,17 @@ import bc.bcCommunicator.Views.ServerConnectionStatusView;
 import bc.bcCommunicator.Views.UsernameInputView;
 import bc.bcCommunicator.Views.UsersTableView;
 
+/**
+ * The Class Main of client
+ */
 public class Main {
 
+	/**
+	 * The main method of client
+	 *
+	 * @param inputs the arguments, we expect on argument: port client have to use, if this argument
+	 * is absent, port is defaulted to 9090
+	 */
 	public static void main(String[] inputs) {
 		if (inputs.length == 0) {
 			try {
@@ -68,6 +77,11 @@ public class Main {
 
 	}
 
+	/**
+	 * Instantiates a new main.
+	 *
+	 * @param clientUrl the client url, usually localhost+port from command line arg
+	 */
 	public Main(URL clientUrl) {
 		ProxyToOtherThread proxy = new NewThreadProxyToOtherThread();
 

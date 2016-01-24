@@ -11,10 +11,19 @@ import bc.internetMessageProxy.IInternetMessageProxy;
 import bc.internetMessageProxy.InternetMessageProxy;
 import bc.internetMessageProxy.RecievedMessage;
 
+/**
+ * The Class InternetMessager, translates between model and InternedMessageProxy
+ */
 public class InternetMessager implements IInternetMessager {
 	private final IInternetMessageProxy proxy;
 	private IInternetMessagerListener listener;
 	
+	/**
+	 * Instantiates a new internet messager.
+	 *
+	 * @param recievedMessageCreator the recieved message creator
+	 * @param listener the listener
+	 */
 	public InternetMessager(IRecievedMessageCreator recievedMessageCreator, IInternetMessagerListener listener) {
 		this.listener = listener;
 		this.proxy=new InternetMessageProxy((ConnectionId id)->{this.connectionLost(id);});
@@ -42,11 +51,21 @@ public class InternetMessager implements IInternetMessager {
 		listeningThread.start();
 	}
 	
+	/**
+	 * Instantiates a new internet messager.
+	 *
+	 * @param port the port that we will start listening to
+	 * @param recievedMessageCreator the recieved message creator
+	 * @param listener the listener
+	 */
 	public InternetMessager(int port, IRecievedMessageCreator recievedMessageCreator, IInternetMessagerListener listener) {
 		this(recievedMessageCreator, listener);
 		proxy.startListening(port);
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Model.Internet.IInternetMessager#connectToServer(java.net.URL)
+	 */
 	@Override
 	public void connectToServer(URL serverAddress) throws Exception {
 		System.out.println("X644 "+serverAddress);
@@ -65,12 +84,18 @@ public class InternetMessager implements IInternetMessager {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Model.Internet.IInternetMessager#connectionLost(bc.internetMessageProxy.ConnectionId)
+	 */
 	@Override
 	public void connectionLost(ConnectionId id) {
 		System.out.println("M102: Lost connection t messagger "+id);
 		listener.connectionLost(id);
 	}
 	
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Model.Internet.IInternetMessager#sendMessage(bc.internetMessageProxy.ConnectionId, java.lang.String)
+	 */
 	@Override
 	public void sendMessage(ConnectionId id, String messageText){
 		boolean sendWasSuccesfull = proxy.sendMessage(id, messageText);
@@ -86,6 +111,9 @@ public class InternetMessager implements IInternetMessager {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Model.Internet.IInternetMessager#connectToUser(java.net.URL)
+	 */
 	@Override
 	public void connectToUser(URL userAddress) {
 		Optional<ConnectionId> result = null;
@@ -108,6 +136,9 @@ public class InternetMessager implements IInternetMessager {
 		}		
 	}
 
+	/* (non-Javadoc)
+	 * @see bc.bcCommunicator.Model.Internet.IInternetMessager#listenOnPort(int)
+	 */
 	@Override
 	public void listenOnPort(int clientPort) {
 		proxy.startListening(clientPort);

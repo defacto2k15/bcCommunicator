@@ -1,0 +1,15 @@
+bc.bcCommunicator
+bc.bcCommunicator.Model.BasicTypes
+bc.bcCommunicator.Model.Internet
+bc.bcCommunicator.Model.Internet.ServerRequest
+bc.bcCommunicator.Model.Messages
+bc.bcCommunicator.Model.Messages.CreatingFromRecievedString
+bc.bcCommunicator.Model.Messages.Handling
+bc.bcCommunicator.Model.Messages.Letter
+bc.bcCommunicator.Model.Messages.MessageFieldValues
+bc.bcCommunicator.Model.Messages.Request
+bc.bcCommunicator.Model.Messages.Response
+bc.bcCommunicator.Model.Messages.Talk
+bc.bcCommunicator.Proxying
+bc.bcCommunicator.Server
+bc.internetMessageProxy
