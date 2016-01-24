@@ -22,7 +22,7 @@ public class RecievedMessageCreator implements IRecievedMessageCreator {
 	@Override
 	public IMessage createMessage(String message) throws Exception {
 		IMessageInitializedFromFields messageToInitialize = null;
-		IFieldsContainer container =  extractor.getFields(message); // TODO other type than response!
+		IFieldsContainer container =  extractor.getFields(message); 
 		if( container.containsField(ResponseMessageTypeFieldValue.class)){
 			ResponseMessageTypeFieldValue responseType = container.getFieldValue(ResponseMessageTypeFieldValue.class);
 			messageToInitialize = fromTypeCreator.get(responseType);
