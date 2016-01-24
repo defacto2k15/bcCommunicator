@@ -6,9 +6,6 @@ import java.util.Optional;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import bc.bcCommunicator.Model.ICommunicatorModel;
-import bc.bcCommunicator.Model.ICommunicatorModelCommandsProvider;
-import bc.bcCommunicator.Model.IConnectivityHandler;
 import bc.bcCommunicator.Model.Messages.IMessage;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.IRecievedMessageCreator;
 import bc.internetMessageProxy.ConnectionId;
@@ -18,11 +15,11 @@ import bc.internetMessageProxy.RecievedMessage;
 
 public class InternetMessager implements IInternetMessager {
 	private final IInternetMessageProxy proxy;
-	private IConnectivityHandler connectivityHandler;
+	private IInternetMessagerListener listener;
 	
 	public InternetMessager(final IInternetMessagerCommandProvider messagerCommandsProvider, 
-			IRecievedMessageCreator recievedMessageCreator, IConnectivityHandler connectivityHandler) {
-		this.connectivityHandler = connectivityHandler;
+			IRecievedMessageCreator recievedMessageCreator, IInternetMessagerListener listener) {
+		this.listener = listener;
 		proxy=new InternetMessageProxy((ConnectionId id)->{this.connectionLost(id);});
 		
 		Thread listeningThread = new Thread( ()->{
@@ -36,7 +33,7 @@ public class InternetMessager implements IInternetMessager {
 					try {
 						IMessage recievedMessage = null;
 						recievedMessage = recievedMessageCreator.createMessage( message.getMessage());
-						connectivityHandler.messageWasRecieved(recievedMessage, message.getConnectionId());
+						listener.messageWasRecieved(recievedMessage, message.getConnectionId());
 					} catch (Exception e) {
 						System.err.println("E102");
 						e.printStackTrace();
@@ -54,21 +51,21 @@ public class InternetMessager implements IInternetMessager {
 		try {
 			result = proxy.startConnection(serverAddress);
 		} catch (IOException e) {
-			connectivityHandler.serverConnectionFailed();
+			listener.serverConnectionFailed();
 			return;
 		}
 		
 		if( result.isPresent() ){
-			connectivityHandler.serverConnectionWasSuccesfull(result.get());
+			listener.serverConnectionWasSuccesfull(result.get());
 		} else {
-			connectivityHandler.serverConnectionFailed();
+			listener.serverConnectionFailed();
 		}
 	}
 
 	@Override
 	public void connectionLost(ConnectionId id) {
 		System.out.println("M102: Lost connection t messagger "+id);
-		connectivityHandler.connectionLost(id);
+		listener.connectionLost(id);
 	}
 	
 	@Override
@@ -76,13 +73,13 @@ public class InternetMessager implements IInternetMessager {
 		boolean sendWasSuccesfull = proxy.sendMessage(id, messageText);
 		if( sendWasSuccesfull){
 			try {
-				connectivityHandler.messageSentSuccesfully(id);
+				listener.messageSentSuccesfully(id);
 			} catch (Exception e) {
 				System.err.println("E402");
 				e.printStackTrace();
 			}
 		}else{
-			connectivityHandler.messageSendingFailed(id);
+			listener.messageSendingFailed(id);
 		}
 	}
 
@@ -92,19 +89,19 @@ public class InternetMessager implements IInternetMessager {
 		try {
 			result = proxy.startConnection(userAddress);
 		} catch (IOException e) {
-			connectivityHandler.userConnectionFailed(userAddress);
+			listener.userConnectionFailed(userAddress);
 			return;
 		}
 		
 		if( result.isPresent() ){
 			try {
-				connectivityHandler.userConnectionWasSuccesfull(userAddress, result.get());
+				listener.userConnectionWasSuccesfull(userAddress, result.get());
 			} catch (Exception e) {
 				System.err.println("E402");
 				e.printStackTrace();
 			}
 		} else {
-			connectivityHandler.userConnectionFailed(userAddress);
+			listener.userConnectionFailed(userAddress);
 		}		
 	}
 

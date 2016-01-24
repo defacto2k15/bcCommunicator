@@ -3,7 +3,6 @@ package bc.bcCommunicator.Model.Messages.Response;
 import bc.bcCommunicator.Model.Messages.IMessageType;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.IMessageInitializedFromFields;
 import bc.bcCommunicator.Model.Messages.Handling.IRecievedMessagesHandler;
-import bc.bcCommunicator.Model.Messages.Handling.UsernameOkResponseHandler;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.IMessageFieldValue;
 
 public enum ResponseMessageType implements IMessageType {
