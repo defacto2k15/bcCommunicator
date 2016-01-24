@@ -1,4 +1,4 @@
-package bc.bcCommunicator.EndToEnd.Help;
+package bcCommunicator.Help;
 
 import java.net.URL;
 import java.util.Arrays;

@@ -1,14 +1,12 @@
 package bc.bcCommunicator.Views;
 
-import java.awt.CardLayout;
 import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-
-import com.objogate.wl.swing.driver.JFrameDriver;
 
 import bc.bcCommunicator.WindowNames;
+
+
 
 public class MainWindow extends JFrame{
 

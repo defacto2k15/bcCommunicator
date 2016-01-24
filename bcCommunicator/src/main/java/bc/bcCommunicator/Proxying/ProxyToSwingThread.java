@@ -2,7 +2,6 @@ package bc.bcCommunicator.Proxying;
 
 import javax.swing.SwingUtilities;
 
-import net.sf.cglib.proxy.ProxyRefDispatcher;
 
 public class ProxyToSwingThread extends ProxyToOtherThread {
 

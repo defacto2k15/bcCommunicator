@@ -1,7 +1,7 @@
-bc/internetMessageProxy/App$1.class
-bc/internetMessageProxy/EchoServer.class
+bc/internetMessageProxy/ConnectionId.class
+bc/internetMessageProxy/RecievedMessage.class
 bc/internetMessageProxy/InternetMessageProxy.class
-bc/internetMessageProxy/App$2.class
 bc/internetMessageProxy/ConstantMessageParts.class
-bc/internetMessageProxy/App.class
-bc/internetMessageProxy/EchoSender.class
+bc/internetMessageProxy/InternetMessageProxy$1.class
+bc/internetMessageProxy/IInternetMessageProxy.class
+bc/internetMessageProxy/Connection.class

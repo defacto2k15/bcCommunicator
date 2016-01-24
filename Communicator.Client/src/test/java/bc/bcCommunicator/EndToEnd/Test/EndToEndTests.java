@@ -16,10 +16,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import bc.bcCommunicator.EndToEnd.Help.CommunicatorClientRunner;
-import bc.bcCommunicator.EndToEnd.Help.FakeUserRunner;
-import bc.bcCommunicator.EndToEnd.Help.FakeInternetEntity;
-import bc.bcCommunicator.EndToEnd.Help.FakeServerRunner;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Messages.AllUsersAddresses;
 import bc.bcCommunicator.Model.Messages.Letter.LetterText;
@@ -27,6 +23,10 @@ import bc.bcCommunicator.Model.Messages.Talk.IntroductoryTalk;
 import bc.bcCommunicator.Views.LetterState;
 import bc.bcCommunicator.Views.UserConnectionState;
 import bc.commonTestUtilities.FreePortGetter;
+import bcCommunicator.Help.CommunicatorClientRunner;
+import bcCommunicator.Help.FakeInternetEntity;
+import bcCommunicator.Help.FakeServerRunner;
+import bcCommunicator.Help.FakeUserRunner;
 
 public class EndToEndTests {
 	private int SERVER_PORT;

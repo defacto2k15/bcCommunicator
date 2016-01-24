@@ -1,4 +1,5 @@
 bc/internetMessageSender/FakeObjects/FakeMessageReciever$OneSocketListeningConnection.class
 bc/internetMessageSender/FakeObjects/FakeMessageReciever.class
-bc/internetMessageProxy/AppTest.class
+bc/internetMessageSender/FakeObjects/FakeMessageSender$OneFakeSendingConnection.class
+bc/internetMessageSender/FakeObjects/FakeMessageSender.class
 bc/internetMessageProxy/InternetMessageProxyTest.class

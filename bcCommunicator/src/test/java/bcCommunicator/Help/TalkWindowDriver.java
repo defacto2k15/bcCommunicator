@@ -1,4 +1,4 @@
-package bc.bcCommunicator.EndToEnd.Help;
+package bcCommunicator.Help;
 
 import static org.hamcrest.Matchers.equalTo;
 

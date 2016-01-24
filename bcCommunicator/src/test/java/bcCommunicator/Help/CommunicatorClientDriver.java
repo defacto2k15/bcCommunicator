@@ -1,4 +1,4 @@
-package bc.bcCommunicator.EndToEnd.Help;
+package bcCommunicator.Help;
 
 import com.objogate.wl.swing.AWTEventQueueProber;
 import com.objogate.wl.swing.driver.JButtonDriver;

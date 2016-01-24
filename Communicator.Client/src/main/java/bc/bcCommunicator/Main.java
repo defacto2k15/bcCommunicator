@@ -8,6 +8,7 @@ import java.net.URL;
 import javax.swing.SwingUtilities;
 
 import bc.bcCommunicator.Controller.CommunicatorController;
+import bc.bcCommunicator.Controller.CommunicatorController;
 import bc.bcCommunicator.Controller.CommunicatorControllerContainer;
 import bc.bcCommunicator.Controller.ICommunicatorController;
 import bc.bcCommunicator.Controller.TalkStateData;
@@ -53,6 +54,7 @@ import bc.bcCommunicator.Views.MainWindow;
 import bc.bcCommunicator.Views.ServerConnectionStatusView;
 import bc.bcCommunicator.Views.UsernameInputView;
 import bc.bcCommunicator.Views.UsersTableView;
+
 
 public class Main {
 
