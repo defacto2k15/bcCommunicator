@@ -1,11 +1,7 @@
 package bc.bcCommunicator.Views;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -17,12 +13,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
 import bc.bcCommunicator.WindowNames;
-import bc.bcCommunicator.Controller.ICommunicatorController;
-import bc.bcCommunicator.Model.IConnectionsContainer;
 
 public class UsernameInputView extends JPanel implements IUsernameInputView{
 	private JLabel nameInputStatusLabel = new JLabel("NOT_USED", SwingConstants.CENTER);

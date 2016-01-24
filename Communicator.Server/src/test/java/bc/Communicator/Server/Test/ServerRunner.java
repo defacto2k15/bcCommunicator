@@ -1,7 +1,5 @@
 package bc.Communicator.Server.Test;
 
-import java.net.URL;
-
 import bc.bcCommunicator.Server.Main;
 
 public class ServerRunner {

@@ -7,7 +7,6 @@ import bc.bcCommunicator.Model.Internet.IInternetMessager;
 import bc.bcCommunicator.Model.Messages.AllUsersAddresses;
 import bc.bcCommunicator.Model.Messages.IMessage;
 import bc.bcCommunicator.Model.Messages.Handling.AbstractMessageHandler;
-import bc.bcCommunicator.Model.Messages.Handling.IRecievedMessagesHandler;
 import bc.bcCommunicator.Model.Messages.Request.IAllUsersAddressesRequest;
 import bc.bcCommunicator.Model.Messages.Request.IIntroductoryRequest;
 import bc.bcCommunicator.Model.Messages.Response.AllUsersAddressesResponse;

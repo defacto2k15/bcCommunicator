@@ -9,7 +9,6 @@ import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.IFieldsContai
 import bc.bcCommunicator.Model.Messages.Handling.AbstractMessageHandler;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.UrlMessageFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.UsernameMessageFieldValue;
-import bc.bcCommunicator.Model.Messages.Request.RequestMessageType;
 import bc.internetMessageProxy.ConnectionId;
 
 public class IntroductoryTalk extends AbstractTalk implements IIntroductoryTalk {

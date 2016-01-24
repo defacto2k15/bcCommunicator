@@ -1,13 +1,10 @@
 package bc.bcCommunicator.Model.Messages.Handling;
 
-import static org.junit.Assert.*;
-
 import java.net.URL;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
-import org.junit.Before;
 import org.junit.Test;
 
 import bc.bcCommunicator.Controller.ICommunicatorController;

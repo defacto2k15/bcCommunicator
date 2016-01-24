@@ -1,5 +1,9 @@
 package bc.internetMessageSender.FakeObjects;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,8 +15,6 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import bc.internetMessageProxy.ConstantMessageParts;
-
-import static org.junit.Assert.*;
 
 public class FakeMessageReciever {
 	boolean continueWaitingForMessages = true;

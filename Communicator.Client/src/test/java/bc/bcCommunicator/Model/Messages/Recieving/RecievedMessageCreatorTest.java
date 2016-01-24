@@ -1,6 +1,6 @@
 package bc.bcCommunicator.Model.Messages.Recieving;
 
-import java.net.Authenticator.RequestorType;
+import static org.junit.Assert.assertEquals;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -8,17 +8,13 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 
 import bc.bcCommunicator.Model.Messages.IMessage;
-import bc.bcCommunicator.Model.Messages.MessageField;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.IFieldsContainer;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.IMessageFieldsExtractor;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.IMessageFromTypeCreator;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.IMessageInitializedFromFields;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.RecievedMessageCreator;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.ResponseMessageTypeFieldValue;
-import bc.bcCommunicator.Model.Messages.Request.RequestMessageType;
 import bc.bcCommunicator.Model.Messages.Response.ResponseMessageType;
-
-import static org.junit.Assert.*;
 
 public class RecievedMessageCreatorTest {
 	private final Mockery context = new JUnit4Mockery();

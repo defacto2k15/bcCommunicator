@@ -1,13 +1,9 @@
 package bc.bcCommunicator.EndToEnd.Test;
 
-import static org.junit.Assert.*;
-
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -16,17 +12,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import bc.bcCommunicator.EndToEnd.Help.CommunicatorClientRunner;
+import bc.bcCommunicator.Model.BasicTypes.Username;
+import bc.bcCommunicator.Model.Messages.Letter.LetterText;
+import bc.bcCommunicator.Views.LetterState;
+import bc.bcCommunicator.Views.UserConnectionState;
 import bc.commonTestUtilities.FakeServerRunner;
 import bc.commonTestUtilities.FakeUserRunner;
 import bc.commonTestUtilities.FreePortGetter;
-
-import bc.bcCommunicator.EndToEnd.Help.CommunicatorClientRunner;
-import bc.bcCommunicator.Model.BasicTypes.Username;
-import bc.bcCommunicator.Model.Messages.AllUsersAddresses;
-import bc.bcCommunicator.Model.Messages.Letter.LetterText;
-import bc.bcCommunicator.Model.Messages.Talk.IntroductoryTalk;
-import bc.bcCommunicator.Views.LetterState;
-import bc.bcCommunicator.Views.UserConnectionState;
 
 
 public class EndToEndTests {

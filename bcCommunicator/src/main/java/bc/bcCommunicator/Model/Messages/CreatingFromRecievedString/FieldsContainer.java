@@ -1,12 +1,9 @@
 package bc.bcCommunicator.Model.Messages.CreatingFromRecievedString;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
-import bc.bcCommunicator.Model.Messages.MessageField;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.IMessageFieldValue;
 
 public class FieldsContainer implements IFieldsContainer {

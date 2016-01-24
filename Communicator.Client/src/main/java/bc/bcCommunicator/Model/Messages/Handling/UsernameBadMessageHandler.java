@@ -2,7 +2,6 @@ package bc.bcCommunicator.Model.Messages.Handling;
 
 import bc.bcCommunicator.Controller.ICommunicatorController;
 import bc.bcCommunicator.Model.Messages.Response.IUsernameBadResponse;
-import bc.bcCommunicator.Model.Messages.Response.IUsernameOkResponse;
 import bc.internetMessageProxy.ConnectionId;
 
 public class UsernameBadMessageHandler extends AbstractMessageHandler {

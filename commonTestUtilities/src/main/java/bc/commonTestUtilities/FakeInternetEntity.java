@@ -7,21 +7,12 @@ import java.util.Optional;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
-import org.junit.Assert.*;
 
-import bc.bcCommunicator.Model.BasicTypes.Username;
-import bc.bcCommunicator.Model.Messages.AllUsersAddresses;
 import bc.bcCommunicator.Model.Messages.IMessage;
-import bc.bcCommunicator.Model.Messages.Request.AllUsersAddressesRequest;
-import bc.bcCommunicator.Model.Messages.Request.IntroductoryRequest;
-import bc.bcCommunicator.Model.Messages.Response.AllUsersAddressesResponse;
-import bc.bcCommunicator.Model.Messages.Response.IResponse;
-import bc.bcCommunicator.Model.Messages.Response.UsernameOkResponse;
 import bc.internetMessageProxy.ConnectionId;
 import bc.internetMessageProxy.IInternetMessageProxy;
 import bc.internetMessageProxy.InternetMessageProxy;
 import bc.internetMessageProxy.RecievedMessage;
-import junit.framework.AssertionFailedError;
 
 public class FakeInternetEntity {
 

@@ -1,7 +1,6 @@
 package bc.bcCommunicator.Model.Messages;
 
 import bc.bcCommunicator.Model.Messages.Handling.AbstractMessageHandler;
-import bc.bcCommunicator.Model.Messages.Handling.IRecievedMessagesHandler;
 import bc.internetMessageProxy.ConnectionId;
 
 public interface IMessage {

@@ -1,8 +1,5 @@
 package bc.bcCommunicator.Model.Messages.Handling;
 
-import static org.junit.Assert.*;
-
-import java.text.ParseException;
 import java.util.Date;
 
 import org.jmock.Expectations;

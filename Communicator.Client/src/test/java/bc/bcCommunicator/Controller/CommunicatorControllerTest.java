@@ -1,14 +1,12 @@
 package bc.bcCommunicator.Controller;
 
-import org.jmock.Expectations;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -18,12 +16,7 @@ import org.junit.runner.RunWith;
 import bc.bcCommunicator.EndToEnd.Help.ConstantSampleInstances;
 import bc.bcCommunicator.Model.ICommunicatorModel;
 import bc.bcCommunicator.Model.BasicTypes.Username;
-import bc.bcCommunicator.Model.Messages.IMessage;
-import bc.bcCommunicator.Model.Messages.Handling.IRecievedMessagesHandler;
 import bc.bcCommunicator.Model.Messages.Letter.Letter;
-import bc.bcCommunicator.Model.Messages.Letter.LetterDate;
-import bc.bcCommunicator.Model.Messages.Letter.LetterSendingType;
-import bc.bcCommunicator.Model.Messages.Letter.LetterText;
 import bc.bcCommunicator.Views.ILetterView;
 import bc.bcCommunicator.Views.ILetterViewFactory;
 import bc.bcCommunicator.Views.IServerConnectionStatusView;
@@ -35,7 +28,6 @@ import bc.bcCommunicator.Views.ServerConnectionStatus;
 import bc.bcCommunicator.Views.TalkState;
 import bc.bcCommunicator.Views.UserConnectionState;
 import bc.bcCommunicator.Views.UsernameInputStatus;
-import bc.internetMessageProxy.ConnectionId;
 
 @RunWith(JMock.class)
 public class CommunicatorControllerTest {

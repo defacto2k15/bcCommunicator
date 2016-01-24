@@ -1,7 +1,6 @@
 package bc.bcCommunicator.Model.Internet;
 
 import java.net.URL;
-import java.util.Optional;
 
 import bc.internetMessageProxy.ConnectionId;
 

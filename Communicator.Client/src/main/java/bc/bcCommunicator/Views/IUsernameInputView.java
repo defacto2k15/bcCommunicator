@@ -1,7 +1,5 @@
 package bc.bcCommunicator.Views;
 
-import bc.bcCommunicator.Controller.ICommunicatorController;
-
 public interface IUsernameInputView {
 
 	String getUsernameText();

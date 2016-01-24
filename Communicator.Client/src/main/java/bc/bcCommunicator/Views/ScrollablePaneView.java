@@ -3,24 +3,15 @@ package bc.bcCommunicator.Views;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.UIManager;
 import javax.swing.border.MatteBorder;
 
 import bc.bcCommunicator.WindowNames;
-import bc.bcCommunicator.Model.BasicTypes.Username;
-import bc.bcCommunicator.Model.Messages.Letter.Letter;
 
 
 public class ScrollablePaneView extends JPanel implements IScrollblePaneView  {

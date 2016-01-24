@@ -1,18 +1,16 @@
 package bc.bcCommunicator.Model.Messages.Recieving;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.jmock.Expectations;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Messages.MessageField;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.IFieldsContainer;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.IMessageFieldsValuesCreator;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.MessageFieldsExtractor;
-import bc.bcCommunicator.Model.Messages.MessageFieldValues.IMessageFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.UrlMessageFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.UsernameMessageFieldValue;
 

@@ -5,10 +5,8 @@ import java.net.URL;
 import java.text.ParseException;
 import java.util.List;
 
-import bc.bcCommunicator.Model.CommunicatorModel;
 import bc.bcCommunicator.Model.ICommunicatorModel;
 import bc.bcCommunicator.Model.BasicTypes.Username;
-import bc.bcCommunicator.Model.Messages.Handling.IRecievedMessagesHandler;
 import bc.bcCommunicator.Model.Messages.Letter.Letter;
 import bc.bcCommunicator.Model.Messages.Letter.LetterSendingType;
 import bc.bcCommunicator.Views.ILetterView;
@@ -22,7 +20,6 @@ import bc.bcCommunicator.Views.ServerConnectionStatus;
 import bc.bcCommunicator.Views.TalkState;
 import bc.bcCommunicator.Views.UserConnectionState;
 import bc.bcCommunicator.Views.UsernameInputStatus;
-import bc.bcCommunicator.Views.UsersTableView;
 
 public class CommunicatorController implements ICommunicatorController {
 	private IServerConnectionStatusView connectionStatusView;

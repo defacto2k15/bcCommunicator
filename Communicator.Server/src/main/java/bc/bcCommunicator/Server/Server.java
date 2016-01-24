@@ -1,10 +1,8 @@
 package bc.bcCommunicator.Server;
 import java.net.URL;
 
-import bc.bcCommunicator.Model.Internet.IInternetMessager;
 import bc.bcCommunicator.Model.Internet.IInternetMessagerListener;
 import bc.bcCommunicator.Model.Messages.IMessage;
-import bc.bcCommunicator.Model.Messages.Handling.AbstractMessageHandler;
 import bc.bcCommunicator.Model.Messages.Handling.IRecievedMessagesHandler;
 import bc.internetMessageProxy.ConnectionId;
 

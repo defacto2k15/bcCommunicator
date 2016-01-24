@@ -1,34 +1,24 @@
 package bc.bcCommunicator.Model.Messages.Handling;
 
-import static org.junit.Assert.*;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.hamcrest.Matchers;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.Matchers.hasItems;
-
 import bc.bcCommunicator.Controller.ICommunicatorController;
-import bc.bcCommunicator.Model.IModelMessagesSender;
 import bc.bcCommunicator.Model.IOtherUsersDataContainer;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Internet.IInternetMessager;
 import bc.bcCommunicator.Model.Messages.AllUsersAddresses;
-import bc.bcCommunicator.Model.Messages.IModelMessageProvider;
-import bc.bcCommunicator.Model.Messages.Handling.AllUsersAddressesResponseHandler;
 import bc.bcCommunicator.Model.Messages.Response.IAllUsersAddressesResponse;
 import bc.internetMessageProxy.ConnectionId;
 

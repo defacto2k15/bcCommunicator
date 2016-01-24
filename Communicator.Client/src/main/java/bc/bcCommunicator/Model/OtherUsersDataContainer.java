@@ -1,11 +1,9 @@
 package bc.bcCommunicator.Model;
 
 import java.net.URL;
-import java.nio.channels.IllegalSelectorException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import bc.bcCommunicator.Model.BasicTypes.Username;

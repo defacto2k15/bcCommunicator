@@ -1,6 +1,5 @@
 package bc.bcCommunicator.Model.Messages.MessageFieldValues;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import bc.bcCommunicator.Model.Messages.MessageField;

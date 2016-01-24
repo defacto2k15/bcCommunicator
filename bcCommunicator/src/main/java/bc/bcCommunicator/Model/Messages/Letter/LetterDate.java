@@ -3,8 +3,6 @@ package bc.bcCommunicator.Model.Messages.Letter;
 import java.text.ParseException;
 import java.util.Date;
 
-import bc.bcCommunicator.Model.BasicTypes.Username;
-
 public class LetterDate {
 	Date date;
 	

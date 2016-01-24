@@ -1,7 +1,5 @@
 package bc.bcCommunicator.Proxying;
 
-import java.util.function.Consumer;
-
 public class NewThreadProxyToOtherThread extends ProxyToOtherThread {
 	@Override
 	void threadingMethod() {

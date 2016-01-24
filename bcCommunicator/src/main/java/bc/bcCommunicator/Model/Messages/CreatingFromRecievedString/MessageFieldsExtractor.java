@@ -1,6 +1,5 @@
 package bc.bcCommunicator.Model.Messages.CreatingFromRecievedString;
 
-import java.io.IOException;
 import java.io.StringReader;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -9,7 +8,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import bc.bcCommunicator.Model.Messages.MessageConstants;
 import bc.bcCommunicator.Model.Messages.MessageField;

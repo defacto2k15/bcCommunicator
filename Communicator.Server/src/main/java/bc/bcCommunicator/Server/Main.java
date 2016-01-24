@@ -3,7 +3,6 @@ package bc.bcCommunicator.Server;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
-import java.net.URL;
 
 import bc.bcCommunicator.Model.Internet.IInternetMessager;
 import bc.bcCommunicator.Model.Internet.InternetMessager;
@@ -12,8 +11,6 @@ import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.MessageFields
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.MessageFromTypeCreator;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.RecievedMessageCreator;
 import bc.bcCommunicator.Proxying.BoxingProxy;
-import bc.bcCommunicator.Proxying.NewThreadProxyToOtherThread;
-import bc.bcCommunicator.Proxying.ProxyToOtherThread;
 
 
 public class Main {

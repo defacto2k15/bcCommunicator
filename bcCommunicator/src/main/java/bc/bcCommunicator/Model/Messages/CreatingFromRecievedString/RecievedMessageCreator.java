@@ -1,13 +1,9 @@
 package bc.bcCommunicator.Model.Messages.CreatingFromRecievedString;
 
 import bc.bcCommunicator.Model.Messages.IMessage;
-import bc.bcCommunicator.Model.Messages.MessageField;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.RequestMessageTypeFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.ResponseMessageTypeFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.TalkMessageTypeFieldValue;
-import bc.bcCommunicator.Model.Messages.Request.RequestMessageType;
-import bc.bcCommunicator.Model.Messages.Response.ResponseMessageType;
-import bc.bcCommunicator.Model.Messages.Talk.TalkMessageType;
 
 public class RecievedMessageCreator implements IRecievedMessageCreator {
 

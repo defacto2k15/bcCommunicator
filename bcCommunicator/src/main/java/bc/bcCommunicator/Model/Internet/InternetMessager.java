@@ -3,8 +3,6 @@ package bc.bcCommunicator.Model.Internet;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 
 import bc.bcCommunicator.Model.Messages.IMessage;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.IRecievedMessageCreator;

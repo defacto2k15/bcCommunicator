@@ -1,24 +1,10 @@
 package bc.bcCommunicator.Model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Optional;
 
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.api.Expectation;
-import org.jmock.integration.junit4.JUnit4Mockery;
-import org.junit.Before;
-import org.junit.Test;
-
-import bc.bcCommunicator.Controller.ICommunicatorController;
 import bc.bcCommunicator.Model.BasicTypes.Username;
-import bc.bcCommunicator.Model.Internet.IInternetMessager;
-import bc.bcCommunicator.Model.Messages.IModelMessageProvider;
-import bc.bcCommunicator.Model.Messages.Request.IRequest;
 import bc.internetMessageProxy.ConnectionId;
 
 

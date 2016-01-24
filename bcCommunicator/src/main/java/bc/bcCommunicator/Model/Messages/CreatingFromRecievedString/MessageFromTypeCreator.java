@@ -1,6 +1,5 @@
 package bc.bcCommunicator.Model.Messages.CreatingFromRecievedString;
 
-import bc.bcCommunicator.Model.Messages.MessageFieldValues.IMessageFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.IMessageTypeFieldValue;
 
 public class MessageFromTypeCreator implements IMessageFromTypeCreator {

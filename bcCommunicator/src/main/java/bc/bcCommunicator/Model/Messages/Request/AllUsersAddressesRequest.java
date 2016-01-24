@@ -1,15 +1,7 @@
 package bc.bcCommunicator.Model.Messages.Request;
 
-import java.net.URL;
-import java.util.Map;
-
-import bc.bcCommunicator.Model.BasicTypes.Username;
-import bc.bcCommunicator.Model.Messages.AllUsersAddresses;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.IFieldsContainer;
 import bc.bcCommunicator.Model.Messages.Handling.AbstractMessageHandler;
-import bc.bcCommunicator.Model.Messages.MessageFieldValues.AllUsersAddressesFieldValue;
-import bc.bcCommunicator.Model.Messages.MessageFieldValues.UrlMessageFieldValue;
-import bc.bcCommunicator.Model.Messages.MessageFieldValues.UsernameMessageFieldValue;
 import bc.internetMessageProxy.ConnectionId;
 
 public class AllUsersAddressesRequest extends AbstractRequest implements IAllUsersAddressesRequest{

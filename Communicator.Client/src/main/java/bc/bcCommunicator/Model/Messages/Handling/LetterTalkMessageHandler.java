@@ -1,10 +1,8 @@
 package bc.bcCommunicator.Model.Messages.Handling;
 
 import bc.bcCommunicator.Controller.ICommunicatorController;
-import bc.bcCommunicator.Model.IActorUsernameContainer;
 import bc.bcCommunicator.Model.ILetterContainer;
 import bc.bcCommunicator.Model.Messages.Letter.Letter;
-import bc.bcCommunicator.Model.Messages.Response.IAllUsersAddressesResponse;
 import bc.bcCommunicator.Model.Messages.Talk.ILetterTalk;
 import bc.internetMessageProxy.ConnectionId;
 

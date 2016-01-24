@@ -1,8 +1,10 @@
 package bc.internetMessageProxy;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.ServerSocket;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.Optional;
@@ -10,16 +12,12 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-import javax.sound.midi.Receiver;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import bc.help.MyFreePortGetter;
 import bc.internetMessageSender.FakeObjects.FakeMessageReciever;
 import bc.internetMessageSender.FakeObjects.FakeMessageSender;
-
-import static org.junit.Assert.*;
 
 public class InternetMessageProxyTest {
 	int freePortNumber;

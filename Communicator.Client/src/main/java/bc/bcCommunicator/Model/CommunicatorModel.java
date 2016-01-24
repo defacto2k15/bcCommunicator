@@ -3,14 +3,11 @@ package bc.bcCommunicator.Model;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Date;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 
 import bc.bcCommunicator.Controller.ICommunicatorController;
 import bc.bcCommunicator.Controller.ITalkStateDataFactory;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Internet.IInternetMessager;
-import bc.bcCommunicator.Model.Messages.IMessage;
 import bc.bcCommunicator.Model.Messages.IModelMessageProvider;
 import bc.bcCommunicator.Model.Messages.Handling.IRecievedMessagesHandler;
 import bc.bcCommunicator.Model.Messages.Letter.ILetterFactory;
@@ -18,7 +15,6 @@ import bc.bcCommunicator.Model.Messages.Letter.Letter;
 import bc.bcCommunicator.Model.Messages.Letter.LetterDate;
 import bc.bcCommunicator.Model.Messages.Letter.LetterSendingType;
 import bc.bcCommunicator.Model.Messages.Letter.LetterText;
-import bc.bcCommunicator.Model.Messages.Request.IRequest;
 import bc.bcCommunicator.Views.UserConnectionState;
 import bc.internetMessageProxy.ConnectionId;
 

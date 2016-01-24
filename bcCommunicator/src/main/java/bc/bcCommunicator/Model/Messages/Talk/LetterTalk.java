@@ -1,8 +1,6 @@
 package bc.bcCommunicator.Model.Messages.Talk;
 
-import java.net.URL;
 import java.text.ParseException;
-import java.util.Date;
 
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Messages.MessageField;
@@ -15,7 +13,6 @@ import bc.bcCommunicator.Model.Messages.Letter.LetterText;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.LetterDateMessageFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.LetterTextMessageFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.RecipientFieldValue;
-import bc.bcCommunicator.Model.Messages.MessageFieldValues.UrlMessageFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.UsernameMessageFieldValue;
 import bc.internetMessageProxy.ConnectionId;
 

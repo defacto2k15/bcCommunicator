@@ -1,15 +1,10 @@
 package bc.bcCommunicator;
 
 import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.net.URL;
 
-import javax.swing.SwingUtilities;
-
 import bc.bcCommunicator.Controller.CommunicatorController;
-import bc.bcCommunicator.Controller.CommunicatorController;
-import bc.bcCommunicator.Controller.CommunicatorControllerContainer;
 import bc.bcCommunicator.Controller.ICommunicatorController;
 import bc.bcCommunicator.Controller.TalkStateData;
 import bc.bcCommunicator.Controller.TalkWindowFactory;

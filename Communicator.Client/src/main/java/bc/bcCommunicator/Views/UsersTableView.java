@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableColumn;
 
 import bc.bcCommunicator.WindowNames;
 import bc.bcCommunicator.Controller.ICommunicatorController;

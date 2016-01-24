@@ -7,7 +7,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import bc.bcCommunicator.Controller.ICommunicatorController;
-import bc.bcCommunicator.Model.IModelMessagesSender;
 import bc.bcCommunicator.Model.IOtherUsersDataContainer;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Model.Internet.IInternetMessager;

@@ -1,7 +1,5 @@
 package bc.bcCommunicator.Model.Messages.Handling;
 
-import static org.junit.Assert.*;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -10,12 +8,8 @@ import org.junit.Test;
 import bc.bcCommunicator.Controller.ICommunicatorController;
 import bc.bcCommunicator.Model.IActorUsernameContainer;
 import bc.bcCommunicator.Model.IModelMessagesSender;
-import bc.bcCommunicator.Model.IOtherUsersDataContainer;
 import bc.bcCommunicator.Model.BasicTypes.Username;
-import bc.bcCommunicator.Model.Messages.Handling.UsernameOkResponseHandler;
 import bc.bcCommunicator.Model.Messages.Response.IUsernameOkResponse;
-import bc.bcCommunicator.Views.IUsernameInputView;
-import bc.bcCommunicator.Views.UsernameInputStatus;
 import bc.internetMessageProxy.ConnectionId;
 
 public class UsernameOkResponseHandlerTest {

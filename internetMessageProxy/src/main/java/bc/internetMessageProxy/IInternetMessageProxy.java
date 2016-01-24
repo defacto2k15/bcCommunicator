@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 public interface IInternetMessageProxy {
 

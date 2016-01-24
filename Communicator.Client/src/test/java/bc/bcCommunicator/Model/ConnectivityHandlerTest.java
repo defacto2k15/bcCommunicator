@@ -1,10 +1,7 @@
 package bc.bcCommunicator.Model;
 
-import static org.junit.Assert.*;
-
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.logging.Handler;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;

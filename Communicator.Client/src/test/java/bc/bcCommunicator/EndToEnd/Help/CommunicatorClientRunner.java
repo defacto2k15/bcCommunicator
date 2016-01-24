@@ -2,7 +2,6 @@ package bc.bcCommunicator.EndToEnd.Help;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
 
 import bc.bcCommunicator.Main;
 import bc.bcCommunicator.WindowNames;

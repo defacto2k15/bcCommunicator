@@ -1,6 +1,5 @@
 package bc.bcCommunicator.Controller;
 
-import bc.bcCommunicator.WindowNames;
 import bc.bcCommunicator.Model.BasicTypes.Username;
 import bc.bcCommunicator.Views.ITalkWindow;
 import bc.bcCommunicator.Views.TalkWindowView;

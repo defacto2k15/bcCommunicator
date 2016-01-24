@@ -2,7 +2,6 @@ package bc.bcCommunicator.Model.Messages.Request;
 
 import bc.bcCommunicator.Model.Messages.IMessageType;
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.IMessageInitializedFromFields;
-import bc.bcCommunicator.Model.Messages.MessageFieldValues.IMessageFieldValue;
 
 public enum RequestMessageType implements IMessageType {
 	IntroductoryRequestType("IntroductoryRequestType", IntroductoryRequest::new),

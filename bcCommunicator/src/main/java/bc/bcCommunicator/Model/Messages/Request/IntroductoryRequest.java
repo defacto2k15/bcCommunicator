@@ -1,6 +1,5 @@
 package bc.bcCommunicator.Model.Messages.Request;
 
-import java.awt.TrayIcon.MessageType;
 import java.net.MalformedURLException;
 import java.net.URL;
 

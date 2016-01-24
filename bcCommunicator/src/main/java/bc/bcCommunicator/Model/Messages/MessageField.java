@@ -1,7 +1,6 @@
 package bc.bcCommunicator.Model.Messages;
 
 import bc.bcCommunicator.Model.Messages.CreatingFromRecievedString.IMessageFieldValueConstructor;
-import bc.bcCommunicator.Model.Messages.Letter.LetterText;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.AllUsersAddressesFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.LetterDateMessageFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.LetterTextMessageFieldValue;
@@ -9,9 +8,9 @@ import bc.bcCommunicator.Model.Messages.MessageFieldValues.NullMessageFieldValue
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.RecipientFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.RequestMessageTypeFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.ResponseMessageTypeFieldValue;
+import bc.bcCommunicator.Model.Messages.MessageFieldValues.TalkMessageTypeFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.UrlMessageFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.UsernameMessageFieldValue;
-import bc.bcCommunicator.Model.Messages.MessageFieldValues.TalkMessageTypeFieldValue;
 
 public enum MessageField {
 	USERNAME_FIELD("USERNAME_FIELD", UsernameMessageFieldValue::new),

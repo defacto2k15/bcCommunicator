@@ -4,7 +4,6 @@ import bc.bcCommunicator.Controller.ICommunicatorController;
 import bc.bcCommunicator.Model.IConnectionsContainer;
 import bc.bcCommunicator.Model.IOtherUsersDataContainer;
 import bc.bcCommunicator.Model.BasicTypes.Username;
-import bc.bcCommunicator.Model.Messages.Response.IUsernameOkResponse;
 import bc.bcCommunicator.Model.Messages.Talk.IIntroductoryTalk;
 import bc.internetMessageProxy.ConnectionId;
 

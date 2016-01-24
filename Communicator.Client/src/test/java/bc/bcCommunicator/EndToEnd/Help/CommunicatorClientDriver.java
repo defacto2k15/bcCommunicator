@@ -1,28 +1,26 @@
 package bc.bcCommunicator.EndToEnd.Help;
 
-import com.objogate.wl.swing.AWTEventQueueProber;
-import com.objogate.wl.swing.driver.JButtonDriver;
-import com.objogate.wl.swing.driver.JFrameDriver;
-import com.objogate.wl.swing.driver.JLabelDriver;
-import com.objogate.wl.swing.driver.JTableDriver;
-import com.objogate.wl.swing.driver.JTextComponentDriver;
-import com.objogate.wl.swing.driver.JTextFieldDriver;
 import static com.objogate.wl.swing.matcher.JLabelTextMatcher.withLabelText;
-import com.objogate.wl.swing.gesture.GesturePerformer;
-import com.objogate.wl.swing.matcher.IterableComponentsMatcher;
-
-import bc.bcCommunicator.WindowNames;
-import bc.bcCommunicator.Model.BasicTypes.Username;
-import bc.bcCommunicator.Views.TalkState;
-import bc.bcCommunicator.Views.UserConnectionState;
-import bc.bcCommunicator.Views.UsernameInputStatus;
-
 import static org.hamcrest.Matchers.equalTo;
 
 import java.net.URL;
 
 import javax.swing.JButton;
 import javax.swing.JTextField;
+
+import com.objogate.wl.swing.AWTEventQueueProber;
+import com.objogate.wl.swing.driver.JButtonDriver;
+import com.objogate.wl.swing.driver.JFrameDriver;
+import com.objogate.wl.swing.driver.JLabelDriver;
+import com.objogate.wl.swing.driver.JTableDriver;
+import com.objogate.wl.swing.driver.JTextFieldDriver;
+import com.objogate.wl.swing.gesture.GesturePerformer;
+
+import bc.bcCommunicator.WindowNames;
+import bc.bcCommunicator.Model.BasicTypes.Username;
+import bc.bcCommunicator.Views.TalkState;
+import bc.bcCommunicator.Views.UserConnectionState;
+import bc.bcCommunicator.Views.UsernameInputStatus;
 
 public class CommunicatorClientDriver extends JFrameDriver {
 	public CommunicatorClientDriver(int timeoutMiliseconds){

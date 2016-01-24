@@ -2,7 +2,6 @@ package bc.bcCommunicator.Model.Messages.MessageFieldValues;
 
 import bc.bcCommunicator.Model.Messages.IMessageType;
 import bc.bcCommunicator.Model.Messages.MessageField;
-import bc.bcCommunicator.Model.Messages.Request.RequestMessageType;
 import bc.bcCommunicator.Model.Messages.Response.ResponseMessageType;
 
 public class ResponseMessageTypeFieldValue implements  IMessageFieldValue, IMessageTypeFieldValue{

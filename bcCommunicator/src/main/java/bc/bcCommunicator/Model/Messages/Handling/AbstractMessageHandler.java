@@ -5,10 +5,8 @@ import bc.bcCommunicator.Model.Messages.Request.IIntroductoryRequest;
 import bc.bcCommunicator.Model.Messages.Response.IAllUsersAddressesResponse;
 import bc.bcCommunicator.Model.Messages.Response.IUsernameBadResponse;
 import bc.bcCommunicator.Model.Messages.Response.IUsernameOkResponse;
-import bc.bcCommunicator.Model.Messages.Response.UsernameOkResponse;
 import bc.bcCommunicator.Model.Messages.Talk.IIntroductoryTalk;
 import bc.bcCommunicator.Model.Messages.Talk.ILetterTalk;
-import bc.bcCommunicator.Model.Messages.Talk.LetterTalk;
 import bc.internetMessageProxy.ConnectionId;
 
 public abstract class AbstractMessageHandler {
