@@ -10,7 +10,7 @@ import bc.bcCommunicator.Model.Messages.MessageFieldValues.AllUsersAddressesFiel
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.UrlMessageFieldValue;
 import bc.bcCommunicator.Model.Messages.MessageFieldValues.UsernameMessageFieldValue;
 
-public class AllUsersAddressesRequest extends AbstractRequest {
+public class AllUsersAddressesRequest extends AbstractRequest implements IAllUsersAddressesRequest{
 	public AllUsersAddressesRequest( /*AllUsersAddresses allUsersAddresses*/ ) throws Exception{
 		addField(RequestMessageType.AllUsersAddressesRequestType);
 		//addField(allUsersAddresses);

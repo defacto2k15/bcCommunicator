@@ -1,6 +1,8 @@
 package bc.bcCommunicator.Model.Messages.Handling;
 
+import bc.bcCommunicator.Model.Messages.Request.IIntroductoryRequest;
 import bc.bcCommunicator.Model.Messages.Response.IAllUsersAddressesResponse;
+import bc.bcCommunicator.Model.Messages.Response.IUsernameBadResponse;
 import bc.bcCommunicator.Model.Messages.Response.IUsernameOkResponse;
 import bc.bcCommunicator.Model.Messages.Response.UsernameOkResponse;
 import bc.bcCommunicator.Model.Messages.Talk.IIntroductoryTalk;
@@ -26,5 +28,13 @@ public abstract class AbstractMessageHandler {
 
 	public void handle(ILetterTalk talk, ConnectionId id) throws Exception {
 		throw new Exception("A handling method for LetterTalk Was caller in Abstract Message handler and not subclass");
+	}
+	
+	public void handle(IIntroductoryRequest introductoryRequest, ConnectionId id) throws Exception{
+		throw new Exception("A handling method for introductoryRequest Was caller in Abstract Message handler and not subclass");
+	}
+	
+	public void handle(IUsernameBadResponse usernameBadResponse, ConnectionId id) throws Exception{
+		throw new Exception("A handling method for usernameBadResponse Was caller in Abstract Message handler and not subclass");
 	}
 }

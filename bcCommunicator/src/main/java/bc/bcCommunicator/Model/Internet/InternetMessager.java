@@ -17,10 +17,9 @@ public class InternetMessager implements IInternetMessager {
 	private final IInternetMessageProxy proxy;
 	private IInternetMessagerListener listener;
 	
-	public InternetMessager(final IInternetMessagerCommandProvider messagerCommandsProvider, 
-			IRecievedMessageCreator recievedMessageCreator, IInternetMessagerListener listener) {
+	public InternetMessager(IRecievedMessageCreator recievedMessageCreator, IInternetMessagerListener listener) {
 		this.listener = listener;
-		proxy=new InternetMessageProxy((ConnectionId id)->{this.connectionLost(id);});
+		this.proxy=new InternetMessageProxy((ConnectionId id)->{this.connectionLost(id);});
 		
 		Thread listeningThread = new Thread( ()->{
 				while(true){
@@ -41,7 +40,13 @@ public class InternetMessager implements IInternetMessager {
 					
 				}
 		});
+		listeningThread.setDaemon(true);
 		listeningThread.start();
+	}
+	
+	public InternetMessager(int port, IRecievedMessageCreator recievedMessageCreator, IInternetMessagerListener listener) {
+		this(recievedMessageCreator, listener);
+		proxy.startListening(port);
 	}
 
 	@Override

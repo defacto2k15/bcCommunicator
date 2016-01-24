@@ -85,12 +85,11 @@ public class Main {
 		BoxingProxy<IConnectivityHandler> connectivityHandlerProxy = new BoxingProxy<>();
 		IConnectivityHandler boxedConnectivityHandler = createProxiedObject(IConnectivityHandler.class, connectivityHandlerProxy);
 		
-		IInternetMessagerCommandProvider messagerCommandsProvider = new InternetMessagerCommandProvider();
 		ICommunicatorModelCommandsProvider modelCommandsProvider = new CommunicatorModelCommandsProvider();
 		
 		ProxyToOtherThread messagerProxy = new NewThreadProxyToOtherThread();
 	
-		IInternetMessager concreteMessager = new InternetMessager(messagerCommandsProvider,
+		IInternetMessager concreteMessager = new InternetMessager(
 				new RecievedMessageCreator( new MessageFieldsExtractor( new MessageFieldsValuesCreator()),
 						new MessageFromTypeCreator()), boxedConnectivityHandler);
 		messagerProxy.addObjectToProxy(concreteMessager);

@@ -7,7 +7,8 @@ import bc.bcCommunicator.Model.Messages.MessageFieldValues.IMessageFieldValue;
 
 public enum ResponseMessageType implements IMessageType {
 	UsernameOk("UsernameOk", UsernameOkResponse::new),
-	AllUsersAddressesResponseType("AllUsersAddressesResponseType", AllUsersAddressesResponse::new);
+	AllUsersAddressesResponseType("AllUsersAddressesResponseType", AllUsersAddressesResponse::new), 
+	UsernameBad("UsernameBadResponseType", UsernameBadResponse::new);
 	
 	private String name;
 	private IMessageInitializedFromFields fromFieldsConstructor;

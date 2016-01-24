@@ -58,5 +58,5 @@ public class RecievedMessagesHandler extends AbstractMessageHandler implements I
 	public void handle( ILetterTalk talk, ConnectionId id) throws Exception{
 		letterTalkHandler.handle(talk, id);
 	}
-
+	// TODO username bad response
 }
