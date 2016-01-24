@@ -138,13 +138,6 @@ public class InternetMessageProxy implements IInternetMessageProxy {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * bc.internetMessageProxy.IInternetMessageProxy#startConnection(java.net.
-	 * URL)
-	 */
 	@Override
 	public Optional<ConnectionId> startConnection(URL url) throws UnknownHostException, IOException {
 		ConnectionId newId = new ConnectionId(connectionsCount++);

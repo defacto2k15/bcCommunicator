@@ -1,5 +1,6 @@
 package bc.bcCommunicator.EndToEnd.Help;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 
@@ -17,11 +18,11 @@ public class CommunicatorClientRunner {
 	private CommunicatorClientDriver driver ;
 	private TalkWindowDriverContainer talkWindowContainers = new TalkWindowDriverContainer();
 	
-	public void start(URL urlOfClient) {
+	public void start(int portOfClient) throws MalformedURLException {
 		Thread thread = new Thread("Communicator app"){
 			@Override public void run(){
 				try{
-					String[] inputs = {urlOfClient.toString()};
+					String[] inputs = {new Integer(portOfClient).toString()};
 					Main.main(inputs);
 				} catch (Exception e) {
 					e.printStackTrace();

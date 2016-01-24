@@ -8,4 +8,8 @@ public interface IServerConnectionStatusView {
 
 	public void setServerConnectionAcceptanceButtonWasClickedHandler(Runnable methodToRun);
 
+	public void disableViev();
+
+	public void enableView();
+
 }

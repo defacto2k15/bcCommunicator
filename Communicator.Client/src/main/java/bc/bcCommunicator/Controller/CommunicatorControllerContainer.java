@@ -105,4 +105,16 @@ public class CommunicatorControllerContainer implements ICommunicatorController 
 		
 	}
 
+	@Override
+	public void usernameWasOk() {
+		// TODO Auto-generated method stub
+		System.err.println("NOT EXPECTED");
+	}
+
+	@Override
+	public void usernameWasBad() {
+		// TODO Auto-generated method stub
+		System.err.println("NOT EXPECTED");
+	}
+
 }

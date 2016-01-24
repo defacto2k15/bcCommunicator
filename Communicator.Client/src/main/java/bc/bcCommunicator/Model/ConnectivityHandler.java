@@ -75,7 +75,7 @@ public class ConnectivityHandler implements IConnectivityHandler {
 	@Override
 	public void connectionLost(ConnectionId id) {
 		if( id == connectionsContainer.getServerConnectionId() ){
-			// TODO un grey out server connection button etc..
+			serverConnectionFailed();
 		} else {
 			System.out.println("M451 connectionLost nd setting controller");
 			Username lostConnectionUserUsername = connectionsContainer.getUsernameForConnectionId(id);

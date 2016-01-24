@@ -1,5 +1,6 @@
 package bc.bcCommunicator.Views;
 
+import java.awt.Dimension;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,6 @@ import bc.bcCommunicator.Model.BasicTypes.Username;
 public class UsersTableView extends JPanel implements IUsersTableView{
 	private final UsersTableModel tableModel = new UsersTableModel();
 	private JTable usersTable = new JTable(tableModel);
-	private TableColumn usernameColumn = new TableColumn();
 	private List<UsersTableRow> rows = new ArrayList<>();
 	private ICommunicatorController controller;
 	
@@ -26,8 +26,10 @@ public class UsersTableView extends JPanel implements IUsersTableView{
 		
 		usersTable.setName(WindowNames.USERS_TABLE);
 		add(usersTable);
-		usernameColumn.setHeaderValue(WindowNames.USERS_TABLE_USERNAME_COLUMN);
-		usersTable.addColumn(usernameColumn);
+		ComponentHelp.setAllThreeSizes(this, new Dimension(300, 500));
+		ComponentHelp.setAllThreeSizes(usersTable, new Dimension(300, 500));
+		
+		
 		usersTable.addMouseListener(new java.awt.event.MouseAdapter() {
 		    @Override
 		    public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -43,6 +45,10 @@ public class UsersTableView extends JPanel implements IUsersTableView{
 		    }
 		});
 		setVisible(true);
+		
+		usersTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+		usersTable.getColumnModel().getColumn(1).setPreferredWidth(140);
+		usersTable.getColumnModel().getColumn(2).setPreferredWidth(60);
 	}
 	
 	@Override
@@ -98,6 +104,14 @@ public class UsersTableView extends JPanel implements IUsersTableView{
 				e.printStackTrace();
 				return "ERROR";
 			}
+		}
+		
+		String[] columnNames={ "Username", "Connection", "Talk" };
+		
+		@Override
+		public String getColumnName(int index) {
+			System.out.println("M765 ");
+		    return columnNames[index];
 		}
 		
 		public void repaint(){

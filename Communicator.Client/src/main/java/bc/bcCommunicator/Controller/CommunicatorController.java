@@ -78,12 +78,15 @@ public class CommunicatorController implements ICommunicatorController {
 	@Override
 	public void serverConnectionWasSuccesfull() {
 		connectionStatusView.setServerConnectionStatus(ServerConnectionStatus.Connected);
+		connectionStatusView.disableViev();
+		usernameInputView.disableView();
 	}
 	
 	@Override
 	public void serverConnectionFailed() {
 		connectionStatusView.setServerConnectionStatus(ServerConnectionStatus.ConnectionFailed);
-		
+		usernameInputView.setUsernameInputStatus(UsernameInputStatus.UsernameEmpty);
+		connectionStatusView.enableView();
 	}
 
 	@Override
@@ -93,6 +96,8 @@ public class CommunicatorController implements ICommunicatorController {
 			usernameInputView.setUsernameInputStatus(UsernameInputStatus.UsernameEmpty);
 		} else {
 			model.usernameSubmitted(new Username(usernameText));
+			usernameInputView.disableView();
+			connectionStatusView.enableView();
 		}
 	}
 
@@ -129,7 +134,9 @@ public class CommunicatorController implements ICommunicatorController {
 	@Override
 	public void rowInUserTableWasClicked(Username username) throws ParseException {
 		if (talkWindowsContainer.isWindowOpenForUser(username) ){
-			talkWindowsContainer.getUserWindow(username).requetsToBeActiveFrame();
+			ITalkWindow talkWindow = talkWindowsContainer.getUserWindow(username);
+			talkWindow.requetsToBeActiveFrame();
+			usersTableView.changeStateOfUser(username, TalkState.NoNewMessages);
 		} else {
 			model.getTalkStateData(username);
 		}
@@ -185,5 +192,18 @@ public class CommunicatorController implements ICommunicatorController {
 		if( talkWindowsContainer.isWindowOpenForUser(username) ){
 			talkWindowsContainer.getUserWindow(username).setLetterState(LetterState.Letter_Failed);
 		}
+	}
+	
+	@Override
+	public void usernameWasOk(){
+		usernameInputView.setUsernameInputStatus(UsernameInputStatus.UsernameOk);
+	}
+	
+	@Override
+	public void usernameWasBad(){
+		usernameInputView.setUsernameInputStatus(UsernameInputStatus.UsernameBad);
+		usernameInputView.enableView();
+		connectionStatusView.setServerConnectionStatus(ServerConnectionStatus.NotConnected);
+		connectionStatusView.enableView();
 	}
 }

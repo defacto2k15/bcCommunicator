@@ -50,7 +50,7 @@ public class EndToEndTests {
 		CLIENT_PORT = getter.getFreePortNumber();
 		server = new FakeServerRunner(SERVER_PORT);
 		clientUrl = new URL("http://127.0.0.1:"+CLIENT_PORT);
-		client.start(clientUrl);
+		client.start(CLIENT_PORT);
 		server.start();
 		
 		//Map<Username, URL> usernameAddressesMap = new HashMap<>();
@@ -422,6 +422,18 @@ public class EndToEndTests {
 		userToTalkTo.stop();
 		writeAndSendLetters(userToTalkTo, Arrays.asList(new LetterText("Some text")));
 		client.assertTalkWindowHasLetterStateSet(userToTalkTo.getUsername(), LetterState.Letter_Failed);
+	}
+	
+	@Test
+	public void whenConnectionToServerIsLostStatusIsUpdated() throws Exception{
+		URL url = new URL("http://127.0.0.1:"+SERVER_PORT);
+		client.insertUsername(username);
+		client.connectToServer(url);
+		client.assertConnectionToServerSucceded();
+		
+		server.stop();
+		Thread.sleep(300);
+		client.assertConnectionToServerFailed();
 	}
 	
 }

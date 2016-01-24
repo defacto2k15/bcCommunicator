@@ -12,4 +12,8 @@ public interface IUsernameInputView {
 
 	void setUsernameSubmitButtonWasClickedHandler(Runnable procedure);
 
+	void disableView();
+
+	void enableView();
+
 }

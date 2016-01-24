@@ -1,0 +1,4 @@
+bc/commonTestUtilities/FakeUserRunner.class
+bc/commonTestUtilities/FakeServerRunner.class
+bc/commonTestUtilities/FreePortGetter.class
+bc/commonTestUtilities/FakeInternetEntity.class

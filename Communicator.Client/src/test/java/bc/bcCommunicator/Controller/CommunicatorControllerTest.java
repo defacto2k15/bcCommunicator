@@ -86,6 +86,8 @@ public class CommunicatorControllerTest {
 	public void whenServerConnectionFailedServerConnectionStatusIsSet(){
 		context.checking(new Expectations(){{
 			oneOf(connectionView).setServerConnectionStatus(ServerConnectionStatus.ConnectionFailed);
+			oneOf(usernameView).setUsernameInputStatus(UsernameInputStatus.UsernameEmpty);
+			oneOf(connectionView).enableView();
 		}});
 		controller.serverConnectionFailed();
 		context.assertIsSatisfied();
@@ -108,6 +110,8 @@ public class CommunicatorControllerTest {
 		context.checking(new Expectations(){{
 			oneOf(usernameView).getUsernameText(); will(returnValue(usernameText));
 			oneOf(communicatorModel).usernameSubmitted(new Username(usernameText));
+			oneOf(usernameView).disableView();
+			oneOf(connectionView).enableView();
 		}});
 		controller.usernameInputSubmitButtonWasClicked();
 		context.assertIsSatisfied();

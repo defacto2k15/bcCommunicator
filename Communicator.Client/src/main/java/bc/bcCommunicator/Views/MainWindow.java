@@ -17,7 +17,7 @@ public class MainWindow extends JFrame{
 		add(serverConnectionStatusView);
 		add(usernameInputView);
 		add(usersTableView);
-		setSize(400, 800);
+		setSize(300, 600);
 		setLayout(new FlowLayout());
 		setVisible(true);
 	}

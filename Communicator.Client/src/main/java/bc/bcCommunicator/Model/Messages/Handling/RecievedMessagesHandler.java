@@ -4,6 +4,7 @@ import org.w3c.dom.views.AbstractView;
 
 import bc.bcCommunicator.Model.Messages.IMessage;
 import bc.bcCommunicator.Model.Messages.Response.IAllUsersAddressesResponse;
+import bc.bcCommunicator.Model.Messages.Response.IUsernameBadResponse;
 import bc.bcCommunicator.Model.Messages.Response.IUsernameOkResponse;
 import bc.bcCommunicator.Model.Messages.Response.UsernameOkResponse;
 import bc.bcCommunicator.Model.Messages.Talk.IIntroductoryTalk;
@@ -16,15 +17,17 @@ public class RecievedMessagesHandler extends AbstractMessageHandler implements I
 	AllUsersAddressesResponseHandler allUsersAddressesResponseHandler;
 	private IntroductoryTalkHandler introductoryTalkHandler;
 	private LetterTalkMessageHandler letterTalkHandler;
+	private UsernameBadMessageHandler usernameBadHandler;
 	
 	public RecievedMessagesHandler(UsernameOkResponseHandler usernameOkResponseHandler,
 			AllUsersAddressesResponseHandler allUsersAddressesResponseHandler, 
 			IntroductoryTalkHandler introductoryTalkHandler,
-			LetterTalkMessageHandler letterTalkHandler){
+			LetterTalkMessageHandler letterTalkHandler, UsernameBadMessageHandler usernameBadHandler){
 		this.usernameOkResponseHandler = usernameOkResponseHandler;
 		this.allUsersAddressesResponseHandler = allUsersAddressesResponseHandler;
 		this.introductoryTalkHandler = introductoryTalkHandler;
 		this.letterTalkHandler = letterTalkHandler;
+		this.usernameBadHandler = usernameBadHandler;
 	}
 	
 	@Override
@@ -58,5 +61,8 @@ public class RecievedMessagesHandler extends AbstractMessageHandler implements I
 	public void handle( ILetterTalk talk, ConnectionId id) throws Exception{
 		letterTalkHandler.handle(talk, id);
 	}
-	// TODO username bad response
+	
+	public void handle( IUsernameBadResponse response, ConnectionId id) throws Exception{
+		usernameBadHandler.handle(response, id);
+	}
 }

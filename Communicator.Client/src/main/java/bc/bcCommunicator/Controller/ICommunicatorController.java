@@ -42,4 +42,8 @@ public interface ICommunicatorController {
 
 	void letterSendingFailed(Username talkingUsername);
 
+	void usernameWasOk();
+
+	void usernameWasBad();
+
 }
