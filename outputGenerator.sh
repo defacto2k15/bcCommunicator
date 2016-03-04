@@ -1,6 +1,6 @@
-cd commonTestUtilities && mvn clean install -DskipTests=true && cd - &&
 cd internetMessageProxy && mvn clean install -DskipTests=true && cd - &&
 cd bcCommunicator && mvn clean install -DskipTests=true  && cd - &&
+cd commonTestUtilities && mvn clean install -DskipTests=true && cd - &&
 cd Communicator.Client && mvn clean install -DskipTests=true && cd - &&
 cd Communicator.Server && mvn clean install -DskipTests=true && cd - &&
 
